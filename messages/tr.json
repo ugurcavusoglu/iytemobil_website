@@ -33,7 +33,7 @@
     },
     "transport": {
       "title": "Otobüs Saatleri",
-      "description": "İYTE ring servisleri, İzban bağlantıları, hafta içi ve hafta sonu programları."
+      "description": "İYTE ring servisleri, ESHOT bağlantıları, hafta içi ve hafta sonu programları."
     },
     "carpool": {
       "title": "Araç Paylaşımı",
@@ -72,20 +72,23 @@
     "foodTitle": "Yemek ve Restoran",
     "foodDesc": "Yemekhane ve KYK yurt günlük menülerine anında eriş. Kampüs restoranlarını keşfet, menülerini incele, değerlendirmelerini oku ve kendi puanını ver.",
     "transportTitle": "Ulaşım",
-    "transportDesc": "İYTE ring servis saatlerini, İzban bağlantı saatlerini ve araç paylaşım ilanlarını tek yerden takip et. Hafta içi ve hafta sonu programları ayrı ayrı görüntülenebilir."
+    "transportDesc": "İYTE ring servis saatlerini, ESHOT bağlantı saatlerini ve araç paylaşım ilanlarını tek yerden takip et. Hafta içi ve hafta sonu programları ayrı ayrı görüntülenebilir."
   },
   "screenshots": {
     "sectionTitle": "Uygulama İçinden",
     "sectionSubtitle": "Modern ve kullanıcı dostu arayüz",
     "feed": "Sosyal Akış",
     "chat": "Mesajlaşma",
-    "food": "Yemek Menüleri",
-    "transport": "Ulaşım",
+    "food": "Restoranlar",
+    "transport": "Otobüs Saatleri",
+    "carpool": "Otostop",
     "clubs": "Topluluklar",
+    "events": "Etkinlikler",
     "documents": "Belgeler",
-    "jobs": "İş İlanları",
     "badges": "Rozetler",
-    "profile": "Profil"
+    "leaderboard": "Liderlik Tablosu",
+    "profile": "Ayarlar",
+    "departments": "Bölümler"
   },
   "stats": {
     "features": "Özellik",

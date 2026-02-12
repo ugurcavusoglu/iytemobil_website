@@ -1,7 +1,6 @@
 import { HeroSection } from '@/components/sections/HeroSection';
 import { FeaturesSection } from '@/components/sections/FeaturesSection';
 import { FeatureDetailSection } from '@/components/sections/FeatureDetailSection';
-import { StatsSection } from '@/components/sections/StatsSection';
 import { ScreenshotsSection } from '@/components/sections/ScreenshotsSection';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { DownloadSection } from '@/components/sections/DownloadSection';
@@ -13,7 +12,6 @@ export default function HomePage() {
       <HeroSection />
       <FeaturesSection />
       <FeatureDetailSection />
-      <StatsSection />
       <ScreenshotsSection />
       <TeamSection />
       <DownloadSection />

@@ -14,6 +14,7 @@ export interface TeamMember {
   image: string;
   github?: string;
   linkedin?: string;
+  instagram?: string;
 }
 
 export interface Screenshot {

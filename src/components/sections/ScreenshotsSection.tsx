@@ -5,20 +5,24 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Autoplay, Pagination } from 'swiper/modules';
+import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
 const screenshots = [
-  { id: 'feed', labelKey: 'feed', color: '#dc2626' },
-  { id: 'chat', labelKey: 'chat', color: '#3B82F6' },
-  { id: 'food', labelKey: 'food', color: '#F97316' },
-  { id: 'transport', labelKey: 'transport', color: '#22C55E' },
-  { id: 'clubs', labelKey: 'clubs', color: '#9333EA' },
-  { id: 'documents', labelKey: 'documents', color: '#3B82F6' },
-  { id: 'jobs', labelKey: 'jobs', color: '#22C55E' },
-  { id: 'badges', labelKey: 'badges', color: '#EAB308' },
-  { id: 'profile', labelKey: 'profile', color: '#dc2626' },
+  { id: 'feed', labelKey: 'feed', src: '/images/screenshots/feed.jpg' },
+  { id: 'chat', labelKey: 'chat', src: '/images/screenshots/chat.jpg' },
+  { id: 'food', labelKey: 'food', src: '/images/screenshots/food.jpg' },
+  { id: 'transport', labelKey: 'transport', src: '/images/screenshots/transport.jpg' },
+  { id: 'carpool', labelKey: 'carpool', src: '/images/screenshots/carpool.jpg' },
+  { id: 'clubs', labelKey: 'clubs', src: '/images/screenshots/clubs.jpg' },
+  { id: 'events', labelKey: 'events', src: '/images/screenshots/events.jpg' },
+  { id: 'documents', labelKey: 'documents', src: '/images/screenshots/documents.jpg' },
+  { id: 'badges', labelKey: 'badges', src: '/images/screenshots/badges.jpg' },
+  { id: 'leaderboard', labelKey: 'leaderboard', src: '/images/screenshots/leaderboard.jpg' },
+  { id: 'profile', labelKey: 'profile', src: '/images/screenshots/profile.jpg' },
+  { id: 'departments', labelKey: 'departments', src: '/images/screenshots/departments.jpg' },
 ];
 
 export function ScreenshotsSection() {
@@ -37,45 +41,51 @@ export function ScreenshotsSection() {
           effect="coverflow"
           grabCursor
           centeredSlides
+          loop={true}
           slidesPerView="auto"
           coverflowEffect={{
-            rotate: 20,
+            rotate: 50,
             stretch: 0,
-            depth: 150,
+            depth: 100,
             modifier: 1,
-            slideShadows: false,
+            slideShadows: true,
           }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          speed={800}
           pagination={{ clickable: true }}
           className="!pb-12"
-          breakpoints={{
-            0: { slidesPerView: 1.2 },
-            640: { slidesPerView: 1.5 },
-            1024: { slidesPerView: 2.5 },
-            1280: { slidesPerView: 3 },
-          }}
         >
           {screenshots.map((screenshot) => {
             const label = t(screenshot.labelKey);
             return (
-              <SwiperSlide key={screenshot.id} className="!w-[260px] md:!w-[280px]">
-                <div className="relative mx-auto w-[240px] md:w-[260px]">
-                  <div className="rounded-[2.5rem] bg-surface border-2 border-white/10 p-2 shadow-2xl">
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 bg-background rounded-full z-10" />
-                    <div
-                      className="w-full aspect-[9/19] rounded-[2rem] flex flex-col items-center justify-center"
-                      style={{ background: `linear-gradient(135deg, ${screenshot.color}20, #1a1a1a 60%)` }}
-                    >
-                      <div
-                        className="w-14 h-14 rounded-xl mb-3 flex items-center justify-center"
-                        style={{ backgroundColor: `${screenshot.color}20` }}
-                      >
-                        <span className="text-xl font-bold" style={{ color: screenshot.color }}>
-                          {label.charAt(0)}
-                        </span>
-                      </div>
-                      <p className="text-white text-sm font-medium">{label}</p>
-                      <p className="text-text-muted text-xs mt-1">İYTE Mobil</p>
+              <SwiperSlide key={screenshot.id} className="!w-[280px] md:!w-[300px]">
+                <div className="relative mx-auto w-[260px] md:w-[280px] group">
+                  {/* Phone Frame */}
+                  <div className="relative rounded-[3rem] bg-black p-3 shadow-2xl border border-gray-800 transition-transform duration-300 group-hover:scale-105">
+                    {/* Dynamic Island / Notch */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-3xl z-20 flex items-center justify-center">
+                      <div className="w-16 h-4 bg-gray-900 rounded-full" />
+                    </div>
+
+                    {/* Screen */}
+                    <div className="relative w-full aspect-[9/19.5] rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+                      <Image
+                        src={screenshot.src}
+                        alt={label}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 260px, 280px"
+                        priority={false}
+                      />
+                    </div>
+
+                    {/* Label Badge */}
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-primary px-4 py-1.5 rounded-full shadow-lg z-20">
+                      <p className="text-white text-xs font-semibold whitespace-nowrap">{label}</p>
                     </div>
                   </div>
                 </div>

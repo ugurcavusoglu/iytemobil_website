@@ -33,7 +33,7 @@
     },
     "transport": {
       "title": "Bus Schedules",
-      "description": "IYTE shuttle services, Izban connections, weekday and weekend schedules."
+      "description": "IYTE shuttle services, ESHOT connections, weekday and weekend schedules."
     },
     "carpool": {
       "title": "Carpooling",
@@ -72,20 +72,23 @@
     "foodTitle": "Food & Restaurant",
     "foodDesc": "Instantly access daily cafeteria and dorm menus. Discover campus restaurants, browse their menus, read reviews and rate them yourself.",
     "transportTitle": "Transportation",
-    "transportDesc": "Track IYTE shuttle schedules, Izban connection times and carpooling listings all in one place. Weekday and weekend schedules can be viewed separately."
+    "transportDesc": "Track IYTE shuttle schedules, ESHOT connection times and carpooling listings all in one place. Weekday and weekend schedules can be viewed separately."
   },
   "screenshots": {
     "sectionTitle": "Inside the App",
     "sectionSubtitle": "Modern and user-friendly interface",
     "feed": "Social Feed",
     "chat": "Messaging",
-    "food": "Food Menus",
-    "transport": "Transportation",
+    "food": "Restaurants",
+    "transport": "Bus Schedules",
+    "carpool": "Carpooling",
     "clubs": "Clubs",
+    "events": "Events",
     "documents": "Documents",
-    "jobs": "Job Listings",
     "badges": "Badges",
-    "profile": "Profile"
+    "leaderboard": "Leaderboard",
+    "profile": "Settings",
+    "departments": "Departments"
   },
   "stats": {
     "features": "Features",

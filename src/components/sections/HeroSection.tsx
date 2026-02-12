@@ -4,16 +4,7 @@ import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { ChevronDown, Download, ArrowRight } from 'lucide-react';
 import { GlowEffect } from '@/components/ui/GlowEffect';
-import dynamic from 'next/dynamic';
-
-const PhoneScene = dynamic(() => import('@/components/three/PhoneScene').then(m => m.PhoneScene), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="w-48 h-96 rounded-3xl bg-surface border border-white/10 animate-pulse" />
-    </div>
-  ),
-});
+import { PhoneMockup } from '@/components/ui/PhoneMockup';
 
 export function HeroSection() {
   const t = useTranslations('hero');
@@ -93,33 +84,14 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right - 3D Phone */}
+          {/* Right - Phone Mockup */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[500px] lg:h-[600px] hidden md:block"
+            className="relative h-[500px] lg:h-[600px]"
           >
-            <PhoneScene />
-          </motion.div>
-
-          {/* Mobile fallback - simple phone mockup */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="md:hidden flex justify-center"
-          >
-            <div className="relative w-56 h-[440px] rounded-[2.5rem] bg-surface border-2 border-white/10 p-2 shadow-2xl">
-              <div className="w-full h-full rounded-[2rem] bg-gradient-to-b from-primary/20 via-surface to-surface flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/20 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-primary">iM</span>
-                  </div>
-                  <p className="text-text-secondary text-sm">IYTE Mobil</p>
-                </div>
-              </div>
-            </div>
+            <PhoneMockup />
           </motion.div>
         </div>
       </div>
