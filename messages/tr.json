@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "title": "İYTE Mobil - Kampüs Hayatını Kolaylaştır",
+    "description": "İzmir Yüksek Teknoloji Enstitüsü öğrencileri için geliştirilmiş kampüs yaşam uygulaması"
+  },
+  "nav": {
+    "features": "Özellikler",
+    "screenshots": "Ekran Görüntüleri",
+    "team": "Ekip",
+    "download": "İndir"
+  },
+  "hero": {
+    "title": "Kampüs Hayatını",
+    "titleAccent": "Kolaylaştır",
+    "subtitle": "İYTE öğrencileri için tasarlanmış, tek uygulamada tüm kampüs yaşamı. Sosyal akış, yemek menüleri, otobüs saatleri, mesajlaşma ve çok daha fazlası.",
+    "cta": "Uygulamayı İndir",
+    "learnMore": "Daha Fazla Bilgi"
+  },
+  "features": {
+    "sectionTitle": "Özellikler",
+    "sectionSubtitle": "Kampüs hayatının her anına dokunan özellikler",
+    "socialFeed": {
+      "title": "Sosyal Akış",
+      "description": "Paylaşımlar, itiraflar, anketler, beğeniler, yorumlar ve kaydetme özelliği ile kampüsün nabzını tut."
+    },
+    "chat": {
+      "title": "Anlık Mesajlaşma",
+      "description": "Özel mesajlar, grup sohbetleri ve bölüm sohbet odaları ile arkadaşlarınla iletişimde kal."
+    },
+    "food": {
+      "title": "Yemek Menüleri",
+      "description": "Yemekhane ve KYK yurt günlük menüleri, kampüs restoranları ve kullanıcı değerlendirmeleri."
+    },
+    "transport": {
+      "title": "Otobüs Saatleri",
+      "description": "İYTE ring servisleri, İzban bağlantıları, hafta içi ve hafta sonu programları."
+    },
+    "carpool": {
+      "title": "Araç Paylaşımı",
+      "description": "Yolculuk ilanları oluştur, uygun fiyatlı şehirler arası ulaşım bul."
+    },
+    "clubs": {
+      "title": "Topluluklar ve Etkinlikler",
+      "description": "Kampüs topluluklarını keşfet, etkinlikleri takip et, değerlendirmelerini paylaş."
+    },
+    "documents": {
+      "title": "Akademik Belgeler",
+      "description": "Bölüm bazlı sınav soruları, ders notları ve proje dosyaları paylaşımı."
+    },
+    "jobs": {
+      "title": "İş İlanları",
+      "description": "Staj, yarı zamanlı, freelance ve tam zamanlı iş fırsatlarını keşfet."
+    },
+    "badges": {
+      "title": "Rozetler ve Oyunlaştırma",
+      "description": "XP kazan, seviye atla, liderlik tablosunda yarışarak kampüsü fethet."
+    },
+    "notifications": {
+      "title": "Bildirimler",
+      "description": "Etkinlik, mesaj ve sosyal etkileşim bildirimleri ile hiçbir şeyi kaçırma."
+    },
+    "profile": {
+      "title": "Profil ve Gizlilik",
+      "description": "Kişiselleştirilmiş profil, sosyal medya bağlantıları ve gizlilik kontrolleri."
+    }
+  },
+  "featureDetail": {
+    "socialTitle": "Sosyal Akış",
+    "socialDesc": "Twitter benzeri sosyal akış ile kampüsün nabzını tut. Normal paylaşımlar, anonim itiraflar, anketler ve daha fazlası. Beğeni, yorum, kaydetme ve takip özellikleri ile tam bir sosyal deneyim.",
+    "chatTitle": "Gerçek Zamanlı Mesajlaşma",
+    "chatDesc": "Arkadaşlarınla özel mesajlaş, grup sohbetleri oluştur veya bölümünün sohbet odasına katıl. Çevrimiçi durum, yazma göstergesi ve anlık bildirimler ile iletişimde kal.",
+    "foodTitle": "Yemek ve Restoran",
+    "foodDesc": "Yemekhane ve KYK yurt günlük menülerine anında eriş. Kampüs restoranlarını keşfet, menülerini incele, değerlendirmelerini oku ve kendi puanını ver.",
+    "transportTitle": "Ulaşım",
+    "transportDesc": "İYTE ring servis saatlerini, İzban bağlantı saatlerini ve araç paylaşım ilanlarını tek yerden takip et. Hafta içi ve hafta sonu programları ayrı ayrı görüntülenebilir."
+  },
+  "screenshots": {
+    "sectionTitle": "Uygulama İçinden",
+    "sectionSubtitle": "Modern ve kullanıcı dostu arayüz",
+    "feed": "Sosyal Akış",
+    "chat": "Mesajlaşma",
+    "food": "Yemek Menüleri",
+    "transport": "Ulaşım",
+    "clubs": "Topluluklar",
+    "documents": "Belgeler",
+    "jobs": "İş İlanları",
+    "badges": "Rozetler",
+    "profile": "Profil"
+  },
+  "stats": {
+    "features": "Özellik",
+    "departments": "Bölüm",
+    "activeUsers": "Kullanıcı",
+    "dailyMessages": "Günlük Mesaj"
+  },
+  "team": {
+    "sectionTitle": "Ekibimiz",
+    "sectionSubtitle": "İYTE Mobil'i geliştiren ekip"
+  },
+  "download": {
+    "sectionTitle": "Şimdi İndir",
+    "sectionSubtitle": "iOS ve Android için yakında!",
+    "comingSoon": "Yakında",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
+  "cta": {
+    "title": "Kampüs Hayatını",
+    "titleAccent": "Dönüştür",
+    "subtitle": "İYTE Mobil ile kampüs deneyimini bir üst seviyeye çıkar.",
+    "button": "Hemen Başla"
+  },
+  "footer": {
+    "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
+    "madeWith": "İYTE öğrencileri tarafından geliştirildi",
+    "contact": "İletişim"
+  }
+}

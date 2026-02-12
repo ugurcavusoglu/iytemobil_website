@@ -2,26 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-white antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  ::selection {
+    background-color: rgba(220, 38, 38, 0.3);
+    color: #ffffff;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300
+           hover:bg-white/10 hover:border-primary/30 hover:-translate-y-1;
+    box-shadow: 0 0 0 rgba(220, 38, 38, 0);
+  }
+
+  .glass-card-hover:hover {
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
+  }
+
+  .section-padding {
+    @apply py-20 md:py-32 px-4 md:px-8 lg:px-16;
+  }
+
+  .glow-red {
+    box-shadow: 0 0 60px 20px rgba(220, 38, 38, 0.1);
+  }
+
+  .glow-red-strong {
+    box-shadow: 0 0 80px 30px rgba(220, 38, 38, 0.2);
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }

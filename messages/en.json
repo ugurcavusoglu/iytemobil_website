@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "title": "IYTE Mobile - Simplify Campus Life",
+    "description": "Campus life application developed for Izmir Institute of Technology students"
+  },
+  "nav": {
+    "features": "Features",
+    "screenshots": "Screenshots",
+    "team": "Team",
+    "download": "Download"
+  },
+  "hero": {
+    "title": "Simplify Your",
+    "titleAccent": "Campus Life",
+    "subtitle": "Designed for IYTE students, all campus life in one app. Social feed, food menus, bus schedules, messaging and much more.",
+    "cta": "Download App",
+    "learnMore": "Learn More"
+  },
+  "features": {
+    "sectionTitle": "Features",
+    "sectionSubtitle": "Features that touch every moment of campus life",
+    "socialFeed": {
+      "title": "Social Feed",
+      "description": "Stay connected with posts, confessions, polls, likes, comments and bookmarks."
+    },
+    "chat": {
+      "title": "Instant Messaging",
+      "description": "Private messages, group chats and department chat rooms to stay in touch."
+    },
+    "food": {
+      "title": "Food Menus",
+      "description": "Daily cafeteria and dorm menus, campus restaurants and user ratings."
+    },
+    "transport": {
+      "title": "Bus Schedules",
+      "description": "IYTE shuttle services, Izban connections, weekday and weekend schedules."
+    },
+    "carpool": {
+      "title": "Carpooling",
+      "description": "Create ride-sharing listings, find affordable inter-city transportation."
+    },
+    "clubs": {
+      "title": "Clubs & Events",
+      "description": "Discover campus clubs, follow events, share your reviews."
+    },
+    "documents": {
+      "title": "Academic Documents",
+      "description": "Department-wise exam papers, lecture notes and project files sharing."
+    },
+    "jobs": {
+      "title": "Job Listings",
+      "description": "Discover internship, part-time, freelance and full-time job opportunities."
+    },
+    "badges": {
+      "title": "Badges & Gamification",
+      "description": "Earn XP, level up, compete on the leaderboard and conquer campus."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Never miss anything with event, message and social interaction notifications."
+    },
+    "profile": {
+      "title": "Profile & Privacy",
+      "description": "Personalized profile, social media links and privacy controls."
+    }
+  },
+  "featureDetail": {
+    "socialTitle": "Social Feed",
+    "socialDesc": "Stay in touch with campus through a Twitter-like social feed. Regular posts, anonymous confessions, polls and more. A full social experience with likes, comments, bookmarks and follow features.",
+    "chatTitle": "Real-Time Messaging",
+    "chatDesc": "Send private messages to friends, create group chats or join your department's chat room. Stay connected with online status, typing indicators and instant notifications.",
+    "foodTitle": "Food & Restaurant",
+    "foodDesc": "Instantly access daily cafeteria and dorm menus. Discover campus restaurants, browse their menus, read reviews and rate them yourself.",
+    "transportTitle": "Transportation",
+    "transportDesc": "Track IYTE shuttle schedules, Izban connection times and carpooling listings all in one place. Weekday and weekend schedules can be viewed separately."
+  },
+  "screenshots": {
+    "sectionTitle": "Inside the App",
+    "sectionSubtitle": "Modern and user-friendly interface",
+    "feed": "Social Feed",
+    "chat": "Messaging",
+    "food": "Food Menus",
+    "transport": "Transportation",
+    "clubs": "Clubs",
+    "documents": "Documents",
+    "jobs": "Job Listings",
+    "badges": "Badges",
+    "profile": "Profile"
+  },
+  "stats": {
+    "features": "Features",
+    "departments": "Departments",
+    "activeUsers": "Users",
+    "dailyMessages": "Daily Messages"
+  },
+  "team": {
+    "sectionTitle": "Our Team",
+    "sectionSubtitle": "The team behind IYTE Mobile"
+  },
+  "download": {
+    "sectionTitle": "Download Now",
+    "sectionSubtitle": "Coming soon for iOS and Android!",
+    "comingSoon": "Coming Soon",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
+  "cta": {
+    "title": "Transform Your",
+    "titleAccent": "Campus Life",
+    "subtitle": "Take your campus experience to the next level with IYTE Mobile.",
+    "button": "Get Started"
+  },
+  "footer": {
+    "copyright": "IYTE Mobile. All rights reserved.",
+    "madeWith": "Developed by IYTE students",
+    "contact": "Contact"
+  }
+}
