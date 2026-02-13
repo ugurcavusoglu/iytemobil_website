@@ -9,7 +9,7 @@ import '../globals.css';
 
 type Props = {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export async function generateStaticParams() {
@@ -17,8 +17,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({
-  params: { locale },
+  params,
 }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
   return {
     metadataBase: new URL('https://iytemobil.com'),
@@ -48,14 +49,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocaleLayout({ children, params: { locale } }: Props) {
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
+
   if (!routing.locales.includes(locale as 'tr' | 'en')) {
     notFound();
   }
 
   setRequestLocale(locale);
 
-  const messages = await getMessages({ locale });
+  const messages = await getMessages();
 
   return (
     <html lang={locale} className="scroll-smooth">
