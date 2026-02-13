@@ -1,11 +1,22 @@
-import createMiddleware from 'next-intl/middleware';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default createMiddleware({
-  locales: ['tr', 'en'],
-  defaultLocale: 'tr',
-  localePrefix: 'always'
-});
+const locales = ['tr', 'en'];
+const defaultLocale = 'tr';
+
+export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+
+  if (pathnameHasLocale) return NextResponse.next();
+
+  return NextResponse.redirect(
+    new URL(`/${defaultLocale}${pathname}`, request.url)
+  );
+}
 
 export const config = {
-  matcher: ['/', '/(tr|en)/:path*'],
+  matcher: ['/((?!_next|.*\\..*).*)'],
 };
