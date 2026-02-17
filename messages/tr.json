@@ -1,121 +1,124 @@
-{
-  "metadata": {
-    "title": "İYTE Mobil - Kampüs Hayatını Kolaylaştır",
-    "description": "İzmir Yüksek Teknoloji Enstitüsü öğrencileri için geliştirilmiş kampüs yaşam uygulaması"
-  },
-  "nav": {
-    "features": "Özellikler",
-    "screenshots": "Ekran Görüntüleri",
-    "team": "Ekip",
-    "download": "İndir"
-  },
-  "hero": {
-    "title": "Kampüs Hayatını",
-    "titleAccent": "Kolaylaştır",
-    "subtitle": "İYTE öğrencileri için tasarlanmış, tek uygulamada tüm kampüs yaşamı. Sosyal akış, yemek menüleri, otobüs saatleri, mesajlaşma ve çok daha fazlası.",
-    "cta": "Uygulamayı İndir",
-    "learnMore": "Daha Fazla Bilgi"
-  },
-  "features": {
-    "sectionTitle": "Özellikler",
-    "sectionSubtitle": "Kampüs hayatının her anına dokunan özellikler",
-    "socialFeed": {
-      "title": "Sosyal Akış",
-      "description": "Paylaşımlar, itiraflar, anketler, beğeniler, yorumlar ve kaydetme özelliği ile kampüsün nabzını tut."
-    },
-    "chat": {
-      "title": "Anlık Mesajlaşma",
-      "description": "Özel mesajlar, grup sohbetleri ve bölüm sohbet odaları ile arkadaşlarınla iletişimde kal."
-    },
-    "food": {
-      "title": "Yemek Menüleri",
-      "description": "Yemekhane ve KYK yurt günlük menüleri, kampüs restoranları ve kullanıcı değerlendirmeleri."
-    },
-    "transport": {
-      "title": "Otobüs Saatleri",
-      "description": "İYTE ring servisleri, ESHOT bağlantıları, hafta içi ve hafta sonu programları."
-    },
-    "carpool": {
-      "title": "Araç Paylaşımı",
-      "description": "Yolculuk ilanları oluştur, uygun fiyatlı şehirler arası ulaşım bul."
-    },
-    "clubs": {
-      "title": "Topluluklar ve Etkinlikler",
-      "description": "Kampüs topluluklarını keşfet, etkinlikleri takip et, değerlendirmelerini paylaş."
-    },
-    "documents": {
-      "title": "Akademik Belgeler",
-      "description": "Bölüm bazlı sınav soruları, ders notları ve proje dosyaları paylaşımı."
-    },
-    "jobs": {
-      "title": "İş İlanları",
-      "description": "Staj, yarı zamanlı, freelance ve tam zamanlı iş fırsatlarını keşfet."
-    },
-    "badges": {
-      "title": "Rozetler ve Oyunlaştırma",
-      "description": "XP kazan, seviye atla, liderlik tablosunda yarışarak kampüsü fethet."
-    },
-    "notifications": {
-      "title": "Bildirimler",
-      "description": "Etkinlik, mesaj ve sosyal etkileşim bildirimleri ile hiçbir şeyi kaçırma."
-    },
-    "profile": {
-      "title": "Profil ve Gizlilik",
-      "description": "Kişiselleştirilmiş profil, sosyal medya bağlantıları ve gizlilik kontrolleri."
-    }
-  },
-  "featureDetail": {
-    "socialTitle": "Sosyal Akış",
-    "socialDesc": "Twitter benzeri sosyal akış ile kampüsün nabzını tut. Normal paylaşımlar, anonim itiraflar, anketler ve daha fazlası. Beğeni, yorum, kaydetme ve takip özellikleri ile tam bir sosyal deneyim.",
-    "chatTitle": "Gerçek Zamanlı Mesajlaşma",
-    "chatDesc": "Arkadaşlarınla özel mesajlaş, grup sohbetleri oluştur veya bölümünün sohbet odasına katıl. Çevrimiçi durum, yazma göstergesi ve anlık bildirimler ile iletişimde kal.",
-    "foodTitle": "Yemek ve Restoran",
-    "foodDesc": "Yemekhane ve KYK yurt günlük menülerine anında eriş. Kampüs restoranlarını keşfet, menülerini incele, değerlendirmelerini oku ve kendi puanını ver.",
-    "transportTitle": "Ulaşım",
-    "transportDesc": "İYTE ring servis saatlerini, ESHOT bağlantı saatlerini ve araç paylaşım ilanlarını tek yerden takip et. Hafta içi ve hafta sonu programları ayrı ayrı görüntülenebilir."
-  },
-  "screenshots": {
-    "sectionTitle": "Uygulama İçinden",
-    "sectionSubtitle": "Modern ve kullanıcı dostu arayüz",
-    "feed": "Sosyal Akış",
-    "chat": "Mesajlaşma",
-    "food": "Restoranlar",
-    "transport": "Otobüs Saatleri",
-    "carpool": "Otostop",
-    "clubs": "Topluluklar",
-    "events": "Etkinlikler",
-    "documents": "Belgeler",
-    "badges": "Rozetler",
-    "leaderboard": "Liderlik Tablosu",
-    "profile": "Ayarlar",
-    "departments": "Bölümler"
-  },
-  "stats": {
-    "features": "Özellik",
-    "departments": "Bölüm",
-    "activeUsers": "Kullanıcı",
-    "dailyMessages": "Günlük Mesaj"
-  },
-  "team": {
-    "sectionTitle": "Ekibimiz",
-    "sectionSubtitle": "İYTE Mobil'i geliştiren ekip"
-  },
-  "download": {
-    "sectionTitle": "Şimdi İndir",
-    "sectionSubtitle": "iOS ve Android için yakında!",
-    "comingSoon": "Yakında",
-    "appStore": "App Store",
-    "googlePlay": "Google Play"
-  },
-  "cta": {
-    "title": "Kampüs Hayatını",
-    "titleAccent": "Dönüştür",
-    "subtitle": "İYTE Mobil ile kampüs deneyimini bir üst seviyeye çıkar.",
-    "button": "Hemen Başla"
-  },
-  "footer": {
-    "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
-    "madeWith": "İYTE öğrencileri tarafından geliştirildi",
-    "contact": "İletişim"
-  }
+﻿{
+    "metadata":  {
+                     "title":  "Ä°YTE Mobil - KampÃ¼s HayatÄ±nÄ± KolaylaÅŸtÄ±r",
+                     "description":  "Ä°zmir YÃ¼ksek Teknoloji EnstitÃ¼sÃ¼ Ã¶ÄŸrencileri iÃ§in geliÅŸtirilmiÅŸ kampÃ¼s yaÅŸam uygulamasÄ±"
+                 },
+    "nav":  {
+                "features":  "Ã–zellikler",
+                "screenshots":  "Ekran GÃ¶rÃ¼ntÃ¼leri",
+                "team":  "Ekip",
+                "download":  "Ä°ndir"
+            },
+    "hero":  {
+                 "title":  "KampÃ¼s HayatÄ±nÄ±",
+                 "titleAccent":  "KolaylaÅŸtÄ±r",
+                 "subtitle":  "Ä°YTE Ã¶ÄŸrencileri iÃ§in tasarlanmÄ±ÅŸ, tek uygulamada tÃ¼m kampÃ¼s yaÅŸamÄ±. Sosyal akÄ±ÅŸ, yemek menÃ¼leri, otobÃ¼s saatleri, mesajlaÅŸma ve Ã§ok daha fazlasÄ±.",
+                 "cta":  "UygulamayÄ± Ä°ndir",
+                 "learnMore":  "Daha Fazla Bilgi"
+             },
+    "features":  {
+                     "sectionTitle":  "Ã–zellikler",
+                     "sectionSubtitle":  "KampÃ¼s hayatÄ±nÄ±n her anÄ±na dokunan Ã¶zellikler",
+                     "socialFeed":  {
+                                        "title":  "Sosyal AkÄ±ÅŸ",
+                                        "description":  "PaylaÅŸÄ±mlar, itiraflar, anketler, beÄŸeniler, yorumlar ve kaydetme Ã¶zelliÄŸi ile kampÃ¼sÃ¼n nabzÄ±nÄ± tut."
+                                    },
+                     "chat":  {
+                                  "title":  "AnlÄ±k MesajlaÅŸma",
+                                  "description":  "Ã–zel mesajlar, grup sohbetleri ve bÃ¶lÃ¼m sohbet odalarÄ± ile arkadaÅŸlarÄ±nla iletiÅŸimde kal."
+                              },
+                     "food":  {
+                                  "title":  "Yemek MenÃ¼leri",
+                                  "description":  "Yemekhane ve KYK yurt gÃ¼nlÃ¼k menÃ¼leri, kampÃ¼s restoranlarÄ± ve kullanÄ±cÄ± deÄŸerlendirmeleri."
+                              },
+                     "transport":  {
+                                       "title":  "OtobÃ¼s Saatleri",
+                                       "description":  "Ä°YTE ring servisleri, ESHOT baÄŸlantÄ±larÄ±, hafta iÃ§i ve hafta sonu programlarÄ±."
+                                   },
+                     "carpool":  {
+                                     "title":  "AraÃ§ PaylaÅŸÄ±mÄ±",
+                                     "description":  "Yolculuk ilanlarÄ± oluÅŸtur, uygun fiyatlÄ± ÅŸehirler arasÄ± ulaÅŸÄ±m bul."
+                                 },
+                     "clubs":  {
+                                   "title":  "Topluluklar ve Etkinlikler",
+                                   "description":  "KampÃ¼s topluluklarÄ±nÄ± keÅŸfet, etkinlikleri takip et, deÄŸerlendirmelerini paylaÅŸ."
+                               },
+                     "documents":  {
+                                       "title":  "Akademik Belgeler",
+                                       "description":  "BÃ¶lÃ¼m bazlÄ± sÄ±nav sorularÄ±, ders notlarÄ± ve proje dosyalarÄ± paylaÅŸÄ±mÄ±."
+                                   },
+                     "jobs":  {
+                                  "title":  "Ä°ÅŸ Ä°lanlarÄ±",
+                                  "description":  "Staj, yarÄ± zamanlÄ±, freelance ve tam zamanlÄ± iÅŸ fÄ±rsatlarÄ±nÄ± keÅŸfet."
+                              },
+                     "badges":  {
+                                    "title":  "Rozetler ve OyunlaÅŸtÄ±rma",
+                                    "description":  "XP kazan, seviye atla, liderlik tablosunda yarÄ±ÅŸarak kampÃ¼sÃ¼ fethet."
+                                },
+                     "notifications":  {
+                                           "title":  "Bildirimler",
+                                           "description":  "Etkinlik, mesaj ve sosyal etkileÅŸim bildirimleri ile hiÃ§bir ÅŸeyi kaÃ§Ä±rma."
+                                       },
+                     "profile":  {
+                                     "title":  "Profil ve Gizlilik",
+                                     "description":  "KiÅŸiselleÅŸtirilmiÅŸ profil, sosyal medya baÄŸlantÄ±larÄ± ve gizlilik kontrolleri."
+                                 }
+                 },
+    "featureDetail":  {
+                          "socialTitle":  "Sosyal AkÄ±ÅŸ",
+                          "socialDesc":  "Twitter benzeri sosyal akÄ±ÅŸ ile kampÃ¼sÃ¼n nabzÄ±nÄ± tut. Normal paylaÅŸÄ±mlar, anonim itiraflar, anketler ve daha fazlasÄ±. BeÄŸeni, yorum, kaydetme ve takip Ã¶zellikleri ile tam bir sosyal deneyim.",
+                          "chatTitle":  "GerÃ§ek ZamanlÄ± MesajlaÅŸma",
+                          "chatDesc":  "ArkadaÅŸlarÄ±nla Ã¶zel mesajlaÅŸ, grup sohbetleri oluÅŸtur veya bÃ¶lÃ¼mÃ¼nÃ¼n sohbet odasÄ±na katÄ±l. Ã‡evrimiÃ§i durum, yazma gÃ¶stergesi ve anlÄ±k bildirimler ile iletiÅŸimde kal.",
+                          "foodTitle":  "Yemek ve Restoran",
+                          "foodDesc":  "Yemekhane ve KYK yurt gÃ¼nlÃ¼k menÃ¼lerine anÄ±nda eriÅŸ. KampÃ¼s restoranlarÄ±nÄ± keÅŸfet, menÃ¼lerini incele, deÄŸerlendirmelerini oku ve kendi puanÄ±nÄ± ver.",
+                          "transportTitle":  "UlaÅŸÄ±m",
+                          "transportDesc":  "Ä°YTE ring servis saatlerini, ESHOT baÄŸlantÄ± saatlerini ve araÃ§ paylaÅŸÄ±m ilanlarÄ±nÄ± tek yerden takip et. Hafta iÃ§i ve hafta sonu programlarÄ± ayrÄ± ayrÄ± gÃ¶rÃ¼ntÃ¼lenebilir."
+                      },
+    "screenshots":  {
+                        "sectionTitle":  "Uygulama Ä°Ã§inden",
+                        "sectionSubtitle":  "Modern ve kullanÄ±cÄ± dostu arayÃ¼z",
+                        "feed":  "Sosyal AkÄ±ÅŸ",
+                        "chat":  "MesajlaÅŸma",
+                        "food":  "Restoranlar",
+                        "transport":  "OtobÃ¼s Saatleri",
+                        "carpool":  "Otostop",
+                        "clubs":  "Topluluklar",
+                        "events":  "Etkinlikler",
+                        "documents":  "Belgeler",
+                        "badges":  "Rozetler",
+                        "leaderboard":  "Liderlik Tablosu",
+                        "profile":  "Ayarlar",
+                        "departments":  "BÃ¶lÃ¼mler"
+                    },
+    "stats":  {
+                  "features":  "Ã–zellik",
+                  "departments":  "BÃ¶lÃ¼m",
+                  "activeUsers":  "KullanÄ±cÄ±",
+                  "dailyMessages":  "GÃ¼nlÃ¼k Mesaj"
+              },
+    "team":  {
+                 "sectionTitle":  "Ekibimiz",
+                 "sectionSubtitle":  "Ä°YTE Mobil\u0027i geliÅŸtiren ekip"
+             },
+    "download":  {
+                     "sectionTitle":  "Åžimdi Ä°ndir",
+                     "sectionSubtitle":  "iOS ve Android iÃ§in yakÄ±nda!",
+                     "comingSoon":  "YakÄ±nda",
+                     "appStore":  "App Store",
+                     "googlePlay":  "Google Play"
+                 },
+    "cta":  {
+                "title":  "KampÃ¼s HayatÄ±nÄ±",
+                "titleAccent":  "DÃ¶nÃ¼ÅŸtÃ¼r",
+                "subtitle":  "Ä°YTE Mobil ile kampÃ¼s deneyimini bir Ã¼st seviyeye Ã§Ä±kar.",
+                "button":  "Hemen BaÅŸla"
+            },
+    "footer":  {
+                   "copyright":  "Ä°YTE Mobil. TÃ¼m haklarÄ± saklÄ±dÄ±r.",
+                   "madeWith":  "Ä°YTE Ã¶ÄŸrencileri tarafÄ±ndan geliÅŸtirildi",
+                   "contact":  "Ä°letiÅŸim",
+                   "privacyPolicy":  "Gizlilik Politikasi",
+                   "termsOfService":  "Kullanim Kosullari",
+                   "accountDeletion":  "Hesap Silme"
+               }
 }

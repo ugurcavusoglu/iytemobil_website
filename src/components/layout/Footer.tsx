@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 
 export function Footer() {
   const t = useTranslations('footer');
@@ -38,6 +39,17 @@ export function Footer() {
               <Mail className="w-4 h-4" />
               iytemobil@gmail.com
             </a>
+            <div className="mt-1 flex items-center gap-3 text-xs text-text-muted">
+              <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+                {t('privacyPolicy')}
+              </Link>
+              <Link href="/terms-of-service" className="hover:text-primary transition-colors">
+                {t('termsOfService')}
+              </Link>
+              <Link href="/account-deletion" className="hover:text-primary transition-colors">
+                {t('accountDeletion')}
+              </Link>
+            </div>
           </div>
 
           {/* Social */}
