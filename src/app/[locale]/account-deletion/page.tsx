@@ -37,7 +37,7 @@ export default async function AccountDeletionPage({ params }: Props) {
 
         <div className="mt-8 space-y-6 text-zinc-200">
           <div>
-            <h2 className="text-lg font-semibold">{isTr ? 'Uygulama Icindeki Adimlar' : 'In-App Steps'}</h2>
+            <h2 className="text-lg font-semibold">{isTr ? '1. Uygulama Icindeki Hesap Silme Adimlari' : '1. In-App Account Deletion Steps'}</h2>
             <ol className="mt-2 list-decimal space-y-1 pl-5 text-zinc-300">
               <li>{isTr ? 'Profil > Ayarlar ekranina gidin.' : 'Go to Profile > Settings.'}</li>
               <li>{isTr ? '"Hesabi Kalici Olarak Sil" secenegine basin.' : 'Tap "Delete Account Permanently".'}</li>
@@ -46,20 +46,17 @@ export default async function AccountDeletionPage({ params }: Props) {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold">
-              {isTr ? 'Silinen Veriler' : 'Data Deleted'}
-            </h2>
+            <h2 className="text-lg font-semibold">{isTr ? '2. Silinen Veriler' : '2. Data Deleted'}</h2>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-300">
               <li>{isTr ? 'Hesap kaydi ve profil bilgileri' : 'Account record and profile information'}</li>
               <li>{isTr ? 'Kullaniciya ait kimliklendirici veriler' : 'User-identifying data'}</li>
               <li>{isTr ? 'Push bildirim tokenlari' : 'Push notification tokens'}</li>
+              <li>{isTr ? 'Ayar tercihleri ve aktif oturumlar' : 'Preference data and active sessions'}</li>
             </ul>
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold">
-              {isTr ? 'Saklanabilecek Veriler' : 'Data That May Be Retained'}
-            </h2>
+            <h2 className="text-lg font-semibold">{isTr ? '3. Saklanabilecek Veriler' : '3. Data That May Be Retained'}</h2>
             <p className="mt-2 text-zinc-300">
               {isTr
                 ? 'Yasal zorunluluklar veya guvenlik kayitlari kapsaminda bazi veriler sinirli sure saklanabilir.'
@@ -68,11 +65,20 @@ export default async function AccountDeletionPage({ params }: Props) {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold">{isTr ? 'Destek' : 'Support'}</h2>
+            <h2 className="text-lg font-semibold">{isTr ? '4. Islem Suresi ve Geri Alinabilirlik' : '4. Processing Time and Reversibility'}</h2>
             <p className="mt-2 text-zinc-300">
               {isTr
-                ? 'Sorulariniz icin: support@iytemobil.com'
-                : 'For assistance: support@iytemobil.com'}
+                ? 'Silme talebi alindiktan sonra hesap erisimi sonlandirilir. Islem geri alinmaz. Teknik temizleme sureci makul bir zaman araliginda tamamlanir.'
+                : 'After a deletion request, account access is terminated. The action is irreversible. Backend cleanup completes within a reasonable technical timeframe.'}
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold">{isTr ? '5. Destek' : '5. Support'}</h2>
+            <p className="mt-2 text-zinc-300">
+              {isTr
+                ? 'Sorulariniz icin: iytemobil@gmail.com'
+                : 'For assistance: iytemobil@gmail.com'}
             </p>
           </div>
         </div>
@@ -80,4 +86,3 @@ export default async function AccountDeletionPage({ params }: Props) {
     </section>
   );
 }
-

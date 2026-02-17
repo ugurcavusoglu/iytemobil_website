@@ -42,17 +42,6 @@ export function Footer() {
               <Mail className="w-4 h-4" />
               iytemobil@gmail.com
             </a>
-            <div className="mt-1 flex items-center gap-3 text-xs text-text-muted">
-              <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-                {isTr ? 'Gizlilik Politikasi' : 'Privacy Policy'}
-              </Link>
-              <Link href="/terms-of-service" className="hover:text-primary transition-colors">
-                {isTr ? 'Kullanim Kosullari' : 'Terms of Service'}
-              </Link>
-              <Link href="/account-deletion" className="hover:text-primary transition-colors">
-                {isTr ? 'Hesap Silme' : 'Account Deletion'}
-              </Link>
-            </div>
           </div>
 
           {/* Social */}
@@ -81,6 +70,17 @@ export function Footer() {
           <p className="text-text-muted text-xs">
             &copy; {new Date().getFullYear()} {t('copyright')}
           </p>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-xs text-text-muted">
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+              {isTr ? 'Gizlilik Politikasi' : 'Privacy Policy'}
+            </Link>
+            <Link href="/terms-of-service" className="hover:text-primary transition-colors">
+              {isTr ? 'Kullanim Kosullari' : 'Terms of Service'}
+            </Link>
+            <Link href="/account-deletion" className="hover:text-primary transition-colors">
+              {isTr ? 'Hesap Silme' : 'Account Deletion'}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
