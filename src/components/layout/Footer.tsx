@@ -1,12 +1,15 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 export function Footer() {
   const t = useTranslations('footer');
+  const locale = useLocale();
+  const isTr = locale === 'tr';
 
   return (
     <footer className="border-t border-white/5 bg-background">
@@ -41,13 +44,13 @@ export function Footer() {
             </a>
             <div className="mt-1 flex items-center gap-3 text-xs text-text-muted">
               <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-                {t('privacyPolicy')}
+                {isTr ? 'Gizlilik Politikasi' : 'Privacy Policy'}
               </Link>
               <Link href="/terms-of-service" className="hover:text-primary transition-colors">
-                {t('termsOfService')}
+                {isTr ? 'Kullanim Kosullari' : 'Terms of Service'}
               </Link>
               <Link href="/account-deletion" className="hover:text-primary transition-colors">
-                {t('accountDeletion')}
+                {isTr ? 'Hesap Silme' : 'Account Deletion'}
               </Link>
             </div>
           </div>
