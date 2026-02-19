@@ -77,6 +77,9 @@ export function Footer() {
             <Link href="/terms-of-service" className="hover:text-primary transition-colors">
               {isTr ? 'Kullanim Kosullari' : 'Terms of Service'}
             </Link>
+            <Link href="/child-safety" className="hover:text-primary transition-colors">
+              {isTr ? 'Cocuk Guvenligi' : 'Child Safety'}
+            </Link>
             <Link href="/account-deletion" className="hover:text-primary transition-colors">
               {isTr ? 'Hesap Silme' : 'Account Deletion'}
             </Link>
