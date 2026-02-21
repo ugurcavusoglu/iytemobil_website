@@ -102,7 +102,8 @@
   },
   "download": {
     "sectionTitle": "Download Now",
-    "sectionSubtitle": "Coming soon for iOS and Android!",
+    "sectionSubtitle": "Now live on Android, coming soon on iOS!",
+    "androidLive": "Now Live",
     "comingSoon": "Coming Soon",
     "appStore": "App Store",
     "googlePlay": "Google Play"
@@ -111,7 +112,7 @@
     "title": "Transform Your",
     "titleAccent": "Campus Life",
     "subtitle": "Take your campus experience to the next level with IYTE Mobile.",
-    "button": "Get Started"
+    "button": "Open on Google Play"
   },
   "footer": {
     "copyright": "IYTE Mobile. All rights reserved.",

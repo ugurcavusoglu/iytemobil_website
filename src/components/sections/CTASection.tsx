@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { GlowEffect } from '@/components/ui/GlowEffect';
 import { ArrowUp } from 'lucide-react';
+import { PLAY_STORE_URL } from '@/lib/constants';
 
 export function CTASection() {
   const t = useTranslations('cta');
@@ -27,7 +28,9 @@ export function CTASection() {
           </p>
 
           <motion.a
-            href="#"
+            href={PLAY_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"

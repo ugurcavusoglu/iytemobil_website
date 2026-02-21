@@ -102,7 +102,8 @@
   },
   "download": {
     "sectionTitle": "Şimdi İndir",
-    "sectionSubtitle": "iOS ve Android için yakında!",
+    "sectionSubtitle": "Android'de yayında, iOS için yakında!",
+    "androidLive": "Android'de Yayında",
     "comingSoon": "Yakında",
     "appStore": "App Store",
     "googlePlay": "Google Play"
@@ -111,7 +112,7 @@
     "title": "Kampüs Hayatını",
     "titleAccent": "Dönüştür",
     "subtitle": "İYTE Mobil ile kampüs deneyimini bir üst seviyeye çıkar.",
-    "button": "Hemen Başla"
+    "button": "Google Play'de Aç"
   },
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
