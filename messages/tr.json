@@ -7,7 +7,8 @@
     "features": "Özellikler",
     "screenshots": "Ekran Görüntüleri",
     "team": "Ekip",
-    "download": "İndir"
+    "download": "İndir",
+    "clubApplication": "Topluluk Basvurusu"
   },
   "hero": {
     "title": "Kampüs Hayatını",
@@ -112,7 +113,59 @@
     "title": "Kampüs Hayatını",
     "titleAccent": "Dönüştür",
     "subtitle": "İYTE Mobil ile kampüs deneyimini bir üst seviyeye çıkar.",
-    "button": "Google Play'de Aç"
+    "button": "Google Play'de Aç",
+    "clubButton": "Topluluk Basvur"
+  },
+  "clubApplication": {
+    "badge": "Topluluk Kaydi",
+    "title": "Toplulugunu IYTE Mobil'e Tasi",
+    "subtitle": "Asagidaki formu doldurarak topluluk basvurunu gonderebilirsin. Onaylanan topluluklar etkinlik yayinlayabilir ve ogrencilerle etkilesime gecer.",
+    "backToHome": "Ana sayfaya don",
+    "categories": {
+      "SPORTS": "Spor",
+      "ART": "Sanat",
+      "TECHNOLOGY": "Teknoloji",
+      "ARCHITECTURE": "Mimari",
+      "TRAVEL": "Gezi",
+      "MUSIC": "Muzik",
+      "ACADEMIC": "Akademik",
+      "SOCIAL": "Sosyal Sorumluluk",
+      "OTHER": "Diger"
+    },
+    "fields": {
+      "name": "Topluluk Adi",
+      "email": "Topluluk E-Posta",
+      "password": "Sifre",
+      "confirmPassword": "Sifre Tekrar",
+      "category": "Kategori",
+      "description": "Topluluk Aciklamasi",
+      "logoUrl": "Logo URL (Opsiyonel)"
+    },
+    "placeholders": {
+      "name": "Ornek: IYTE Muzik Toplulugu",
+      "email": "topluluk@ornek.com",
+      "password": "En az 8 karakter",
+      "confirmPassword": "Sifreyi tekrar gir",
+      "description": "Toplulugunu kisaca tanit...",
+      "logoUrl": "https://example.com/logo.png"
+    },
+    "hints": {
+      "logoUrl": "Hazir bir logo linkin varsa buraya ekleyebilirsin."
+    },
+    "actions": {
+      "submit": "Basvuruyu Gonder",
+      "submitting": "Gonderiliyor..."
+    },
+    "success": {
+      "title": "Basvuru Gonderildi",
+      "description": "Topluluk basvurun alindi. Ekip incelemesi sonrasi email ile bilgilendirileceksin.",
+      "backHome": "Ana sayfaya don"
+    },
+    "errors": {
+      "passwordMismatch": "Sifreler eslesmiyor.",
+      "passwordMin": "Sifre en az 8 karakter olmali.",
+      "generic": "Basvuru gonderilirken bir hata olustu. Lutfen tekrar dene."
+    }
   },
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",

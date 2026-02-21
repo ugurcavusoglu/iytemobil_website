@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react';
 import { LanguageToggle } from './LanguageToggle';
 import { NAV_LINKS } from '@/lib/constants';
 import Image from 'next/image';
+import { Link } from '@/i18n/navigation';
 
 export function Navbar() {
   const t = useTranslations('nav');
@@ -55,6 +56,13 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
+          <Link
+            href="/club-application"
+            className="hidden rounded-lg border border-primary/40 bg-primary/15 px-3 py-2 text-xs font-semibold text-primary transition-all hover:border-primary hover:bg-primary/25 md:inline-flex"
+          >
+            {t('clubApplication')}
+          </Link>
+
           <LanguageToggle />
 
           {/* Mobile menu button */}
@@ -74,6 +82,14 @@ export function Navbar() {
         className="md:hidden overflow-hidden bg-surface/95 backdrop-blur-lg border-t border-white/5"
       >
         <div className="px-4 py-4 flex flex-col gap-3">
+          <Link
+            href="/club-application"
+            className="rounded-lg border border-primary/40 bg-primary/15 px-3 py-2 text-center text-sm font-semibold text-primary transition-all hover:border-primary hover:bg-primary/25"
+            onClick={() => setIsOpen(false)}
+          >
+            {t('clubApplication')}
+          </Link>
+
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}

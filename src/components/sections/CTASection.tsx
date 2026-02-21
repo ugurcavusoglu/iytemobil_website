@@ -6,6 +6,7 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { GlowEffect } from '@/components/ui/GlowEffect';
 import { ArrowUp } from 'lucide-react';
 import { PLAY_STORE_URL } from '@/lib/constants';
+import { Link } from '@/i18n/navigation';
 
 export function CTASection() {
   const t = useTranslations('cta');
@@ -27,17 +28,26 @@ export function CTASection() {
             {t('subtitle')}
           </p>
 
-          <motion.a
-            href={PLAY_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
-          >
-            <ArrowUp className="w-5 h-5" />
-            {t('button')}
-          </motion.a>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <motion.a
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25"
+            >
+              <ArrowUp className="w-5 h-5" />
+              {t('button')}
+            </motion.a>
+
+            <Link
+              href="/club-application"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-4 font-semibold text-white transition-all duration-300 hover:border-primary/40 hover:bg-primary/10"
+            >
+              {t('clubButton')}
+            </Link>
+          </div>
         </ScrollReveal>
       </div>
     </section>

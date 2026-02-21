@@ -7,7 +7,8 @@
     "features": "Features",
     "screenshots": "Screenshots",
     "team": "Team",
-    "download": "Download"
+    "download": "Download",
+    "clubApplication": "Club Application"
   },
   "hero": {
     "title": "Simplify Your",
@@ -112,7 +113,59 @@
     "title": "Transform Your",
     "titleAccent": "Campus Life",
     "subtitle": "Take your campus experience to the next level with IYTE Mobile.",
-    "button": "Open on Google Play"
+    "button": "Open on Google Play",
+    "clubButton": "Apply as a Club"
+  },
+  "clubApplication": {
+    "badge": "Club Registration",
+    "title": "Create Your Club on IYTE Mobil",
+    "subtitle": "Fill out the form below to submit your club application. Approved clubs can publish events and interact with students on IYTE Mobil.",
+    "backToHome": "Back to homepage",
+    "categories": {
+      "SPORTS": "Sports",
+      "ART": "Art",
+      "TECHNOLOGY": "Technology",
+      "ARCHITECTURE": "Architecture",
+      "TRAVEL": "Travel",
+      "MUSIC": "Music",
+      "ACADEMIC": "Academic",
+      "SOCIAL": "Social Responsibility",
+      "OTHER": "Other"
+    },
+    "fields": {
+      "name": "Club Name",
+      "email": "Club Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "category": "Category",
+      "description": "Club Description",
+      "logoUrl": "Logo URL (Optional)"
+    },
+    "placeholders": {
+      "name": "Example: IYTE Music Club",
+      "email": "club@example.com",
+      "password": "Minimum 8 characters",
+      "confirmPassword": "Repeat password",
+      "description": "Introduce your club briefly...",
+      "logoUrl": "https://example.com/logo.png"
+    },
+    "hints": {
+      "logoUrl": "If you already have a logo URL, paste it here."
+    },
+    "actions": {
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
+    },
+    "success": {
+      "title": "Application Sent",
+      "description": "Your club application has been received. Our team will review it and contact you by email.",
+      "backHome": "Return to home"
+    },
+    "errors": {
+      "passwordMismatch": "Passwords do not match.",
+      "passwordMin": "Password must be at least 8 characters.",
+      "generic": "An error occurred while sending your application. Please try again."
+    }
   },
   "footer": {
     "copyright": "IYTE Mobile. All rights reserved.",
