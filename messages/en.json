@@ -139,22 +139,23 @@
       "confirmPassword": "Confirm Password",
       "category": "Category",
       "description": "Club Description",
-      "logoUrl": "Logo URL (Optional)"
+      "logo": "Club Logo (Optional)"
     },
     "placeholders": {
       "name": "Example: IYTE Music Club",
       "email": "club@example.com",
       "password": "Minimum 8 characters",
       "confirmPassword": "Repeat password",
-      "description": "Introduce your club briefly...",
-      "logoUrl": "https://example.com/logo.png"
+      "description": "Introduce your club briefly..."
     },
     "hints": {
-      "logoUrl": "If you already have a logo URL, paste it here."
+      "logo": "JPG, PNG or WEBP. Maximum 2MB."
     },
     "actions": {
       "submit": "Submit Application",
-      "submitting": "Submitting..."
+      "submitting": "Submitting...",
+      "pickLogo": "Select Logo",
+      "removeLogo": "Remove Logo"
     },
     "success": {
       "title": "Application Sent",
@@ -164,6 +165,9 @@
     "errors": {
       "passwordMismatch": "Passwords do not match.",
       "passwordMin": "Password must be at least 8 characters.",
+      "logoType": "Only JPG, PNG or WEBP files are allowed.",
+      "logoSize": "Logo size must be 2MB or smaller.",
+      "logoUploadFailed": "Logo could not be uploaded.",
       "generic": "An error occurred while sending your application. Please try again."
     }
   },

@@ -41,7 +41,9 @@ Club application flow is integrated directly into this website:
 
 - Page: `/tr/club-application` and `/en/club-application`
 - Local proxy endpoint: `POST /api/club/register`
+- Local logo upload endpoint: `POST /api/club/upload-logo`
 - Upstream backend endpoint: `POST /api/auth/club/register`
+- Upstream upload endpoint: `POST /api/upload/image`
 
 ### Environment
 
@@ -53,4 +55,10 @@ cp .env.example .env.local
 
 ```env
 CLUB_APPLICATION_API_URL=https://api.iytemobil.com
+CLUB_APPLICATION_UPLOAD_TOKEN=
+CLUB_APPLICATION_UPLOAD_EMAIL=
+CLUB_APPLICATION_UPLOAD_PASSWORD=
 ```
+
+`CLUB_APPLICATION_UPLOAD_TOKEN` tanimliysa dogrudan kullanilir. Token yoksa
+`CLUB_APPLICATION_UPLOAD_EMAIL` ve `CLUB_APPLICATION_UPLOAD_PASSWORD` ile server-side login yapilip upload tokeni alinir.

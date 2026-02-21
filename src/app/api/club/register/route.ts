@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server';
-
-const resolveApiBase = () => {
-  const configured =
-    process.env.CLUB_APPLICATION_API_URL || process.env.NEXT_PUBLIC_API_URL;
-  const raw = (configured || 'https://api.iytemobil.com').trim();
-  return raw.replace(/\/+$/, '').replace(/\/api$/, '');
-};
+import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const upstream = await fetch(`${resolveApiBase()}/api/auth/club/register`, {
+    const upstream = await fetch(`${resolveClubApplicationApiBase()}/api/auth/club/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

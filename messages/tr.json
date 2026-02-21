@@ -139,22 +139,23 @@
       "confirmPassword": "Sifre Tekrar",
       "category": "Kategori",
       "description": "Topluluk Aciklamasi",
-      "logoUrl": "Logo URL (Opsiyonel)"
+      "logo": "Topluluk Logosu (Opsiyonel)"
     },
     "placeholders": {
       "name": "Ornek: IYTE Muzik Toplulugu",
       "email": "topluluk@ornek.com",
       "password": "En az 8 karakter",
       "confirmPassword": "Sifreyi tekrar gir",
-      "description": "Toplulugunu kisaca tanit...",
-      "logoUrl": "https://example.com/logo.png"
+      "description": "Toplulugunu kisaca tanit..."
     },
     "hints": {
-      "logoUrl": "Hazir bir logo linkin varsa buraya ekleyebilirsin."
+      "logo": "JPG, PNG veya WEBP. En fazla 2MB."
     },
     "actions": {
       "submit": "Basvuruyu Gonder",
-      "submitting": "Gonderiliyor..."
+      "submitting": "Gonderiliyor...",
+      "pickLogo": "Logo Sec",
+      "removeLogo": "Logoyu Kaldir"
     },
     "success": {
       "title": "Basvuru Gonderildi",
@@ -164,6 +165,9 @@
     "errors": {
       "passwordMismatch": "Sifreler eslesmiyor.",
       "passwordMin": "Sifre en az 8 karakter olmali.",
+      "logoType": "Sadece JPG, PNG veya WEBP dosyalari yuklenebilir.",
+      "logoSize": "Logo boyutu en fazla 2MB olabilir.",
+      "logoUploadFailed": "Logo yuklenemedi.",
       "generic": "Basvuru gonderilirken bir hata olustu. Lutfen tekrar dene."
     }
   },

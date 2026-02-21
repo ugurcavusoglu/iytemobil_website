@@ -1,8 +1,8 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { AlertCircle, CheckCircle2, Loader2, Send } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Loader2, Send, Upload, X } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 type CategoryValue =
@@ -23,7 +23,6 @@ type FormState = {
   confirmPassword: string;
   category: CategoryValue;
   description: string;
-  logoUrl: string;
 };
 
 const DEFAULT_FORM: FormState = {
@@ -33,8 +32,10 @@ const DEFAULT_FORM: FormState = {
   confirmPassword: '',
   category: 'OTHER',
   description: '',
-  logoUrl: '',
 };
+
+const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']);
+const MAX_SIZE_BYTES = 2 * 1024 * 1024;
 
 const parseErrorMessage = (payload: unknown, fallback: string) => {
   if (typeof payload === 'string') return payload;
@@ -57,6 +58,8 @@ const parseErrorMessage = (payload: unknown, fallback: string) => {
 export function ClubApplicationForm() {
   const t = useTranslations('clubApplication');
   const [form, setForm] = useState<FormState>(DEFAULT_FORM);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,6 +84,56 @@ export function ClubApplicationForm() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  const clearLogo = () => {
+    setLogoFile(null);
+    setLogoPreview(null);
+  };
+
+  const onLogoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!ALLOWED_TYPES.has(file.type)) {
+      setError(t('errors.logoType'));
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > MAX_SIZE_BYTES) {
+      setError(t('errors.logoSize'));
+      event.target.value = '';
+      return;
+    }
+
+    setError(null);
+    setLogoFile(file);
+    setLogoPreview(URL.createObjectURL(file));
+  };
+
+  const uploadLogoIfNeeded = async () => {
+    if (!logoFile) return undefined;
+
+    const data = new FormData();
+    data.append('image', logoFile);
+
+    const response = await fetch('/api/club/upload-logo', {
+      method: 'POST',
+      body: data,
+    });
+
+    const json = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(parseErrorMessage(json, t('errors.logoUploadFailed')));
+    }
+
+    const logoUrl = json?.url;
+    if (!logoUrl || typeof logoUrl !== 'string') {
+      throw new Error(t('errors.logoUploadFailed'));
+    }
+
+    return logoUrl;
+  };
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
@@ -99,13 +152,15 @@ export function ClubApplicationForm() {
     setIsSubmitting(true);
 
     try {
+      const logoUrl = await uploadLogoIfNeeded();
+
       const payload = {
         name: form.name.trim(),
         email: form.email.trim(),
         password: form.password,
         category: form.category,
         description: form.description.trim(),
-        logoUrl: form.logoUrl.trim() || undefined,
+        logoUrl,
       };
 
       const response = await fetch('/api/club/register', {
@@ -124,6 +179,7 @@ export function ClubApplicationForm() {
 
       setSuccess(true);
       setForm(DEFAULT_FORM);
+      clearLogo();
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : t('errors.generic'));
     } finally {
@@ -241,15 +297,36 @@ export function ClubApplicationForm() {
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-white">{t('fields.logoUrl')}</label>
-          <input
-            type="url"
-            value={form.logoUrl}
-            onChange={(event) => onChange('logoUrl', event.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none transition-colors focus:border-primary"
-            placeholder={t('placeholders.logoUrl')}
-          />
-          <p className="mt-2 text-xs text-text-secondary">{t('hints.logoUrl')}</p>
+          <label className="mb-2 block text-sm font-medium text-white">{t('fields.logo')}</label>
+          {logoPreview ? (
+            <div className="relative w-fit">
+              <img
+                src={logoPreview}
+                alt={t('fields.logo')}
+                className="h-24 w-24 rounded-xl border border-white/20 object-cover"
+              />
+              <button
+                type="button"
+                onClick={clearLogo}
+                className="absolute -right-2 -top-2 rounded-full border border-white/20 bg-black/70 p-1 text-white hover:bg-black"
+                aria-label={t('actions.removeLogo')}
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          ) : (
+            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-white/20 bg-black/20 px-4 py-3 text-sm text-text-secondary transition-colors hover:border-primary/60 hover:text-white">
+              <Upload className="h-4 w-4" />
+              <span>{t('actions.pickLogo')}</span>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp"
+                className="hidden"
+                onChange={onLogoChange}
+              />
+            </label>
+          )}
+          <p className="mt-2 text-xs text-text-secondary">{t('hints.logo')}</p>
         </div>
 
         <button
