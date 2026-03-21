@@ -210,7 +210,7 @@
     "uploadDescription": "Description (Optional)",
     "uploadDescPlaceholder": "Brief info about the document...",
     "uploadFile": "File",
-    "uploadHint": "PDF, DOC or DOCX. Maximum 10MB.",
+    "uploadHint": "PDF, DOC or DOCX. Maximum 10MB. For larger files, email iytemobil@gmail.com.",
     "uploadSubmit": "Upload",
     "uploading": "Uploading...",
     "uploadSuccess": "Document uploaded successfully! It will be published after approval.",
@@ -223,7 +223,7 @@
     "tabSingle": "Single File",
     "tabZip": "Upload ZIP",
     "zipFile": "ZIP File",
-    "zipHint": "PDF, DOC, DOCX files inside the ZIP will be extracted automatically. Maximum 50MB.",
+    "zipHint": "PDF, DOC, DOCX files inside the ZIP will be extracted automatically. Maximum 50MB. For larger files, email iytemobil@gmail.com.",
     "zipSubmit": "Upload ZIP",
     "invalidZipType": "Only ZIP files are allowed.",
     "zipTooLarge": "ZIP file must be 50MB or smaller."

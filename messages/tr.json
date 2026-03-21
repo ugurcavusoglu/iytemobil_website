@@ -210,7 +210,7 @@
     "uploadDescription": "Aciklama (Opsiyonel)",
     "uploadDescPlaceholder": "Belge hakkinda kisa bilgi...",
     "uploadFile": "Dosya",
-    "uploadHint": "PDF, DOC veya DOCX. En fazla 10MB.",
+    "uploadHint": "PDF, DOC veya DOCX. En fazla 10MB. Daha buyuk dosyalar icin iytemobil@gmail.com adresine mail atin.",
     "uploadSubmit": "Yukle",
     "uploading": "Yukleniyor...",
     "uploadSuccess": "Belge basariyla yuklendi! Onay sonrasi yayinlanacak.",
@@ -223,7 +223,7 @@
     "tabSingle": "Tekli Dosya",
     "tabZip": "ZIP Yukle",
     "zipFile": "ZIP Dosyasi",
-    "zipHint": "ZIP icindeki PDF, DOC, DOCX dosyalari otomatik cikarilir. En fazla 50MB.",
+    "zipHint": "ZIP icindeki PDF, DOC, DOCX dosyalari otomatik cikarilir. En fazla 50MB. Daha buyuk dosyalar icin iytemobil@gmail.com adresine mail atin.",
     "zipSubmit": "ZIP Yukle",
     "invalidZipType": "Sadece ZIP dosyalari yuklenebilir.",
     "zipTooLarge": "ZIP dosyasi en fazla 50MB olabilir."
