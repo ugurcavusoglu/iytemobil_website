@@ -48,6 +48,18 @@ export async function uploadDocument(departmentId: string, formData: FormData) {
   return data;
 }
 
+export async function bulkUploadDocuments(departmentId: string, file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`/api/documents/${departmentId}/bulk-upload`, {
+    method: 'POST',
+    body: formData,
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.message || 'Toplu yukleme basarisiz.');
+  return data as { message: string; uploaded: number; failed: number; skipped: number; details: { title: string; status: string }[] };
+}
+
 export async function trackDownload(documentId: string) {
   await fetch(`/api/documents/download/${documentId}`, { method: 'POST' });
 }

@@ -219,7 +219,14 @@
     "fileTooLarge": "File size must be 10MB or smaller.",
     "statusPending": "Pending Approval",
     "downloads": "downloads",
-    "downloadButton": "Download"
+    "downloadButton": "Download",
+    "tabSingle": "Single File",
+    "tabZip": "Upload ZIP",
+    "zipFile": "ZIP File",
+    "zipHint": "PDF, DOC, DOCX files inside the ZIP will be extracted automatically. Maximum 50MB.",
+    "zipSubmit": "Upload ZIP",
+    "invalidZipType": "Only ZIP files are allowed.",
+    "zipTooLarge": "ZIP file must be 50MB or smaller."
   },
   "footer": {
     "copyright": "IYTE Mobile. All rights reserved.",

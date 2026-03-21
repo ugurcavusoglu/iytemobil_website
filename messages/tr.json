@@ -219,7 +219,14 @@
     "fileTooLarge": "Dosya boyutu en fazla 10MB olabilir.",
     "statusPending": "Onay Bekliyor",
     "downloads": "indirme",
-    "downloadButton": "Indir"
+    "downloadButton": "Indir",
+    "tabSingle": "Tekli Dosya",
+    "tabZip": "ZIP Yukle",
+    "zipFile": "ZIP Dosyasi",
+    "zipHint": "ZIP icindeki PDF, DOC, DOCX dosyalari otomatik cikarilir. En fazla 50MB.",
+    "zipSubmit": "ZIP Yukle",
+    "invalidZipType": "Sadece ZIP dosyalari yuklenebilir.",
+    "zipTooLarge": "ZIP dosyasi en fazla 50MB olabilir."
   },
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
