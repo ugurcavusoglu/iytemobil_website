@@ -3,14 +3,16 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogIn, LogOut, FileText } from 'lucide-react';
 import { LanguageToggle } from './LanguageToggle';
 import { NAV_LINKS } from '@/lib/constants';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function Navbar() {
   const t = useTranslations('nav');
+  const { user, isLoading, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.95]);
@@ -63,6 +65,37 @@ export function Navbar() {
             {t('clubApplication')}
           </Link>
 
+          {!isLoading && (
+            <>
+              {user ? (
+                <>
+                  <Link
+                    href="/documents"
+                    className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-primary/30 hover:text-white md:inline-flex"
+                  >
+                    <FileText className="h-3.5 w-3.5" />
+                    {t('documents')}
+                  </Link>
+                  <button
+                    onClick={() => logout()}
+                    className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-red-500/30 hover:text-red-400 md:inline-flex"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    {t('logout')}
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/login"
+                  className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-primary/30 hover:text-white md:inline-flex"
+                >
+                  <LogIn className="h-3.5 w-3.5" />
+                  {t('login')}
+                </Link>
+              )}
+            </>
+          )}
+
           <LanguageToggle />
 
           {/* Mobile menu button */}
@@ -90,6 +123,17 @@ export function Navbar() {
             {t('clubApplication')}
           </Link>
 
+          {!isLoading && user && (
+            <Link
+              href="/documents"
+              className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-zinc-300 transition-all hover:text-white"
+              onClick={() => setIsOpen(false)}
+            >
+              <FileText className="h-4 w-4" />
+              {t('documents')}
+            </Link>
+          )}
+
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -100,6 +144,27 @@ export function Navbar() {
               {t(link.labelKey.replace('nav.', ''))}
             </a>
           ))}
+
+          {!isLoading && (
+            user ? (
+              <button
+                onClick={() => { logout(); setIsOpen(false); }}
+                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-300 transition-all hover:text-red-400"
+              >
+                <LogOut className="h-4 w-4" />
+                {t('logout')}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-300 transition-all hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                <LogIn className="h-4 w-4" />
+                {t('login')}
+              </Link>
+            )
+          )}
         </div>
       </motion.div>
     </motion.header>

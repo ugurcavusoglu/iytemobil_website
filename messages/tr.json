@@ -8,7 +8,10 @@
     "screenshots": "Ekran Görüntüleri",
     "team": "Ekip",
     "download": "İndir",
-    "clubApplication": "Topluluk Basvurusu"
+    "clubApplication": "Topluluk Basvurusu",
+    "documents": "Belgeler",
+    "login": "Giris Yap",
+    "logout": "Cikis Yap"
   },
   "hero": {
     "title": "Kampüs Hayatını",
@@ -170,6 +173,53 @@
       "logoUploadFailed": "Logo yuklenemedi.",
       "generic": "Basvuru gonderilirken bir hata olustu. Lutfen tekrar dene."
     }
+  },
+  "login": {
+    "title": "Giris Yap",
+    "subtitle": "Belgelere erismek icin hesabinla giris yap.",
+    "backToHome": "Ana sayfaya don",
+    "fields": {
+      "emailOrUsername": "E-posta veya Kullanici Adi",
+      "password": "Sifre"
+    },
+    "placeholders": {
+      "emailOrUsername": "ornek@std.iyte.edu.tr",
+      "password": "Sifrenizi girin"
+    },
+    "actions": {
+      "submit": "Giris Yap",
+      "submitting": "Giris yapiliyor..."
+    },
+    "errors": {
+      "generic": "Giris sirasinda bir hata olustu."
+    }
+  },
+  "documents": {
+    "title": "Akademik Belgeler",
+    "subtitle": "Bolumune ait sinav sorulari, ders notlari ve proje dosyalarini kesfet.",
+    "searchPlaceholder": "Bolum ara...",
+    "noDepartments": "Bolum bulunamadi.",
+    "backToDepartments": "Bolumlere don",
+    "departmentNotFound": "Bolum bulunamadi.",
+    "departmentSubtitle": "Bolume ait belgeler",
+    "documentCount": "belge",
+    "noDocuments": "Henuz belge yok.",
+    "uploadButton": "Belge Yukle",
+    "uploadTitle": "Belge Basligi",
+    "uploadTitlePlaceholder": "Ornek: Veri Yapilari Final Sorulari",
+    "uploadDescription": "Aciklama (Opsiyonel)",
+    "uploadDescPlaceholder": "Belge hakkinda kisa bilgi...",
+    "uploadFile": "Dosya",
+    "uploadHint": "PDF, DOC veya DOCX. En fazla 10MB.",
+    "uploadSubmit": "Yukle",
+    "uploading": "Yukleniyor...",
+    "uploadSuccess": "Belge basariyla yuklendi! Onay sonrasi yayinlanacak.",
+    "uploadError": "Yukleme sirasinda hata olustu.",
+    "invalidFileType": "Sadece PDF, DOC ve DOCX dosyalari yuklenebilir.",
+    "fileTooLarge": "Dosya boyutu en fazla 10MB olabilir.",
+    "statusPending": "Onay Bekliyor",
+    "downloads": "indirme",
+    "downloadButton": "Indir"
   },
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",

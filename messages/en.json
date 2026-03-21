@@ -8,7 +8,10 @@
     "screenshots": "Screenshots",
     "team": "Team",
     "download": "Download",
-    "clubApplication": "Club Application"
+    "clubApplication": "Club Application",
+    "documents": "Documents",
+    "login": "Login",
+    "logout": "Logout"
   },
   "hero": {
     "title": "Simplify Your",
@@ -170,6 +173,53 @@
       "logoUploadFailed": "Logo could not be uploaded.",
       "generic": "An error occurred while sending your application. Please try again."
     }
+  },
+  "login": {
+    "title": "Login",
+    "subtitle": "Sign in to access documents.",
+    "backToHome": "Back to homepage",
+    "fields": {
+      "emailOrUsername": "Email or Username",
+      "password": "Password"
+    },
+    "placeholders": {
+      "emailOrUsername": "example@std.iyte.edu.tr",
+      "password": "Enter your password"
+    },
+    "actions": {
+      "submit": "Login",
+      "submitting": "Logging in..."
+    },
+    "errors": {
+      "generic": "An error occurred during login."
+    }
+  },
+  "documents": {
+    "title": "Academic Documents",
+    "subtitle": "Discover exam papers, lecture notes and project files for your department.",
+    "searchPlaceholder": "Search departments...",
+    "noDepartments": "No departments found.",
+    "backToDepartments": "Back to departments",
+    "departmentNotFound": "Department not found.",
+    "departmentSubtitle": "Documents for this department",
+    "documentCount": "documents",
+    "noDocuments": "No documents yet.",
+    "uploadButton": "Upload Document",
+    "uploadTitle": "Document Title",
+    "uploadTitlePlaceholder": "Example: Data Structures Final Exam",
+    "uploadDescription": "Description (Optional)",
+    "uploadDescPlaceholder": "Brief info about the document...",
+    "uploadFile": "File",
+    "uploadHint": "PDF, DOC or DOCX. Maximum 10MB.",
+    "uploadSubmit": "Upload",
+    "uploading": "Uploading...",
+    "uploadSuccess": "Document uploaded successfully! It will be published after approval.",
+    "uploadError": "An error occurred during upload.",
+    "invalidFileType": "Only PDF, DOC and DOCX files are allowed.",
+    "fileTooLarge": "File size must be 10MB or smaller.",
+    "statusPending": "Pending Approval",
+    "downloads": "downloads",
+    "downloadButton": "Download"
   },
   "footer": {
     "copyright": "IYTE Mobile. All rights reserved.",

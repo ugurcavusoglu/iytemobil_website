@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { AuthProvider } from '@/contexts/AuthContext';
 import '../globals.css';
 
 type Props = {
@@ -64,9 +65,11 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className="scroll-smooth">
       <body className="bg-background text-white antialiased font-sans">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>
