@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X, LogIn, LogOut, FileText } from 'lucide-react';
 import { LanguageToggle } from './LanguageToggle';
@@ -13,6 +13,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export function Navbar() {
   const t = useTranslations('nav');
   const { user, isLoading, logout } = useAuth();
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.95]);
@@ -30,7 +31,7 @@ export function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2">
+        <a href={`/${locale}`} className="flex items-center gap-2">
           <Image
             src="/images/logo.png"
             alt="IYTE Mobil"
@@ -48,7 +49,7 @@ export function Navbar() {
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={`/${locale}/${link.href}`}
               className="text-sm text-text-secondary hover:text-white transition-colors duration-300"
             >
               {t(link.labelKey.replace('nav.', ''))}
@@ -137,7 +138,7 @@ export function Navbar() {
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={`/${locale}/${link.href}`}
               className="text-sm text-text-secondary hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
