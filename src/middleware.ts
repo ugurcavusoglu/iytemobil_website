@@ -9,7 +9,6 @@ export default function middleware(request: NextRequest) {
 
   // Check if this is a documents page (protected)
   const isDocumentsPage = /^\/(tr|en)\/documents/.test(pathname);
-  const isLoginPage = /^\/(tr|en)\/login/.test(pathname);
   const hasToken = request.cookies.has('auth_token');
 
   if (isDocumentsPage && !hasToken) {
@@ -17,10 +16,8 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }
 
-  if (isLoginPage && hasToken) {
-    const locale = pathname.startsWith('/en') ? 'en' : 'tr';
-    return NextResponse.redirect(new URL(`/${locale}/documents`, request.url));
-  }
+  // Login page redirect handled client-side by LoginForm
+  // (middleware can't verify token validity without calling backend)
 
   return intlMiddleware(request);
 }

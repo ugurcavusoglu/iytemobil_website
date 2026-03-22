@@ -1,13 +1,22 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { AlertCircle, Loader2, LogIn } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from '@/i18n/navigation';
 
 export function LoginForm() {
   const t = useTranslations('login');
-  const { login } = useAuth();
+  const { login, user, isLoading } = useAuth();
+  const router = useRouter();
+
+  // If already logged in, redirect to documents
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.push('/documents');
+    }
+  }, [isLoading, user, router]);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
