@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Instagram, Mail } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 export function Footer() {
@@ -47,20 +47,12 @@ export function Footer() {
           {/* Social */}
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/iytemobil"
+              href="https://instagram.com/iyte.mobil"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all"
             >
-              <Github className="w-5 h-5 text-text-secondary hover:text-white" />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all"
-            >
-              <Linkedin className="w-5 h-5 text-text-secondary hover:text-white" />
+              <Instagram className="w-5 h-5 text-text-secondary hover:text-white" />
             </a>
           </div>
         </div>
@@ -72,13 +64,13 @@ export function Footer() {
           </p>
           <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-xs text-text-muted">
             <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-              {isTr ? 'Gizlilik Politikasi' : 'Privacy Policy'}
+              {isTr ? 'Gizlilik Politikası' : 'Privacy Policy'}
             </Link>
             <Link href="/terms-of-service" className="hover:text-primary transition-colors">
-              {isTr ? 'Kullanim Kosullari' : 'Terms of Service'}
+              {isTr ? 'Kullanım Koşulları' : 'Terms of Service'}
             </Link>
             <Link href="/child-safety" className="hover:text-primary transition-colors">
-              {isTr ? 'Cocuk Guvenligi' : 'Child Safety'}
+              {isTr ? 'Çocuk Güvenliği' : 'Child Safety'}
             </Link>
             <Link href="/account-deletion" className="hover:text-primary transition-colors">
               {isTr ? 'Hesap Silme' : 'Account Deletion'}

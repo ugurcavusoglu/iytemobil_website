@@ -125,7 +125,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: '4',
     name: 'Samet Buldanlioglu',
-    role: 'Foot QA Engineer',
+    role: 'Full-Stack Developer',
     image: '/images/team/team.jpg',
     github: 'https://github.com/',
     linkedin: 'https://linkedin.com/',

@@ -8,10 +8,10 @@
     "screenshots": "Ekran Görüntüleri",
     "team": "Ekip",
     "download": "İndir",
-    "clubApplication": "Topluluk Basvurusu",
+    "clubApplication": "Topluluk Başvurusu",
     "documents": "Belgeler",
-    "login": "Giris Yap",
-    "logout": "Cikis Yap"
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap"
   },
   "hero": {
     "title": "Kampüs Hayatını",
@@ -117,116 +117,116 @@
     "titleAccent": "Dönüştür",
     "subtitle": "İYTE Mobil ile kampüs deneyimini bir üst seviyeye çıkar.",
     "button": "Google Play'de Aç",
-    "clubButton": "Topluluk Basvur"
+    "clubButton": "Topluluk olarak Başvur"
   },
   "clubApplication": {
-    "badge": "Topluluk Kaydi",
-    "title": "Toplulugunu IYTE Mobil'e Tasi",
-    "subtitle": "Asagidaki formu doldurarak topluluk basvurunu gonderebilirsin. Onaylanan topluluklar etkinlik yayinlayabilir ve ogrencilerle etkilesime gecer.",
-    "backToHome": "Ana sayfaya don",
+    "badge": "Topluluk Kaydı",
+    "title": "Topluluğunu İYTE Mobil'e Taşı",
+    "subtitle": "Aşağıdaki formu doldurarak topluluk başvurunu gönderebilirsin. Onaylanan topluluklar etkinlik yayınlayabilir ve öğrencilerle etkileşime geçer.",
+    "backToHome": "Ana sayfaya dön",
     "categories": {
       "SPORTS": "Spor",
       "ART": "Sanat",
       "TECHNOLOGY": "Teknoloji",
       "ARCHITECTURE": "Mimari",
       "TRAVEL": "Gezi",
-      "MUSIC": "Muzik",
+      "MUSIC": "Müzik",
       "ACADEMIC": "Akademik",
       "SOCIAL": "Sosyal Sorumluluk",
-      "OTHER": "Diger"
+      "OTHER": "Diğer"
     },
     "fields": {
-      "name": "Topluluk Adi",
+      "name": "Topluluk Adı",
       "email": "Topluluk E-Posta",
-      "password": "Sifre",
-      "confirmPassword": "Sifre Tekrar",
+      "password": "Şifre",
+      "confirmPassword": "Şifre Tekrar",
       "category": "Kategori",
-      "description": "Topluluk Aciklamasi",
+      "description": "Topluluk Açıklaması",
       "logo": "Topluluk Logosu (Opsiyonel)"
     },
     "placeholders": {
-      "name": "Ornek: IYTE Muzik Toplulugu",
+      "name": "Örnek: İYTE Müzik Topluluğu",
       "email": "topluluk@ornek.com",
       "password": "En az 8 karakter",
-      "confirmPassword": "Sifreyi tekrar gir",
-      "description": "Toplulugunu kisaca tanit..."
+      "confirmPassword": "Şifreyi tekrar gir",
+      "description": "Topluluğunu kısaca tanıt..."
     },
     "hints": {
       "logo": "JPG, PNG veya WEBP. En fazla 2MB."
     },
     "actions": {
-      "submit": "Basvuruyu Gonder",
-      "submitting": "Gonderiliyor...",
-      "pickLogo": "Logo Sec",
-      "removeLogo": "Logoyu Kaldir"
+      "submit": "Başvuruyu Gönder",
+      "submitting": "Gönderiliyor...",
+      "pickLogo": "Logo Seç",
+      "removeLogo": "Logoyu Kaldır"
     },
     "success": {
-      "title": "Basvuru Gonderildi",
-      "description": "Topluluk basvurun alindi. Ekip incelemesi sonrasi email ile bilgilendirileceksin.",
-      "backHome": "Ana sayfaya don"
+      "title": "Başvuru Gönderildi",
+      "description": "Topluluk başvurun alındı. Ekip incelemesi sonrası email ile bilgilendirileceksin.",
+      "backHome": "Ana sayfaya dön"
     },
     "errors": {
-      "passwordMismatch": "Sifreler eslesmiyor.",
-      "passwordMin": "Sifre en az 8 karakter olmali.",
-      "logoType": "Sadece JPG, PNG veya WEBP dosyalari yuklenebilir.",
+      "passwordMismatch": "Şifreler eşleşmiyor.",
+      "passwordMin": "Şifre en az 8 karakter olmalı.",
+      "logoType": "Sadece JPG, PNG veya WEBP dosyaları yüklenebilir.",
       "logoSize": "Logo boyutu en fazla 2MB olabilir.",
-      "logoUploadFailed": "Logo yuklenemedi.",
-      "generic": "Basvuru gonderilirken bir hata olustu. Lutfen tekrar dene."
+      "logoUploadFailed": "Logo yüklenemedi.",
+      "generic": "Başvuru gönderilirken bir hata oluştu. Lütfen tekrar dene."
     }
   },
   "login": {
-    "title": "Giris Yap",
-    "subtitle": "Belgelere erismek icin hesabinla giris yap.",
-    "backToHome": "Ana sayfaya don",
+    "title": "Giriş Yap",
+    "subtitle": "Belgelere erişmek için hesabınla giriş yap.",
+    "backToHome": "Ana sayfaya dön",
     "fields": {
-      "emailOrUsername": "E-posta veya Kullanici Adi",
-      "password": "Sifre"
+      "emailOrUsername": "E-posta veya Kullanıcı Adı",
+      "password": "Şifre"
     },
     "placeholders": {
       "emailOrUsername": "ornek@std.iyte.edu.tr",
-      "password": "Sifrenizi girin"
+      "password": "Şifrenizi girin"
     },
     "actions": {
-      "submit": "Giris Yap",
-      "submitting": "Giris yapiliyor..."
+      "submit": "Giriş Yap",
+      "submitting": "Giriş yapılıyor..."
     },
     "errors": {
-      "generic": "Giris sirasinda bir hata olustu."
+      "generic": "Giriş sırasında bir hata oluştu."
     }
   },
   "documents": {
     "title": "Akademik Belgeler",
-    "subtitle": "Bolumune ait sinav sorulari, ders notlari ve proje dosyalarini kesfet.",
-    "searchPlaceholder": "Bolum ara...",
-    "noDepartments": "Bolum bulunamadi.",
-    "backToDepartments": "Bolumlere don",
-    "departmentNotFound": "Bolum bulunamadi.",
-    "departmentSubtitle": "Bolume ait belgeler",
+    "subtitle": "Bölümüne ait sınav soruları, ders notları ve proje dosyalarını keşfet.",
+    "searchPlaceholder": "Bölüm ara...",
+    "noDepartments": "Bölüm bulunamadı.",
+    "backToDepartments": "Bölümlere dön",
+    "departmentNotFound": "Bölüm bulunamadı.",
+    "departmentSubtitle": "Bölüme ait belgeler",
     "documentCount": "belge",
-    "noDocuments": "Henuz belge yok.",
-    "uploadButton": "Belge Yukle",
-    "uploadTitle": "Belge Basligi",
-    "uploadTitlePlaceholder": "Ornek: Veri Yapilari Final Sorulari",
-    "uploadDescription": "Aciklama (Opsiyonel)",
-    "uploadDescPlaceholder": "Belge hakkinda kisa bilgi...",
+    "noDocuments": "Henüz belge yok.",
+    "uploadButton": "Belge Yükle",
+    "uploadTitle": "Belge Başlığı",
+    "uploadTitlePlaceholder": "Örnek: Veri Yapıları Final Soruları",
+    "uploadDescription": "Açıklama (Opsiyonel)",
+    "uploadDescPlaceholder": "Belge hakkında kısa bilgi...",
     "uploadFile": "Dosya",
-    "uploadHint": "PDF, DOC veya DOCX. En fazla 10MB. Daha buyuk dosyalar icin iytemobil@gmail.com adresine mail atin.",
-    "uploadSubmit": "Yukle",
-    "uploading": "Yukleniyor...",
-    "uploadSuccess": "Belge basariyla yuklendi! Onay sonrasi yayinlanacak.",
-    "uploadError": "Yukleme sirasinda hata olustu.",
-    "invalidFileType": "Sadece PDF, DOC ve DOCX dosyalari yuklenebilir.",
+    "uploadHint": "PDF, DOC veya DOCX. En fazla 10MB. Daha büyük dosyalar için iytemobil@gmail.com adresine mail atın.",
+    "uploadSubmit": "Yükle",
+    "uploading": "Yükleniyor...",
+    "uploadSuccess": "Belge başarıyla yüklendi! Onay sonrası yayınlanacak.",
+    "uploadError": "Yükleme sırasında hata oluştu.",
+    "invalidFileType": "Sadece PDF, DOC ve DOCX dosyaları yüklenebilir.",
     "fileTooLarge": "Dosya boyutu en fazla 10MB olabilir.",
     "statusPending": "Onay Bekliyor",
     "downloads": "indirme",
-    "downloadButton": "Indir",
+    "downloadButton": "İndir",
     "tabSingle": "Tekli Dosya",
-    "tabZip": "ZIP Yukle",
-    "zipFile": "ZIP Dosyasi",
-    "zipHint": "ZIP icindeki PDF, DOC, DOCX dosyalari otomatik cikarilir. En fazla 50MB. Daha buyuk dosyalar icin iytemobil@gmail.com adresine mail atin.",
-    "zipSubmit": "ZIP Yukle",
-    "invalidZipType": "Sadece ZIP dosyalari yuklenebilir.",
-    "zipTooLarge": "ZIP dosyasi en fazla 50MB olabilir."
+    "tabZip": "ZIP Yükle",
+    "zipFile": "ZIP Dosyası",
+    "zipHint": "ZIP içindeki PDF, DOC, DOCX dosyaları otomatik çıkarılır. En fazla 50MB. Daha büyük dosyalar için iytemobil@gmail.com adresine mail atın.",
+    "zipSubmit": "ZIP Yükle",
+    "invalidZipType": "Sadece ZIP dosyaları yüklenebilir.",
+    "zipTooLarge": "ZIP dosyası en fazla 50MB olabilir."
   },
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
