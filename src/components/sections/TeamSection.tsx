@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { TEAM_MEMBERS } from '@/lib/constants';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
-import { Github, Linkedin, Instagram } from 'lucide-react';
+import { Linkedin, Instagram } from 'lucide-react';
 
 export function TeamSection() {
   const t = useTranslations('team');
@@ -82,16 +82,6 @@ export function TeamSection() {
                     className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
                   >
                     <Linkedin className="w-4 h-4 text-text-muted hover:text-white" />
-                  </a>
-                )}
-                {member.github && (
-                  <a
-                    href={member.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-1.5 rounded-full hover:bg-white/10 transition-colors"
-                  >
-                    <Github className="w-4 h-4 text-text-muted hover:text-white" />
                   </a>
                 )}
               </div>
