@@ -86,7 +86,7 @@ export function DepartmentsList() {
       {filtered.length === 0 ? (
         <p className="py-10 text-center text-sm text-zinc-500">{t('noDepartments')}</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           {filtered.map((dept) => {
             const docCount = dept._count?.departmentDocuments ?? 0;
             const icon = getDeptIcon(dept.slug);
