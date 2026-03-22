@@ -35,9 +35,9 @@ export function DepartmentsList() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const filtered = departments.filter((d) =>
-    d.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filtered = departments
+    .filter((d) => d.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name, 'tr'));
 
   const totalDocs = useMemo(
     () => departments.reduce((sum, d) => sum + (d._count?.departmentDocuments ?? 0), 0),
