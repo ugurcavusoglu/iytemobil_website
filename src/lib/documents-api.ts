@@ -2,8 +2,10 @@ export interface Department {
   id: string;
   name: string;
   slug: string;
-  _count?: { documents: number };
-  documentCount?: number;
+  description?: string;
+  icon?: string;
+  color?: string;
+  _count?: { departmentDocuments: number };
 }
 
 export interface Document {
