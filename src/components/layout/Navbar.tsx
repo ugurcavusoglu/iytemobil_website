@@ -19,6 +19,8 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.95]);
   const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.1]);
+  const backgroundColor = useTransform(bgOpacity, (v) => `rgba(10, 10, 10, ${v})`);
+  const borderBottomColor = useTransform(borderOpacity, (v) => `rgba(255, 255, 255, ${v})`);
 
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((l) => l.href.replace('#', ''));
@@ -44,8 +46,8 @@ export function Navbar() {
     <motion.header
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        backgroundColor: useTransform(bgOpacity, (v) => `rgba(10, 10, 10, ${v})`),
-        borderBottomColor: useTransform(borderOpacity, (v) => `rgba(255, 255, 255, ${v})`),
+        backgroundColor,
+        borderBottomColor,
         borderBottomWidth: '1px',
         backdropFilter: 'blur(12px)',
       }}
