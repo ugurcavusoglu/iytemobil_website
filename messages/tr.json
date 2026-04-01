@@ -252,6 +252,22 @@
     "isPaid": {
       "q": "İYTE Mobil ücretli mi?",
       "a": "Hayır, İYTE Mobil tamamen ücretsizdir. Google Play Store'dan ücretsiz olarak indirebilirsiniz."
+    },
+    "clubApplication": {
+      "q": "Topluluk başvurusu nasıl yapılır?",
+      "a": "iytemobil.com/tr/club-application adresindeki formu doldurarak topluluk başvurusunda bulunabilirsiniz. Başvuru ekip tarafından incelendikten sonra e-posta ile bilgilendirilirsiniz. Onaylanan topluluklar uygulama üzerinden etkinlik yayınlayabilir ve öğrencilerle etkileşime geçebilir."
+    },
+    "documents": {
+      "q": "Akademik belgeler nasıl yüklenir?",
+      "a": "iytemobil.com/tr/documents adresinden bölümünüzü seçip 'Belge Yükle' butonuna tıklayarak PDF, DOC veya DOCX formatında sınav soruları, ders notları ve proje dosyaları yükleyebilirsiniz. Yüklenen belgeler onay sonrası yayınlanır."
+    },
+    "anonymous": {
+      "q": "Sosyal akışta anonim paylaşım yapabilir miyim?",
+      "a": "Evet, İYTE Mobil sosyal akışında anonim itiraf paylaşımı yapabilirsiniz. İtiraf olarak işaretlenen paylaşımlar kimliğiniz gizlenerek yayınlanır."
+    },
+    "notifications": {
+      "q": "Bildirimler çalışıyor mu?",
+      "a": "Evet, İYTE Mobil'de anlık bildirimler aktiftir. Yeni mesaj, beğeni, yorum ve etkinlik bildirimleri anında telefonunuza iletilir. Bildirim tercihlerinizi profil ayarlarından yönetebilirsiniz."
     }
   },
   "footer": {

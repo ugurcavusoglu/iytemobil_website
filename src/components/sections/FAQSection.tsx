@@ -12,6 +12,10 @@ const FAQ_KEYS = [
   'foodMenu',
   'ringService',
   'isPaid',
+  'clubApplication',
+  'documents',
+  'anonymous',
+  'notifications',
 ] as const;
 
 export function FAQSection() {

@@ -252,6 +252,22 @@
     "isPaid": {
       "q": "Is IYTE Mobile free?",
       "a": "Yes, IYTE Mobile is completely free. You can download it for free from the Google Play Store."
+    },
+    "clubApplication": {
+      "q": "How do I apply as a club?",
+      "a": "You can apply by filling out the form at iytemobil.com/en/club-application. After your application is reviewed by the team, you will be notified by email. Approved clubs can publish events and interact with students through the app."
+    },
+    "documents": {
+      "q": "How do I upload academic documents?",
+      "a": "Go to iytemobil.com/en/documents, select your department and click 'Upload Document' to upload exam papers, lecture notes and project files in PDF, DOC or DOCX format. Uploaded documents are published after approval."
+    },
+    "anonymous": {
+      "q": "Can I post anonymously on the social feed?",
+      "a": "Yes, you can share anonymous confessions on the IYTE Mobile social feed. Posts marked as confessions are published with your identity hidden."
+    },
+    "notifications": {
+      "q": "Do notifications work?",
+      "a": "Yes, push notifications are active on IYTE Mobile. New message, like, comment and event notifications are delivered to your phone instantly. You can manage your notification preferences from the profile settings."
     }
   },
   "footer": {

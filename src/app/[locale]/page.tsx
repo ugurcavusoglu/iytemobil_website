@@ -139,6 +139,38 @@ export default function HomePage() {
               text: 'Hayır, İYTE Mobil tamamen ücretsizdir. Google Play Store\'dan ücretsiz olarak indirebilirsiniz.',
             },
           },
+          {
+            '@type': 'Question',
+            name: 'Topluluk başvurusu nasıl yapılır?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'iytemobil.com/tr/club-application adresindeki formu doldurarak topluluk başvurusunda bulunabilirsiniz. Başvuru ekip tarafından incelendikten sonra e-posta ile bilgilendirilirsiniz.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Akademik belgeler nasıl yüklenir?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'iytemobil.com/tr/documents adresinden bölümünüzü seçip Belge Yükle butonuna tıklayarak PDF, DOC veya DOCX formatında belgeler yükleyebilirsiniz. Yüklenen belgeler onay sonrası yayınlanır.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Sosyal akışta anonim paylaşım yapabilir miyim?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Evet, İYTE Mobil sosyal akışında anonim itiraf paylaşımı yapabilirsiniz. İtiraf olarak işaretlenen paylaşımlar kimliğiniz gizlenerek yayınlanır.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Bildirimler çalışıyor mu?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Evet, İYTE Mobil\'de anlık bildirimler aktiftir. Yeni mesaj, beğeni, yorum ve etkinlik bildirimleri anında telefonunuza iletilir.',
+            },
+          },
         ],
       },
       {
