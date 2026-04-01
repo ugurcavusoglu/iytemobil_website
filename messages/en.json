@@ -230,6 +230,30 @@
     "invalidZipType": "Only ZIP files are allowed.",
     "zipTooLarge": "ZIP file must be 50MB or smaller."
   },
+  "faq": {
+    "sectionTitle": "Frequently Asked Questions",
+    "sectionSubtitle": "Everything you need to know about IYTE Mobile",
+    "whatIsIyte": {
+      "q": "What is IYTE Mobile?",
+      "a": "IYTE Mobile is a comprehensive campus application developed for students of Izmir Institute of Technology (IYTE). It offers features such as food menus, bus schedules, social feed, carpooling, instant messaging and academic documents."
+    },
+    "platforms": {
+      "q": "Which platforms is IYTE Mobile available on?",
+      "a": "IYTE Mobile is currently available for free on Android devices via Google Play Store. The iOS version will be published on the App Store soon."
+    },
+    "foodMenu": {
+      "q": "Can I view the IYTE food menu from the app?",
+      "a": "Yes, you can view daily cafeteria and KYK dorm menus, discover campus restaurants and leave reviews through IYTE Mobile."
+    },
+    "ringService": {
+      "q": "Can I access IYTE ring bus schedules from the app?",
+      "a": "Yes, you can view IYTE ring service times, ESHOT connection times, and weekday and weekend schedules separately on IYTE Mobile."
+    },
+    "isPaid": {
+      "q": "Is IYTE Mobile free?",
+      "a": "Yes, IYTE Mobile is completely free. You can download it for free from the Google Play Store."
+    }
+  },
   "footer": {
     "copyright": "IYTE Mobile. All rights reserved.",
     "madeWith": "Developed by IYTE students",

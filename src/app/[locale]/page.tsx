@@ -5,6 +5,7 @@ import { ScreenshotsSection } from '@/components/sections/ScreenshotsSection';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { DownloadSection } from '@/components/sections/DownloadSection';
 import { CTASection } from '@/components/sections/CTASection';
+import { FAQSection } from '@/components/sections/FAQSection';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -94,6 +95,64 @@ export default function HomePage() {
           'Akademik belgeler',
         ],
       },
+      {
+        '@type': 'FAQPage',
+        '@id': 'https://iytemobil.com/#faq',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'İYTE Mobil uygulaması nedir?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'İYTE Mobil, İzmir Yüksek Teknoloji Enstitüsü öğrencileri için geliştirilmiş kapsamlı bir kampüs uygulamasıdır. Yemek menüsü, otobüs saatleri, sosyal akış, araç paylaşımı, anlık mesajlaşma ve akademik belgeler gibi özellikler sunar.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'İYTE Mobil hangi platformlarda kullanılabilir?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'İYTE Mobil şu anda Android cihazlarda Google Play Store üzerinden ücretsiz olarak indirilebilir. iOS versiyonu yakında App Store\'da yayınlanacaktır.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'İYTE yemek menüsünü uygulamadan görebilir miyim?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Evet, İYTE Mobil uygulaması üzerinden yemekhane ve KYK yurt günlük menülerini görüntüleyebilir, kampüs restoranlarını keşfedebilir ve değerlendirme yapabilirsiniz.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'İYTE ring servisi saatlerine uygulamadan ulaşabilir miyim?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Evet, İYTE Mobil üzerinden İYTE ring servis saatlerini, ESHOT bağlantı saatlerini hafta içi ve hafta sonu programları ayrı ayrı görüntüleyebilirsiniz.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'İYTE Mobil ücretli mi?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Hayır, İYTE Mobil tamamen ücretsizdir. Google Play Store\'dan ücretsiz olarak indirebilirsiniz.',
+            },
+          },
+        ],
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': 'https://iytemobil.com/#breadcrumb',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Ana Sayfa',
+            item: 'https://iytemobil.com/tr',
+          },
+        ],
+      },
     ],
   };
 
@@ -108,6 +167,7 @@ export default function HomePage() {
       <FeatureDetailSection />
       <ScreenshotsSection />
       <TeamSection />
+      <FAQSection />
       <DownloadSection />
       <CTASection />
     </>

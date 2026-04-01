@@ -230,6 +230,30 @@
     "invalidZipType": "Sadece ZIP dosyaları yüklenebilir.",
     "zipTooLarge": "ZIP dosyası en fazla 50MB olabilir."
   },
+  "faq": {
+    "sectionTitle": "Sık Sorulan Sorular",
+    "sectionSubtitle": "İYTE Mobil hakkında merak edilenler",
+    "whatIsIyte": {
+      "q": "İYTE Mobil uygulaması nedir?",
+      "a": "İYTE Mobil, İzmir Yüksek Teknoloji Enstitüsü öğrencileri için geliştirilmiş kapsamlı bir kampüs uygulamasıdır. İYTE yemek menüsü, otobüs saatleri, sosyal akış, araç paylaşımı, anlık mesajlaşma ve akademik belgeler gibi özellikler sunar."
+    },
+    "platforms": {
+      "q": "İYTE Mobil hangi platformlarda kullanılabilir?",
+      "a": "İYTE Mobil şu anda Android cihazlarda Google Play Store üzerinden ücretsiz olarak indirilebilir. iOS versiyonu yakında App Store'da yayınlanacaktır."
+    },
+    "foodMenu": {
+      "q": "İYTE yemek menüsünü uygulamadan görebilir miyim?",
+      "a": "Evet, İYTE Mobil üzerinden yemekhane ve KYK yurt günlük menülerini görüntüleyebilir, kampüs restoranlarını keşfedebilir ve değerlendirme yapabilirsiniz."
+    },
+    "ringService": {
+      "q": "İYTE ring servisi saatlerine uygulamadan ulaşabilir miyim?",
+      "a": "Evet, İYTE Mobil üzerinden İYTE ring servis saatlerini, ESHOT bağlantı saatlerini hafta içi ve hafta sonu programları ayrı ayrı görüntüleyebilirsiniz."
+    },
+    "isPaid": {
+      "q": "İYTE Mobil ücretli mi?",
+      "a": "Hayır, İYTE Mobil tamamen ücretsizdir. Google Play Store'dan ücretsiz olarak indirebilirsiniz."
+    }
+  },
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
     "madeWith": "İYTE öğrencileri tarafından geliştirildi",

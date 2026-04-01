@@ -11,18 +11,18 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
 const screenshots = [
-  { id: 'feed', labelKey: 'feed', src: '/images/screenshots/feed.jpg' },
-  { id: 'chat', labelKey: 'chat', src: '/images/screenshots/chat.jpg' },
-  { id: 'food', labelKey: 'food', src: '/images/screenshots/food.jpg' },
-  { id: 'transport', labelKey: 'transport', src: '/images/screenshots/transport.jpg' },
-  { id: 'carpool', labelKey: 'carpool', src: '/images/screenshots/carpool.jpg' },
-  { id: 'clubs', labelKey: 'clubs', src: '/images/screenshots/clubs.jpg' },
-  { id: 'events', labelKey: 'events', src: '/images/screenshots/events.jpg' },
-  { id: 'documents', labelKey: 'documents', src: '/images/screenshots/documents.jpg' },
-  { id: 'badges', labelKey: 'badges', src: '/images/screenshots/badges.jpg' },
-  { id: 'leaderboard', labelKey: 'leaderboard', src: '/images/screenshots/leaderboard.jpg' },
-  { id: 'profile', labelKey: 'profile', src: '/images/screenshots/profile.jpg' },
-  { id: 'departments', labelKey: 'departments', src: '/images/screenshots/departments.jpg' },
+  { id: 'feed', labelKey: 'feed', src: '/images/screenshots/feed.jpg', alt: 'İYTE Mobil sosyal akış ekranı - kampüs paylaşımları ve itiraflar' },
+  { id: 'chat', labelKey: 'chat', src: '/images/screenshots/chat.jpg', alt: 'İYTE Mobil mesajlaşma ekranı - özel mesajlar ve grup sohbetleri' },
+  { id: 'food', labelKey: 'food', src: '/images/screenshots/food.jpg', alt: 'İYTE Mobil yemek menüsü ekranı - yemekhane ve restoran menüleri' },
+  { id: 'transport', labelKey: 'transport', src: '/images/screenshots/transport.jpg', alt: 'İYTE Mobil otobüs saatleri ekranı - ring servisi ve ESHOT programları' },
+  { id: 'carpool', labelKey: 'carpool', src: '/images/screenshots/carpool.jpg', alt: 'İYTE Mobil araç paylaşımı ekranı - kampüs yolculuk ilanları' },
+  { id: 'clubs', labelKey: 'clubs', src: '/images/screenshots/clubs.jpg', alt: 'İYTE Mobil topluluklar ekranı - kampüs kulüpleri ve organizasyonlar' },
+  { id: 'events', labelKey: 'events', src: '/images/screenshots/events.jpg', alt: 'İYTE Mobil etkinlikler ekranı - kampüs etkinlikleri ve aktiviteler' },
+  { id: 'documents', labelKey: 'documents', src: '/images/screenshots/documents.jpg', alt: 'İYTE Mobil belgeler ekranı - akademik dokümanlar ve sınav soruları' },
+  { id: 'badges', labelKey: 'badges', src: '/images/screenshots/badges.jpg', alt: 'İYTE Mobil rozetler ekranı - XP ve başarı sistemi' },
+  { id: 'leaderboard', labelKey: 'leaderboard', src: '/images/screenshots/leaderboard.jpg', alt: 'İYTE Mobil liderlik tablosu - kampüs sıralaması' },
+  { id: 'profile', labelKey: 'profile', src: '/images/screenshots/profile.jpg', alt: 'İYTE Mobil profil ve ayarlar ekranı' },
+  { id: 'departments', labelKey: 'departments', src: '/images/screenshots/departments.jpg', alt: 'İYTE Mobil bölümler ekranı - akademik bölüm belgeleri' },
 ];
 
 export function ScreenshotsSection() {
@@ -75,7 +75,7 @@ export function ScreenshotsSection() {
                     <div className="relative w-full aspect-[9/19.5] rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-gray-900 to-black">
                       <Image
                         src={screenshot.src}
-                        alt={label}
+                        alt={screenshot.alt}
                         fill
                         className="object-contain"
                         sizes="(max-width: 768px) 260px, 280px"
