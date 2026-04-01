@@ -12,7 +12,7 @@ export function Footer() {
   const isTr = locale === 'tr';
 
   return (
-    <footer className="border-t border-white/5 bg-background">
+    <footer id="contact" className="border-t border-white/5 bg-background">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo & Info */}

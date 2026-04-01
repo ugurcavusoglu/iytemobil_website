@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X, LogIn, LogOut, FileText } from 'lucide-react';
@@ -15,9 +15,30 @@ export function Navbar() {
   const { user, isLoading, logout } = useAuth();
   const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.95]);
   const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.1]);
+
+  useEffect(() => {
+    const sectionIds = NAV_LINKS.map((l) => l.href.replace('#', ''));
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id);
+        },
+        { rootMargin: '-40% 0px -55% 0px' }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
 
   return (
     <motion.header
@@ -46,15 +67,27 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={`/${locale}/${link.href}`}
-              className="text-sm text-text-secondary hover:text-white transition-colors duration-300"
-            >
-              {t(link.labelKey.replace('nav.', ''))}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const sectionId = link.href.replace('#', '');
+            const isActive = activeSection === sectionId;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`text-sm transition-colors duration-300 relative ${
+                  isActive ? 'text-white' : 'text-text-secondary hover:text-white'
+                }`}
+              >
+                {t(link.labelKey.replace('nav.', ''))}
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-indicator"
+                    className="absolute -bottom-1 left-0 right-0 h-px bg-primary"
+                  />
+                )}
+              </a>
+            );
+          })}
         </div>
 
         {/* Right side */}
@@ -135,16 +168,22 @@ export function Navbar() {
             </Link>
           )}
 
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={`/${locale}/${link.href}`}
-              className="text-sm text-text-secondary hover:text-white transition-colors py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              {t(link.labelKey.replace('nav.', ''))}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const sectionId = link.href.replace('#', '');
+            const isActive = activeSection === sectionId;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`text-sm transition-colors py-2 ${
+                  isActive ? 'text-white font-medium' : 'text-text-secondary hover:text-white'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {t(link.labelKey.replace('nav.', ''))}
+              </a>
+            );
+          })}
 
           {!isLoading && (
             user ? (

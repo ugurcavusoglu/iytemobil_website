@@ -147,7 +147,9 @@ export const NAV_LINKS: NavLink[] = [
   { href: '#features', labelKey: 'nav.features' },
   { href: '#screenshots', labelKey: 'nav.screenshots' },
   { href: '#team', labelKey: 'nav.team' },
+  { href: '#faq', labelKey: 'nav.faq' },
   { href: '#download', labelKey: 'nav.download' },
+  { href: '#contact', labelKey: 'nav.contact' },
 ];
 
 export const STATS: Stat[] = [
