@@ -1,7 +1,9 @@
 {
   "metadata": {
-    "title": "İYTE Mobil - Kampüs Hayatını Kolaylaştır",
-    "description": "İzmir Yüksek Teknoloji Enstitüsü öğrencileri için geliştirilmiş kampüs yaşam uygulaması"
+    "title": "İYTE Mobil - İzmir Yüksek Teknoloji Enstitüsü Kampüs Uygulaması",
+    "description": "İYTE öğrencileri için kampüs uygulaması. İYTE yemek menüsü, İYTE otobüs saatleri, İYTE sosyal akış, araç paylaşımı, etkinlikler ve daha fazlası tek uygulamada.",
+    "homeTitle": "İYTE Mobil - İYTE Kampüs Hayatı | Yemek, Ulaşım, Sosyal",
+    "homeDescription": "İzmir Yüksek Teknoloji Enstitüsü (İYTE) öğrencileri için resmi kampüs uygulaması. İYTE yemek menüsü, İYTE ring servisi saatleri, İYTE sosyal paylaşım, araç paylaşımı ve daha fazlası."
   },
   "nav": {
     "features": "Özellikler",

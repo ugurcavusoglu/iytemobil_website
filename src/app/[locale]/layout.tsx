@@ -26,7 +26,13 @@ export async function generateMetadata({
     metadataBase: new URL('https://iytemobil.com'),
     title: t('title'),
     description: t('description'),
-    keywords: ['IYTE', 'IYTE Mobil', 'kampus', 'universite', 'ogrenci', 'izmir', 'iyte mobil'],
+    keywords: [
+      'IYTE', 'İYTE', 'IYTE Mobil', 'İYTE Mobil', 'iyte mobil uygulama',
+      'izmir yüksek teknoloji enstitüsü', 'iyte kampüs', 'iyte yemek menüsü',
+      'iyte yemek', 'iyte otobüs', 'iyte ring servisi', 'iyte ulaşım',
+      'iyte sosyal', 'iyte öğrenci', 'iyte etkinlik', 'iyte araç paylaşımı',
+      'kampüs uygulaması', 'üniversite uygulaması', 'izmir kampüs'
+    ],
     authors: [{ name: 'IYTE Mobil Team' }],
     openGraph: {
       title: t('title'),
@@ -44,8 +50,12 @@ export async function generateMetadata({
       images: ['/images/og-image.png'],
     },
     alternates: {
-      canonical: 'https://iytemobil.com',
-      languages: { tr: '/tr', en: '/en' },
+      canonical: `https://iytemobil.com/${locale}`,
+      languages: {
+        'tr': 'https://iytemobil.com/tr',
+        'en': 'https://iytemobil.com/en',
+        'x-default': 'https://iytemobil.com/tr',
+      },
     },
   };
 }

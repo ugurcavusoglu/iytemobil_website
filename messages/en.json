@@ -1,7 +1,9 @@
 {
   "metadata": {
-    "title": "IYTE Mobile - Simplify Campus Life",
-    "description": "Campus life application developed for Izmir Institute of Technology students"
+    "title": "IYTE Mobile - Izmir Institute of Technology Campus App",
+    "description": "Campus app for IYTE students. IYTE food menu, IYTE bus schedule, IYTE social feed, carpooling, events and more in one app.",
+    "homeTitle": "IYTE Mobile - IYTE Campus Life | Food, Transport, Social",
+    "homeDescription": "Official campus application for Izmir Institute of Technology (IYTE) students. IYTE food menu, IYTE ring bus schedules, IYTE social feed, carpooling and more."
   },
   "nav": {
     "features": "Features",
