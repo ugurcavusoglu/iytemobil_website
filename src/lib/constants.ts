@@ -3,6 +3,9 @@ import { Feature, TeamMember, Screenshot, Stat, NavLink } from '@/types';
 export const PLAY_STORE_URL =
   'https://play.google.com/store/apps/details?id=com.iytemobil.app';
 
+export const APP_STORE_URL =
+  'https://apps.apple.com/tr/app/i-yte-mobile/id6761460550';
+
 export const FEATURES: Feature[] = [
   {
     id: 'social-feed',

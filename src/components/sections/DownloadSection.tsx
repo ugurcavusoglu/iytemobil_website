@@ -6,7 +6,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { GlowEffect } from '@/components/ui/GlowEffect';
 import { Apple, Smartphone } from 'lucide-react';
-import { PLAY_STORE_URL } from '@/lib/constants';
+import { PLAY_STORE_URL, APP_STORE_URL } from '@/lib/constants';
 
 export function DownloadSection() {
   const t = useTranslations('download');
@@ -28,16 +28,18 @@ export function DownloadSection() {
             whileTap={{ scale: 0.95 }}
             className="relative w-full sm:w-auto"
           >
-            <div className="glass-card px-6 py-4 flex items-center gap-4 cursor-not-allowed opacity-70">
+            <a
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-card px-6 py-4 flex items-center gap-4 hover:bg-white/10 hover:border-primary/30 transition-all duration-300"
+            >
               <Apple className="w-10 h-10 text-white" />
               <div>
-                <p className="text-xs text-text-muted">{t('comingSoon')}</p>
+                <p className="text-xs text-primary font-medium">{t('iosLive')}</p>
                 <p className="text-lg font-semibold text-white">{t('appStore')}</p>
               </div>
-            </div>
-            <div className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-primary text-white text-xs font-medium animate-glow-pulse">
-              {t('comingSoon')}
-            </div>
+            </a>
           </motion.div>
 
           {/* Google Play */}

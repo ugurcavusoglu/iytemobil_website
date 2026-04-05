@@ -110,8 +110,9 @@
   },
   "download": {
     "sectionTitle": "Download Now",
-    "sectionSubtitle": "Now live on Android, coming soon on iOS!",
-    "androidLive": "Now Live",
+    "sectionSubtitle": "Now live on Android and iOS!",
+    "androidLive": "Now Live on Android",
+    "iosLive": "Now Live on iOS",
     "comingSoon": "Coming Soon",
     "appStore": "App Store",
     "googlePlay": "Google Play"

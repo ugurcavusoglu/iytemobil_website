@@ -110,8 +110,9 @@
   },
   "download": {
     "sectionTitle": "Şimdi İndir",
-    "sectionSubtitle": "Android'de yayında, iOS için yakında!",
+    "sectionSubtitle": "Android ve iOS'ta yayında!",
     "androidLive": "Android'de Yayında",
+    "iosLive": "iOS'ta Yayında",
     "comingSoon": "Yakında",
     "appStore": "App Store",
     "googlePlay": "Google Play"
