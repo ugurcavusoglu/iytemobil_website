@@ -4,6 +4,10 @@ import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
+// Next.js App Router: disable body size limit for large file uploads
+export const runtime = 'nodejs';
 
 type Context = { params: Promise<{ departmentId: string }> };
 

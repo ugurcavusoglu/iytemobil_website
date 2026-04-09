@@ -51,12 +51,25 @@ export async function uploadDocument(departmentId: string, formData: FormData) {
 }
 
 export async function bulkUploadDocuments(departmentId: string, file: File) {
+  // Token'ı cookie'den al
+  const tokenRes = await fetch('/api/auth/get-token');
+  const tokenData = await tokenRes.json().catch(() => null);
+  const token = tokenData?.token;
+
+  if (!token) throw new Error('Oturum bulunamadi.');
+
   const formData = new FormData();
   formData.append('file', file);
-  const res = await fetch(`/api/documents/${departmentId}/bulk-upload`, {
-    method: 'POST',
-    body: formData,
-  });
+
+  // Direkt backend'e gönder — Next.js proxy'sini bypass et (Vercel 4.5MB limiti)
+  const res = await fetch(
+    `https://api.iytemobil.com/api/departments/${departmentId}/documents/bulk-upload`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    },
+  );
   const data = await res.json().catch(() => null);
   if (!res.ok) throw new Error(data?.message || 'Toplu yukleme basarisiz.');
   return data as { message: string; uploaded: number; failed: number; skipped: number; details: { title: string; status: string }[] };
