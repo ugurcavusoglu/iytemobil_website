@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
 
+export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
+
 type Context = { params: Promise<{ departmentId: string }> };
 
 export async function POST(request: NextRequest, context: Context) {
