@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server';
-import {
-  getClubApiErrorMessage,
-  getClubUploadToken,
-  resolveClubApplicationApiBase,
-} from '@/lib/club-application-api';
+import { getClubApiErrorMessage, resolveClubApplicationApiBase } from '@/lib/club-application-api';
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']);
 const MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
@@ -28,16 +24,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Logo boyutu en fazla 2MB olabilir.' }, { status: 400 });
     }
 
-    const token = await getClubUploadToken();
-
     const uploadData = new FormData();
     uploadData.append('image', file, file.name);
 
-    const upstream = await fetch(`${resolveClubApplicationApiBase()}/api/upload/image`, {
+    const upstream = await fetch(`${resolveClubApplicationApiBase()}/api/upload/club-logo`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       body: uploadData,
       cache: 'no-store',
     });
