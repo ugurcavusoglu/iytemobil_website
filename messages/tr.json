@@ -11,6 +11,7 @@
     "team": "Ekip",
     "download": "İndir",
     "clubApplication": "Topluluk Başvurusu",
+    "clubs": "Topluluklar",
     "clubLogin": "Topluluk Girişi",
     "documents": "Belgeler",
     "faq": "SSS",
@@ -273,6 +274,15 @@
       "q": "Bildirimler çalışıyor mu?",
       "a": "Evet, İYTE Mobil'de anlık bildirimler aktiftir. Yeni mesaj, beğeni, yorum ve etkinlik bildirimleri anında telefonunuza iletilir. Bildirim tercihlerinizi profil ayarlarından yönetebilirsiniz."
     }
+  },
+  "clubsPage": {
+    "metaTitle": "Topluluklar | İYTE Mobil",
+    "metaDesc": "İYTE kampüs topluluklarını keşfet, etkinlikleri takip et.",
+    "title": "Kampüs Toplulukları",
+    "subtitle": "İYTE'deki tüm aktif toplulukları keşfet",
+    "empty": "Henüz aktif topluluk yok.",
+    "viewPage": "Sayfayı Gör",
+    "noPage": "Sayfa yayında değil"
   },
   "clubPage": {
     "about": "Hakkımızda",

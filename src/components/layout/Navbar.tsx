@@ -95,6 +95,13 @@ export function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-3">
           <Link
+            href="/clubs"
+            className="hidden text-sm text-text-secondary transition-colors hover:text-white md:inline-flex"
+          >
+            {t('clubs')}
+          </Link>
+
+          <Link
             href="/clubs/login"
             className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-primary/30 hover:text-white md:inline-flex"
           >
@@ -159,6 +166,14 @@ export function Navbar() {
         className="md:hidden overflow-hidden bg-surface/95 backdrop-blur-lg border-t border-white/5"
       >
         <div className="px-4 py-4 flex flex-col gap-3">
+          <Link
+            href="/clubs"
+            className="py-2 text-sm text-text-secondary transition-colors hover:text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            {t('clubs')}
+          </Link>
+
           <Link
             href="/clubs/login"
             className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-zinc-300 transition-all hover:text-white"

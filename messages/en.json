@@ -11,6 +11,7 @@
     "team": "Team",
     "download": "Download",
     "clubApplication": "Club Application",
+    "clubs": "Clubs",
     "clubLogin": "Club Login",
     "documents": "Documents",
     "faq": "FAQ",
@@ -273,6 +274,15 @@
       "q": "Do notifications work?",
       "a": "Yes, push notifications are active on IYTE Mobile. New message, like, comment and event notifications are delivered to your phone instantly. You can manage your notification preferences from the profile settings."
     }
+  },
+  "clubsPage": {
+    "metaTitle": "Clubs | IYTE Mobile",
+    "metaDesc": "Discover IYTE campus clubs and follow their events.",
+    "title": "Campus Clubs",
+    "subtitle": "Discover all active clubs at IYTE",
+    "empty": "No active clubs yet.",
+    "viewPage": "View Page",
+    "noPage": "Page not published"
   },
   "clubPage": {
     "about": "About Us",
