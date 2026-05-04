@@ -6,7 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { Mail, Lock, LogIn, Eye, EyeOff } from 'lucide-react';
 
 interface Props {
-  slug: string;
+  slug?: string;
 }
 
 export function ClubLoginForm({ slug }: Props) {
@@ -42,8 +42,12 @@ export function ClubLoginForm({ slug }: Props) {
       }
 
       // Kendi dashboard'una yönlendir
-      const clubSlug = data?.club?.slug || slug;
-      router.push(`/clubs/${clubSlug}/dashboard`);
+      const clubSlug = data?.club?.slug;
+      if (clubSlug) {
+        router.push(`/clubs/${clubSlug}/dashboard`);
+      } else {
+        router.push('/clubs/setup');
+      }
     } catch {
       setError('Beklenmeyen bir hata oluştu.');
     } finally {
