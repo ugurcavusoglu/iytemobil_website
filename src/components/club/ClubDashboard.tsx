@@ -235,7 +235,7 @@ export function ClubDashboard({ club, slug }: Props) {
               <h2 className="font-semibold text-white">Sayfa Adresi (Slug)</h2>
             </div>
             <p className="mb-3 text-xs text-white/40">
-              Sayfanızın URL'i: iytemobil.com/clubs/<strong>{form.slug || 'slug-belirleyin'}</strong>
+              Sayfan&#305;z&#305;n URL&apos;i: iytemobil.com/clubs/<strong>{form.slug || 'slug-belirleyin'}</strong>
             </p>
             <input
               type="text"
@@ -257,7 +257,7 @@ export function ClubDashboard({ club, slug }: Props) {
               <ImageIcon className="h-4 w-4 text-white/50" />
               <h2 className="font-semibold text-white">Banner Fotoğrafı</h2>
             </div>
-            <p className="mb-3 text-xs text-white/40">Fotoğraf URL'sini yapıştırın (önerilen: 1200x400)</p>
+            <p className="mb-3 text-xs text-white/40">Fotoğraf URL&apos;sini yapıştırın (önerilen: 1200x400)</p>
             <input
               type="url"
               value={form.bannerUrl}
@@ -325,7 +325,7 @@ export function ClubDashboard({ club, slug }: Props) {
                   { key: 'youtube', label: 'YouTube', Icon: Youtube, placeholder: 'https://youtube.com/@toplulugunuz' },
                   { key: 'website', label: 'Web Sitesi', Icon: Globe, placeholder: 'https://toplulugunuz.com' },
                 ] as const
-              ).map(({ key, label, Icon, placeholder }) => (
+              ).map(({ key, Icon, placeholder }) => (
                 <div key={key} className="flex items-center gap-3">
                   <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
                   <input

@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
-import { GlowEffect } from '@/components/ui/GlowEffect';
 import { Link } from '@/i18n/navigation';
 import {
   Instagram,
@@ -272,7 +271,7 @@ export default async function ClubPublicPage({ params }: Props) {
           className="mt-10 rounded-2xl p-6 text-center"
           style={{ background: `linear-gradient(135deg, ${theme}22, ${theme}11)`, border: `1px solid ${theme}33` }}
         >
-          <p className="mb-1 text-base font-semibold text-white">İYTE Mobil'i İndir</p>
+          <p className="mb-1 text-base font-semibold text-white">İYTE Mobil&apos;i İndir</p>
           <p className="mb-4 text-sm text-white/60">Etkinlikleri takip et, topluluğa katıl</p>
           <div className="flex flex-wrap justify-center gap-3">
             <a
