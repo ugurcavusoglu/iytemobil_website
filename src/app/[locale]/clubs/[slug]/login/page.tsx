@@ -30,7 +30,7 @@ export default async function ClubLoginPage({ params }: Props) {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-surface/50 p-6 backdrop-blur-lg md:p-8">
-          <ClubLoginForm slug={slug} />
+          <ClubLoginForm />
         </div>
       </div>
     </section>
