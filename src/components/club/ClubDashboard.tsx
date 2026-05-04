@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from '@/i18n/navigation';
 import {
@@ -16,9 +16,10 @@ import {
   Youtube,
   Palette,
   Link as LinkIcon,
-  ImageIcon,
+  Camera,
   CheckCircle,
   AlertCircle,
+  Upload,
 } from 'lucide-react';
 
 interface Club {
@@ -52,13 +53,18 @@ const PRESET_COLORS = [
 
 export function ClubDashboard({ club, slug }: Props) {
   const router = useRouter();
+  const bannerInputRef = useRef<HTMLInputElement>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+
   const [saving, setSaving] = useState(false);
-  const [loggingOut, setLoggingOut] = useState(false);
+  const [uploadingBanner, setUploadingBanner] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const [form, setForm] = useState({
     slug: club.slug || '',
     bannerUrl: club.bannerUrl || '',
+    logoUrl: club.logoUrl || '',
     themeColor: club.themeColor || '#dc2626',
     websitePublished: club.websitePublished ?? false,
     socialLinks: {
@@ -75,6 +81,46 @@ export function ClubDashboard({ club, slug }: Props) {
     setTimeout(() => setToast(null), 3500);
   };
 
+  const handleBannerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingBanner(true);
+    try {
+      const fd = new FormData();
+      fd.append('image', file);
+      const res = await fetch('/api/club-auth/upload-banner', { method: 'POST', body: fd });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) { showToast('error', data?.message || 'Banner yuklenemedi.'); return; }
+      setForm((f) => ({ ...f, bannerUrl: data.url }));
+    } catch {
+      showToast('error', 'Banner yuklenemedi.');
+    } finally {
+      setUploadingBanner(false);
+      e.target.value = '';
+    }
+  };
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingLogo(true);
+    try {
+      const fd = new FormData();
+      fd.append('image', file);
+      const res = await fetch('/api/club-auth/upload-logo', { method: 'POST', body: fd });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) { showToast('error', data?.message || 'Logo yuklenemedi.'); return; }
+      setForm((f) => ({ ...f, logoUrl: data.url }));
+    } catch {
+      showToast('error', 'Logo yuklenemedi.');
+    } finally {
+      setUploadingLogo(false);
+      e.target.value = '';
+    }
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -88,9 +134,7 @@ export function ClubDashboard({ club, slug }: Props) {
       Object.entries(form.socialLinks).forEach(([k, v]) => {
         if (v.trim()) cleanedLinks[k] = v.trim();
       });
-      if (Object.keys(cleanedLinks).length > 0) {
-        payload.socialLinks = cleanedLinks;
-      }
+      if (Object.keys(cleanedLinks).length > 0) payload.socialLinks = cleanedLinks;
 
       const res = await fetch('/api/club-auth/page-settings', {
         method: 'PATCH',
@@ -99,15 +143,10 @@ export function ClubDashboard({ club, slug }: Props) {
       });
 
       const data = await res.json().catch(() => null);
+      if (!res.ok) { showToast('error', data?.message || 'Kaydetme basarisiz.'); return; }
 
-      if (!res.ok) {
-        showToast('error', data?.message || 'Kaydetme basarisiz.');
-        return;
-      }
+      showToast('success', 'Sayfa ayarlari kaydedildi!');
 
-      showToast('success', 'Sayfa ayarları kaydedildi!');
-
-      // Slug değiştiyse yeni URL'e yönlendir
       if (form.slug && form.slug !== slug) {
         router.push(`/clubs/${form.slug}/dashboard`);
       } else {
@@ -121,7 +160,6 @@ export function ClubDashboard({ club, slug }: Props) {
   };
 
   const handleLogout = async () => {
-    setLoggingOut(true);
     await fetch('/api/club-auth/logout', { method: 'POST' });
     router.push('/');
   };
@@ -130,104 +168,110 @@ export function ClubDashboard({ club, slug }: Props) {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white">
+      {/* Hidden file inputs */}
+      <input ref={bannerInputRef} type="file" accept="image/*" className="hidden" onChange={handleBannerUpload} />
+      <input ref={logoInputRef} type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
+
       {/* Toast */}
       {toast && (
-        <div
-          className={`fixed right-4 top-4 z-50 flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium shadow-xl backdrop-blur-sm transition-all ${
-            toast.type === 'success'
-              ? 'border-green-500/30 bg-green-500/10 text-green-400'
-              : 'border-red-500/30 bg-red-500/10 text-red-400'
-          }`}
-        >
-          {toast.type === 'success' ? (
-            <CheckCircle className="h-4 w-4 flex-shrink-0" />
-          ) : (
-            <AlertCircle className="h-4 w-4 flex-shrink-0" />
-          )}
+        <div className={`fixed right-4 top-4 z-50 flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium shadow-xl backdrop-blur-sm ${
+          toast.type === 'success'
+            ? 'border-green-500/30 bg-green-500/10 text-green-400'
+            : 'border-red-500/30 bg-red-500/10 text-red-400'
+        }`}>
+          {toast.type === 'success'
+            ? <CheckCircle className="h-4 w-4 flex-shrink-0" />
+            : <AlertCircle className="h-4 w-4 flex-shrink-0" />}
           {toast.message}
         </div>
       )}
 
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a0a0f]/80 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
+        <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            {club.logoUrl && (
-              <Image
-                src={club.logoUrl}
-                alt={club.name}
-                width={36}
-                height={36}
-                className="rounded-lg object-cover"
-              />
+            {form.logoUrl && (
+              <Image src={form.logoUrl} alt={club.name} width={32} height={32} className="rounded-lg object-cover" />
             )}
             <div>
               <p className="text-sm font-semibold text-white">{club.name}</p>
               <p className="text-xs text-white/40">Sayfa Yönetimi</p>
             </div>
           </div>
-
           <div className="flex items-center gap-2">
-            {form.slug && (
-              <a
-                href={publicUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/60 transition-colors hover:text-white sm:flex"
-              >
-                <ExternalLink className="h-3.5 w-3.5" />
-                Sayfayı Gör
+            {(form.slug || slug) && (
+              <a href={publicUrl} target="_blank" rel="noopener noreferrer"
+                className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/60 transition-colors hover:text-white sm:flex">
+                <ExternalLink className="h-3.5 w-3.5" /> Sayfayı Gör
               </a>
             )}
-            <button
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs text-red-400 transition-colors hover:bg-red-500/20"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              Çıkış
+            <button onClick={handleLogout}
+              className="flex items-center gap-1.5 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs text-red-400 transition-colors hover:bg-red-500/20">
+              <LogOut className="h-3.5 w-3.5" /> Çıkış
             </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-xl font-bold text-white">Sayfa Ayarları</h1>
-          <p className="mt-1 text-sm text-white/50">
-            Topluluğunuzun public sayfasını özelleştirin
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-5">
-          {/* Yayın durumu */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="font-semibold text-white">Sayfa Yayın Durumu</h2>
-                <p className="mt-0.5 text-sm text-white/50">
-                  {form.websitePublished
-                    ? 'Sayfanız herkese açık'
-                    : 'Sayfanız henüz yayında değil'}
-                </p>
-              </div>
-              <button
-                onClick={() => setForm((f) => ({ ...f, websitePublished: !f.websitePublished }))}
-                className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
-                  form.websitePublished
-                    ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                    : 'border border-white/10 bg-white/5 text-white/50 hover:bg-white/10'
-                }`}
-              >
-                {form.websitePublished ? (
-                  <><Eye className="h-4 w-4" /> Yayında</>
-                ) : (
-                  <><EyeOff className="h-4 w-4" /> Gizli</>
-                )}
-              </button>
+      <main className="mx-auto max-w-2xl px-4 py-6">
+        {/* Twitter-style preview */}
+        <div className="mb-6 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+          {/* Banner */}
+          <div className="relative h-40 w-full cursor-pointer overflow-hidden bg-white/5" onClick={() => bannerInputRef.current?.click()}>
+            {form.bannerUrl ? (
+              <Image src={form.bannerUrl} alt="banner" fill className="object-cover" />
+            ) : (
+              <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${form.themeColor}33, ${form.themeColor}11)` }} />
+            )}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity hover:opacity-100">
+              {uploadingBanner
+                ? <span className="h-6 w-6 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                : <><Camera className="h-6 w-6 text-white" /><span className="ml-2 text-sm font-medium text-white">Banner Değiştir</span></>
+              }
             </div>
           </div>
 
+          {/* Logo + info */}
+          <div className="relative px-4 pb-4">
+            <div className="flex items-end justify-between">
+              {/* Logo */}
+              <div className="relative -mt-10 cursor-pointer" onClick={() => logoInputRef.current?.click()}>
+                <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-[#0a0a0f]"
+                  style={{ boxShadow: `0 0 0 2px ${form.themeColor}55` }}>
+                  {form.logoUrl ? (
+                    <Image src={form.logoUrl} alt={club.name} width={80} height={80} className="h-full w-full object-cover" />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white" style={{ background: form.themeColor }}>
+                      {club.name[0]}
+                    </div>
+                  )}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity hover:opacity-100">
+                  {uploadingLogo
+                    ? <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    : <Camera className="h-5 w-5 text-white" />
+                  }
+                </div>
+              </div>
+
+              {/* Publish toggle */}
+              <button onClick={() => setForm((f) => ({ ...f, websitePublished: !f.websitePublished }))}
+                className={`mt-2 flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
+                  form.websitePublished
+                    ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
+                    : 'border border-white/10 bg-white/5 text-white/50 hover:bg-white/10'
+                }`}>
+                {form.websitePublished ? <><Eye className="h-3.5 w-3.5" /> Yayında</> : <><EyeOff className="h-3.5 w-3.5" /> Gizli</>}
+              </button>
+            </div>
+
+            <p className="mt-2 text-xs text-white/40">
+              Logo ve banner için fotoğrafa tıkla
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
           {/* Slug */}
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="mb-3 flex items-center gap-2">
@@ -235,48 +279,18 @@ export function ClubDashboard({ club, slug }: Props) {
               <h2 className="font-semibold text-white">Sayfa Adresi (Slug)</h2>
             </div>
             <p className="mb-3 text-xs text-white/40">
-              Sayfan&#305;z&#305;n URL&apos;i: iytemobil.com/clubs/<strong>{form.slug || 'slug-belirleyin'}</strong>
+              URL: iytemobil.com/clubs/<strong className="text-white/60">{form.slug || 'slug-belirleyin'}</strong>
             </p>
             <input
               type="text"
               value={form.slug}
-              onChange={(e) =>
-                setForm((f) => ({
-                  ...f,
-                  slug: e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
-                }))
-              }
+              onChange={(e) => setForm((f) => ({
+                ...f,
+                slug: e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+              }))}
               placeholder="yazilim-toplulugu"
               className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20"
             />
-          </div>
-
-          {/* Banner */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <div className="mb-3 flex items-center gap-2">
-              <ImageIcon className="h-4 w-4 text-white/50" />
-              <h2 className="font-semibold text-white">Banner Fotoğrafı</h2>
-            </div>
-            <p className="mb-3 text-xs text-white/40">Fotoğraf URL&apos;sini yapıştırın (önerilen: 1200x400)</p>
-            <input
-              type="url"
-              value={form.bannerUrl}
-              onChange={(e) => setForm((f) => ({ ...f, bannerUrl: e.target.value }))}
-              placeholder="https://..."
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20"
-            />
-            {form.bannerUrl && (
-              <div className="mt-3 overflow-hidden rounded-xl">
-                <Image
-                  src={form.bannerUrl}
-                  alt="banner preview"
-                  width={800}
-                  height={200}
-                  className="h-32 w-full object-cover"
-                  onError={() => setForm((f) => ({ ...f, bannerUrl: '' }))}
-                />
-              </div>
-            )}
           </div>
 
           {/* Tema rengi */}
@@ -287,21 +301,13 @@ export function ClubDashboard({ club, slug }: Props) {
             </div>
             <div className="flex flex-wrap gap-3">
               {PRESET_COLORS.map((color) => (
-                <button
-                  key={color}
-                  onClick={() => setForm((f) => ({ ...f, themeColor: color }))}
+                <button key={color} onClick={() => setForm((f) => ({ ...f, themeColor: color }))}
                   className="h-9 w-9 rounded-xl transition-transform hover:scale-110"
-                  style={{
-                    backgroundColor: color,
-                    outline: form.themeColor === color ? `3px solid white` : 'none',
-                    outlineOffset: '2px',
-                  }}
+                  style={{ backgroundColor: color, outline: form.themeColor === color ? '3px solid white' : 'none', outlineOffset: '2px' }}
                 />
               ))}
               <div className="flex items-center gap-2">
-                <input
-                  type="color"
-                  value={form.themeColor}
+                <input type="color" value={form.themeColor}
                   onChange={(e) => setForm((f) => ({ ...f, themeColor: e.target.value }))}
                   className="h-9 w-9 cursor-pointer rounded-xl border-0 bg-transparent p-0"
                 />
@@ -317,26 +323,17 @@ export function ClubDashboard({ club, slug }: Props) {
               <h2 className="font-semibold text-white">Sosyal Medya Linkleri</h2>
             </div>
             <div className="flex flex-col gap-3">
-              {(
-                [
-                  { key: 'instagram', label: 'Instagram', Icon: Instagram, placeholder: 'https://instagram.com/toplulugunuz' },
-                  { key: 'twitter', label: 'Twitter / X', Icon: Twitter, placeholder: 'https://twitter.com/toplulugunuz' },
-                  { key: 'linkedin', label: 'LinkedIn', Icon: Linkedin, placeholder: 'https://linkedin.com/company/toplulugunuz' },
-                  { key: 'youtube', label: 'YouTube', Icon: Youtube, placeholder: 'https://youtube.com/@toplulugunuz' },
-                  { key: 'website', label: 'Web Sitesi', Icon: Globe, placeholder: 'https://toplulugunuz.com' },
-                ] as const
-              ).map(({ key, Icon, placeholder }) => (
+              {([
+                { key: 'instagram', Icon: Instagram, placeholder: 'https://instagram.com/toplulugunuz' },
+                { key: 'twitter', Icon: Twitter, placeholder: 'https://twitter.com/toplulugunuz' },
+                { key: 'linkedin', Icon: Linkedin, placeholder: 'https://linkedin.com/company/toplulugunuz' },
+                { key: 'youtube', Icon: Youtube, placeholder: 'https://youtube.com/@toplulugunuz' },
+                { key: 'website', Icon: Globe, placeholder: 'https://toplulugunuz.com' },
+              ] as const).map(({ key, Icon, placeholder }) => (
                 <div key={key} className="flex items-center gap-3">
                   <Icon className="h-4 w-4 flex-shrink-0 text-white/40" />
-                  <input
-                    type="url"
-                    value={form.socialLinks[key]}
-                    onChange={(e) =>
-                      setForm((f) => ({
-                        ...f,
-                        socialLinks: { ...f.socialLinks, [key]: e.target.value },
-                      }))
-                    }
+                  <input type="url" value={form.socialLinks[key]}
+                    onChange={(e) => setForm((f) => ({ ...f, socialLinks: { ...f.socialLinks, [key]: e.target.value } }))}
                     placeholder={placeholder}
                     className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-white/20 outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20"
                   />
@@ -345,18 +342,13 @@ export function ClubDashboard({ club, slug }: Props) {
             </div>
           </div>
 
-          {/* Save button */}
-          <button
-            onClick={handleSave}
-            disabled={saving}
+          {/* Save */}
+          <button onClick={handleSave} disabled={saving}
             className="flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-            style={{ backgroundColor: form.themeColor }}
-          >
-            {saving ? (
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-            ) : (
-              <Save className="h-4 w-4" />
-            )}
+            style={{ backgroundColor: form.themeColor }}>
+            {saving
+              ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              : <Save className="h-4 w-4" />}
             {saving ? 'Kaydediliyor...' : 'Kaydet'}
           </button>
         </div>
