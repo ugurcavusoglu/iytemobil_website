@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
 import { Link } from '@/i18n/navigation';
 import {
@@ -103,8 +104,9 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function ClubPublicPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const club = await getClub(slug);
+  const t = await getTranslations({ locale, namespace: 'clubPage' });
 
   if (!club) {
     notFound();
@@ -132,7 +134,7 @@ export default async function ClubPublicPage({ params }: Props) {
           className="mb-4 mt-4 inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white"
         >
           <ArrowLeft className="h-4 w-4" />
-          Ana Sayfa
+          {t('backHome')}
         </Link>
 
         {/* Club header */}
@@ -165,16 +167,16 @@ export default async function ClubPublicPage({ params }: Props) {
             <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-white/60">
               <span className="flex items-center gap-1">
                 <Users className="h-4 w-4" />
-                {club._count.followers} takipçi
+                {club._count.followers} {t('followers')}
               </span>
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                {club._count.events} etkinlik
+                {club._count.events} {t('events')}
               </span>
               {club.totalRatings > 0 && (
                 <span className="flex items-center gap-1">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  {club.averageRating.toFixed(1)} ({club.totalRatings} değerlendirme)
+                  {club.averageRating.toFixed(1)} ({club.totalRatings} {t('ratings')})
                 </span>
               )}
             </div>
@@ -183,7 +185,7 @@ export default async function ClubPublicPage({ params }: Props) {
 
         {/* Description */}
         <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-          <h2 className="mb-3 text-base font-semibold text-white">Hakkımızda</h2>
+          <h2 className="mb-3 text-base font-semibold text-white">{t('about')}</h2>
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-white/70">{club.description}</p>
         </div>
 
@@ -193,31 +195,31 @@ export default async function ClubPublicPage({ params }: Props) {
             {socialLinks.instagram && (
               <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-pink-500/40 hover:text-pink-400">
-                <Instagram className="h-4 w-4" /> Instagram
+                <Instagram className="h-4 w-4" /> {t('instagram')}
               </a>
             )}
             {socialLinks.twitter && (
               <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-sky-500/40 hover:text-sky-400">
-                <Twitter className="h-4 w-4" /> Twitter
+                <Twitter className="h-4 w-4" /> {t('twitter')}
               </a>
             )}
             {socialLinks.linkedin && (
               <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-blue-500/40 hover:text-blue-400">
-                <Linkedin className="h-4 w-4" /> LinkedIn
+                <Linkedin className="h-4 w-4" /> {t('linkedin')}
               </a>
             )}
             {socialLinks.youtube && (
               <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-red-500/40 hover:text-red-400">
-                <Youtube className="h-4 w-4" /> YouTube
+                <Youtube className="h-4 w-4" /> {t('youtube')}
               </a>
             )}
             {socialLinks.website && (
               <a href={socialLinks.website} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition-colors hover:border-white/30 hover:text-white">
-                <Globe className="h-4 w-4" /> Web Sitesi
+                <Globe className="h-4 w-4" /> {t('website')}
               </a>
             )}
           </div>
@@ -226,7 +228,7 @@ export default async function ClubPublicPage({ params }: Props) {
         {/* Upcoming events */}
         {club.events.length > 0 && (
           <div className="mt-8">
-            <h2 className="mb-4 text-lg font-semibold text-white">Yaklaşan Etkinlikler</h2>
+            <h2 className="mb-4 text-lg font-semibold text-white">{t('upcomingEvents')}</h2>
             <div className="flex flex-col gap-4">
               {club.events.map((event) => (
                 <div
@@ -262,7 +264,7 @@ export default async function ClubPublicPage({ params }: Props) {
         {club.events.length === 0 && (
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
             <Calendar className="mx-auto mb-3 h-10 w-10 text-white/20" />
-            <p className="text-sm text-white/40">Henüz yaklaşan etkinlik yok</p>
+            <p className="text-sm text-white/40">{t('noEvents')}</p>
           </div>
         )}
 
@@ -271,8 +273,8 @@ export default async function ClubPublicPage({ params }: Props) {
           className="mt-10 rounded-2xl p-6 text-center"
           style={{ background: `linear-gradient(135deg, ${theme}22, ${theme}11)`, border: `1px solid ${theme}33` }}
         >
-          <p className="mb-1 text-base font-semibold text-white">İYTE Mobil&apos;i İndir</p>
-          <p className="mb-4 text-sm text-white/60">Etkinlikleri takip et, topluluğa katıl</p>
+          <p className="mb-1 text-base font-semibold text-white">{t('downloadApp')}</p>
+          <p className="mb-4 text-sm text-white/60">{t('downloadSubtitle')}</p>
           <div className="flex flex-wrap justify-center gap-3">
             <a
               href="https://apps.apple.com/app/iyte-mobil/id6745141439"
@@ -281,7 +283,7 @@ export default async function ClubPublicPage({ params }: Props) {
               className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-80"
               style={{ backgroundColor: theme }}
             >
-              App Store
+              {t('appStore')}
             </a>
             <a
               href="https://play.google.com/store/apps/details?id=com.iytemobil"
@@ -289,7 +291,7 @@ export default async function ClubPublicPage({ params }: Props) {
               rel="noopener noreferrer"
               className="rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/20"
             >
-              Google Play
+              {t('googlePlay')}
             </a>
           </div>
         </div>
