@@ -30,6 +30,12 @@ const CATEGORY_LABELS: Record<string, { tr: string; en: string }> = {
   OTHER:        { tr: 'Diğer',      en: 'Other' },
 };
 
+const CATEGORY_COLORS: Record<string, string> = {
+  SPORTS: '#f97316', ART: '#a855f7', TECHNOLOGY: '#3b82f6',
+  ARCHITECTURE: '#14b8a6', TRAVEL: '#22c55e', MUSIC: '#ec4899',
+  ACADEMIC: '#f59e0b', SOCIAL: '#06b6d4', OTHER: '#6b7280',
+};
+
 async function getClubs(): Promise<Club[]> {
   try {
     const res = await fetch(
@@ -54,27 +60,26 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ClubsPage({ params }: Props) {
   const { locale } = await params;
-  const [clubs, t] = await Promise.all([
+  const [clubs, t, tNav] = await Promise.all([
     getClubs(),
     getTranslations({ locale, namespace: 'clubsPage' }),
+    getTranslations({ locale, namespace: 'nav' }),
   ]);
-
-  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   return (
     <section className="relative min-h-screen overflow-hidden pb-24 pt-28">
       <div className="absolute inset-0 bg-hero-gradient" />
       <GlowEffect className="left-1/2 top-0 -translate-x-1/2" size="lg" />
 
-      <div className="relative mx-auto max-w-5xl px-4 md:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 md:px-8">
         {/* Header */}
-        <div className="mb-10 text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+        <div className="mb-12 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
             <Users className="h-4 w-4" />
             {tNav('clubs')}
           </div>
-          <h1 className="text-3xl font-bold md:text-4xl">{t('title')}</h1>
-          <p className="mt-3 text-text-secondary">{t('subtitle')}</p>
+          <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">{t('title')}</h1>
+          <p className="mt-4 text-lg text-white/50">{t('subtitle')}</p>
         </div>
 
         {clubs.length === 0 ? (
@@ -83,67 +88,95 @@ export default async function ClubsPage({ params }: Props) {
             <p className="text-white/40">{t('empty')}</p>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {clubs.map((club) => {
               const categoryLabel = CATEGORY_LABELS[club.category]?.[locale as 'tr' | 'en'] || club.category;
+              const color = CATEGORY_COLORS[club.category] || '#6b7280';
+              const hasPage = club.slug && club.websitePublished;
+
               return (
                 <div
                   key={club.id}
-                  className="group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/8"
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl"
+                  style={{ boxShadow: `0 0 0 0 ${color}00` }}
                 >
-                  {/* Logo + isim */}
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-white/10">
-                      {club.logoUrl ? (
-                        <Image src={club.logoUrl} alt={club.name} width={56} height={56} className="h-full w-full object-cover" />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-primary/20 text-xl font-bold text-primary">
-                          {club.name[0]}
-                        </div>
+                  {/* Colored top bar */}
+                  <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
+
+                  {/* Subtle glow on hover */}
+                  <div
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-2xl"
+                    style={{ background: `radial-gradient(ellipse at top left, ${color}10, transparent 60%)` }}
+                  />
+
+                  <div className="relative flex flex-col flex-1 p-5">
+                    {/* Logo + isim + kategori */}
+                    <div className="mb-4 flex items-center gap-4">
+                      <div
+                        className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-2xl border-2"
+                        style={{ borderColor: `${color}40` }}
+                      >
+                        {club.logoUrl ? (
+                          <Image src={club.logoUrl} alt={club.name} width={64} height={64} className="h-full w-full object-cover" />
+                        ) : (
+                          <div
+                            className="flex h-full w-full items-center justify-center text-2xl font-extrabold text-white"
+                            style={{ background: `linear-gradient(135deg, ${color}33, ${color}11)` }}
+                          >
+                            {club.name[0]}
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-base font-bold text-white">{club.name}</p>
+                        <span
+                          className="mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold"
+                          style={{ backgroundColor: `${color}22`, color }}
+                        >
+                          {categoryLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Açıklama */}
+                    <p className="mb-5 flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">
+                      {club.description}
+                    </p>
+
+                    {/* Stats */}
+                    <div className="mb-4 flex items-center gap-4 border-t border-white/5 pt-4 text-xs text-white/40">
+                      <span className="flex items-center gap-1.5">
+                        <Users className="h-3.5 w-3.5" />
+                        {club._count.followers}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="h-3.5 w-3.5" />
+                        {club._count.events}
+                      </span>
+                      {club.totalRatings > 0 && (
+                        <span className="ml-auto flex items-center gap-1 text-yellow-400/80">
+                          <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+                          {club.averageRating.toFixed(1)}
+                        </span>
                       )}
                     </div>
-                    <div className="min-w-0">
-                      <p className="truncate font-semibold text-white">{club.name}</p>
-                      <span className="text-xs text-white/40">{categoryLabel}</span>
-                    </div>
-                  </div>
 
-                  {/* Açıklama */}
-                  <p className="mb-4 flex-1 text-sm leading-relaxed text-white/60 line-clamp-3">
-                    {club.description}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="mb-4 flex items-center gap-3 text-xs text-white/40">
-                    <span className="flex items-center gap-1">
-                      <Users className="h-3.5 w-3.5" />
-                      {club._count.followers}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5" />
-                      {club._count.events}
-                    </span>
-                    {club.totalRatings > 0 && (
-                      <span className="flex items-center gap-1">
-                        <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                        {club.averageRating.toFixed(1)}
-                      </span>
+                    {/* CTA */}
+                    {hasPage ? (
+                      <Link
+                        href={`/clubs/${club.slug}`}
+                        className="flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold text-white transition-all"
+                        style={{ backgroundColor: `${color}22`, border: `1px solid ${color}44` }}
+                      >
+                        <span style={{ color }}>{t('viewPage')}</span>
+                        <ArrowRight className="h-4 w-4" style={{ color }} />
+                      </Link>
+                    ) : (
+                      <div className="flex items-center justify-center rounded-xl border border-white/8 py-2.5 text-xs text-white/20">
+                        {t('noPage')}
+                      </div>
                     )}
                   </div>
-
-                  {/* CTA */}
-                  {club.slug && club.websitePublished ? (
-                    <Link
-                      href={`/clubs/${club.slug}`}
-                      className="flex items-center justify-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary/20"
-                    >
-                      {t('viewPage')} <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  ) : (
-                    <div className="flex items-center justify-center rounded-xl border border-white/10 py-2 text-sm text-white/30">
-                      {t('noPage')}
-                    </div>
-                  )}
                 </div>
               );
             })}
