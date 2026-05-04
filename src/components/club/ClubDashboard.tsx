@@ -19,7 +19,6 @@ import {
   Camera,
   CheckCircle,
   AlertCircle,
-  Upload,
 } from 'lucide-react';
 
 interface Club {
