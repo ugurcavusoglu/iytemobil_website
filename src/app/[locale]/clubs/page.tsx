@@ -93,66 +93,39 @@ export default async function ClubsPage({ params }: Props) {
               const categoryLabel = CATEGORY_LABELS[club.category]?.[locale as 'tr' | 'en'] || club.category;
               const color = CATEGORY_COLORS[club.category] || '#6b7280';
               const hasPage = club.slug && club.websitePublished;
+              const cardClass = "group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl";
 
-              return (
-                <div
-                  key={club.id}
-                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl"
-                  style={{ boxShadow: `0 0 0 0 ${color}00` }}
-                >
-                  {/* Colored top bar */}
-                  <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
-
-                  {/* Subtle glow on hover */}
-                  <div
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-2xl"
-                    style={{ background: `radial-gradient(ellipse at top left, ${color}10, transparent 60%)` }}
-                  />
-
+              const cardContent = (
+                <>
+                  <div className="h-1 w-full flex-shrink-0" style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
+                  {hasPage && (
+                    <div
+                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-2xl"
+                      style={{ background: `radial-gradient(ellipse at top left, ${color}10, transparent 60%)` }}
+                    />
+                  )}
                   <div className="relative flex flex-col flex-1 p-5">
-                    {/* Logo + isim + kategori */}
                     <div className="mb-4 flex items-center gap-4">
-                      <div
-                        className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-2xl border-2"
-                        style={{ borderColor: `${color}40` }}
-                      >
+                      <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-2xl border-2" style={{ borderColor: `${color}40` }}>
                         {club.logoUrl ? (
                           <Image src={club.logoUrl} alt={club.name} width={64} height={64} className="h-full w-full object-cover" />
                         ) : (
-                          <div
-                            className="flex h-full w-full items-center justify-center text-2xl font-extrabold text-white"
-                            style={{ background: `linear-gradient(135deg, ${color}33, ${color}11)` }}
-                          >
+                          <div className="flex h-full w-full items-center justify-center text-2xl font-extrabold text-white" style={{ background: `linear-gradient(135deg, ${color}33, ${color}11)` }}>
                             {club.name[0]}
                           </div>
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-base font-bold text-white">{club.name}</p>
-                        <span
-                          className="mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold"
-                          style={{ backgroundColor: `${color}22`, color }}
-                        >
+                        <span className="mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ backgroundColor: `${color}22`, color }}>
                           {categoryLabel}
                         </span>
                       </div>
                     </div>
-
-                    {/* Açıklama */}
-                    <p className="mb-5 flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">
-                      {club.description}
-                    </p>
-
-                    {/* Stats */}
+                    <p className="mb-5 flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">{club.description}</p>
                     <div className="mb-4 flex items-center gap-4 border-t border-white/5 pt-4 text-xs text-white/40">
-                      <span className="flex items-center gap-1.5">
-                        <Users className="h-3.5 w-3.5" />
-                        {club._count.followers}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5" />
-                        {club._count.events}
-                      </span>
+                      <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{club._count.followers}</span>
+                      <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{club._count.events}</span>
                       {club.totalRatings > 0 && (
                         <span className="ml-auto flex items-center gap-1 text-yellow-400/80">
                           <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
@@ -160,24 +133,22 @@ export default async function ClubsPage({ params }: Props) {
                         </span>
                       )}
                     </div>
-
-                    {/* CTA */}
                     {hasPage ? (
-                      <Link
-                        href={`/clubs/${club.slug}`}
-                        className="flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold text-white transition-all"
-                        style={{ backgroundColor: `${color}22`, border: `1px solid ${color}44` }}
-                      >
+                      <div className="flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold transition-all" style={{ backgroundColor: `${color}22`, border: `1px solid ${color}44` }}>
                         <span style={{ color }}>{t('viewPage')}</span>
                         <ArrowRight className="h-4 w-4" style={{ color }} />
-                      </Link>
-                    ) : (
-                      <div className="flex items-center justify-center rounded-xl border border-white/8 py-2.5 text-xs text-white/20">
-                        {t('noPage')}
                       </div>
+                    ) : (
+                      <div className="flex items-center justify-center rounded-xl border border-white/8 py-2.5 text-xs text-white/20">{t('noPage')}</div>
                     )}
                   </div>
-                </div>
+                </>
+              );
+
+              return hasPage ? (
+                <Link key={club.id} href={`/clubs/${club.slug}`} className={cardClass}>{cardContent}</Link>
+              ) : (
+                <div key={club.id} className={cardClass}>{cardContent}</div>
               );
             })}
           </div>

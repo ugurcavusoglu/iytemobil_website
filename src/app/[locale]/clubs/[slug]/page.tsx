@@ -118,19 +118,19 @@ export default async function ClubPublicPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       {/* Banner */}
-      <div className="relative h-56 w-full overflow-hidden md:h-72 lg:h-80">
+      <div className="relative h-44 w-full overflow-hidden md:h-56">
         {club.bannerUrl ? (
-          <Image src={club.bannerUrl} alt="banner" fill className="object-cover" priority />
+          <Image src={club.bannerUrl} alt="banner" fill className="object-cover object-center" priority />
         ) : (
-          <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${theme}33, ${theme}11)` }} />
+          <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${theme}44, ${theme}11)` }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-4 pb-20">
         {/* Back link */}
         <Link
-          href="/"
+          href="/clubs"
           className="mb-4 mt-4 inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -138,7 +138,7 @@ export default async function ClubPublicPage({ params }: Props) {
         </Link>
 
         {/* Club header */}
-        <div className="-mt-16 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
+        <div className="-mt-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
           <div
             className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl border-4 border-[#0a0a0f] shadow-xl"
             style={{ boxShadow: `0 0 32px ${theme}55` }}
