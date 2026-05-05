@@ -15,6 +15,9 @@ import {
   Star,
   ArrowLeft,
   Clock,
+  Megaphone,
+  Heart,
+  MessageCircle,
 } from 'lucide-react';
 
 interface SocialLinks {
@@ -33,6 +36,16 @@ interface ClubEvent {
   startDate: string;
   endDate?: string;
   imageUrl?: string;
+}
+
+interface ClubPost {
+  id: string;
+  content: string;
+  imageUrls: string[];
+  createdAt: string;
+  likesCount: number;
+  commentsCount: number;
+  _count: { likes: number; comments: number };
 }
 
 interface Club {
@@ -61,6 +74,20 @@ async function getClub(slug: string): Promise<Club | null> {
     return data.club;
   } catch {
     return null;
+  }
+}
+
+async function getClubPosts(clubId: string): Promise<ClubPost[]> {
+  try {
+    const res = await fetch(
+      `${resolveClubApplicationApiBase()}/api/clubs/${clubId}/posts?limit=20`,
+      { next: { revalidate: 60 } },
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.posts || [];
+  } catch {
+    return [];
   }
 }
 
@@ -108,9 +135,12 @@ export default async function ClubPublicPage({ params }: Props) {
   const club = await getClub(slug);
   const t = await getTranslations({ locale, namespace: 'clubPage' });
 
-  if (!club) {
-    notFound();
-  }
+  if (!club) notFound();
+
+  const posts = await getClubPosts(club.id);
+  const now = new Date();
+  const upcomingEvents = club.events.filter((e) => new Date(e.startDate) >= now);
+  const pastEvents = club.events.filter((e) => new Date(e.startDate) < now);
 
   const theme = club.themeColor || '#dc2626';
   const socialLinks = club.socialLinks as SocialLinks | undefined;
@@ -225,16 +255,51 @@ export default async function ClubPublicPage({ params }: Props) {
           </div>
         )}
 
-        {/* Upcoming events */}
-        {club.events.length > 0 && (
+        {/* Posts feed */}
+        {posts.length > 0 && (
           <div className="mt-8">
-            <h2 className="mb-4 text-lg font-semibold text-white">{t('upcomingEvents')}</h2>
+            <div className="mb-4 flex items-center gap-2">
+              <Megaphone className="h-5 w-5" style={{ color: theme }} />
+              <h2 className="text-lg font-semibold text-white">{t('announcements')}</h2>
+            </div>
             <div className="flex flex-col gap-4">
-              {club.events.map((event) => (
-                <div
-                  key={event.id}
-                  className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
-                >
+              {posts.map((post) => (
+                <div key={post.id} className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+                  {post.imageUrls?.length > 0 && (
+                    <div className="mb-4 overflow-hidden rounded-xl">
+                      <div className="relative h-56 w-full">
+                        <Image src={post.imageUrls[0]} alt="" fill className="object-cover" />
+                      </div>
+                    </div>
+                  )}
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-white/80">{post.content}</p>
+                  <div className="mt-3 flex items-center gap-4 text-xs text-white/40">
+                    <span className="flex items-center gap-1">
+                      <Heart className="h-3.5 w-3.5" />
+                      {post._count?.likes ?? post.likesCount}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MessageCircle className="h-3.5 w-3.5" />
+                      {post._count?.comments ?? post.commentsCount}
+                    </span>
+                    <span className="ml-auto">{formatDate(post.createdAt)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Upcoming events */}
+        {upcomingEvents.length > 0 && (
+          <div className="mt-8">
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5" style={{ color: theme }} />
+              <h2 className="text-lg font-semibold text-white">{t('upcomingEvents')}</h2>
+            </div>
+            <div className="flex flex-col gap-4">
+              {upcomingEvents.map((event) => (
+                <div key={event.id} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
                   {event.imageUrl && (
                     <div className="relative h-40 w-full overflow-hidden">
                       <Image src={event.imageUrl} alt={event.title} fill className="object-cover" />
@@ -245,14 +310,8 @@ export default async function ClubPublicPage({ params }: Props) {
                     <h3 className="mb-1 font-semibold text-white">{event.title}</h3>
                     <p className="mb-3 text-sm text-white/60 line-clamp-2">{event.description}</p>
                     <div className="flex flex-wrap gap-3 text-xs text-white/50">
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5" />
-                        {formatDate(event.startDate)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3.5 w-3.5" />
-                        {event.location}
-                      </span>
+                      <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{formatDate(event.startDate)}</span>
+                      <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{event.location}</span>
                     </div>
                   </div>
                 </div>
@@ -261,7 +320,25 @@ export default async function ClubPublicPage({ params }: Props) {
           </div>
         )}
 
-        {club.events.length === 0 && (
+        {/* Past events */}
+        {pastEvents.length > 0 && (
+          <div className="mt-8">
+            <h2 className="mb-4 text-base font-semibold text-white/50">{t('pastEvents')}</h2>
+            <div className="flex flex-col gap-3">
+              {pastEvents.map((event) => (
+                <div key={event.id} className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 opacity-70">
+                  <h3 className="mb-1 text-sm font-semibold text-white">{event.title}</h3>
+                  <div className="flex flex-wrap gap-3 text-xs text-white/40">
+                    <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{formatDate(event.startDate)}</span>
+                    <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{event.location}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {club.events.length === 0 && posts.length === 0 && (
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
             <Calendar className="mx-auto mb-3 h-10 w-10 text-white/20" />
             <p className="text-sm text-white/40">{t('noEvents')}</p>

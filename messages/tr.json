@@ -286,8 +286,10 @@
   },
   "clubPage": {
     "about": "Hakkımızda",
+    "announcements": "Duyurular",
     "upcomingEvents": "Yaklaşan Etkinlikler",
-    "noEvents": "Henüz yaklaşan etkinlik yok",
+    "pastEvents": "Geçmiş Etkinlikler",
+    "noEvents": "Henüz içerik yok",
     "followers": "takipçi",
     "events": "etkinlik",
     "ratings": "değerlendirme",

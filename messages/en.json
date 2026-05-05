@@ -286,8 +286,10 @@
   },
   "clubPage": {
     "about": "About Us",
+    "announcements": "Announcements",
     "upcomingEvents": "Upcoming Events",
-    "noEvents": "No upcoming events yet",
+    "pastEvents": "Past Events",
+    "noEvents": "No content yet",
     "followers": "followers",
     "events": "events",
     "ratings": "ratings",

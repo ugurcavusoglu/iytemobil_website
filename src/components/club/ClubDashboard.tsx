@@ -19,6 +19,8 @@ import {
   Camera,
   CheckCircle,
   AlertCircle,
+  Megaphone,
+  Send,
 } from 'lucide-react';
 
 interface Club {
@@ -59,6 +61,8 @@ export function ClubDashboard({ club, slug }: Props) {
   const [uploadingBanner, setUploadingBanner] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [postContent, setPostContent] = useState('');
+  const [posting, setPosting] = useState(false);
 
   const [form, setForm] = useState({
     slug: club.slug || '',
@@ -155,6 +159,27 @@ export function ClubDashboard({ club, slug }: Props) {
       showToast('error', 'Beklenmeyen bir hata olustu.');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePost = async () => {
+    if (!postContent.trim()) return;
+    setPosting(true);
+    try {
+      const res = await fetch('/api/club-auth/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: postContent.trim() }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) { showToast('error', data?.message || 'Duyuru paylasilamadi.'); return; }
+      showToast('success', 'Duyuru paylasildi!');
+      setPostContent('');
+      router.refresh();
+    } catch {
+      showToast('error', 'Beklenmeyen bir hata olustu.');
+    } finally {
+      setPosting(false);
     }
   };
 
@@ -338,6 +363,36 @@ export function ClubDashboard({ club, slug }: Props) {
                   />
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Duyuru paylaş */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div className="mb-3 flex items-center gap-2">
+              <Megaphone className="h-4 w-4 text-white/50" />
+              <h2 className="font-semibold text-white">Duyuru Paylaş</h2>
+            </div>
+            <textarea
+              value={postContent}
+              onChange={(e) => setPostContent(e.target.value)}
+              placeholder="Etkinlik duyurusu, haber veya herhangi bir şey paylaşın..."
+              maxLength={500}
+              rows={4}
+              className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20"
+            />
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-xs text-white/30">{postContent.length}/500</span>
+              <button
+                onClick={handlePost}
+                disabled={posting || !postContent.trim()}
+                className="flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                style={{ backgroundColor: form.themeColor }}
+              >
+                {posting
+                  ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  : <Send className="h-4 w-4" />}
+                {posting ? 'Paylaşılıyor...' : 'Paylaş'}
+              </button>
             </div>
           </div>
 
