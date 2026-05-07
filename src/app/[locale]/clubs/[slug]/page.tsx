@@ -52,6 +52,7 @@ interface ClubPost {
 
 interface Club {
   id: string;
+  slug?: string;
   name: string;
   description: string;
   logoUrl?: string;
