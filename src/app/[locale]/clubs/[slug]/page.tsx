@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import { cookies } from 'next/headers';
 import { getTranslations } from 'next-intl/server';
 import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
 import { Link } from '@/i18n/navigation';
+import { ClubLogoutButton } from '@/components/club/ClubLogoutButton';
 import {
   Instagram,
   Twitter,
@@ -67,7 +69,7 @@ async function getClub(slug: string): Promise<Club | null> {
   try {
     const res = await fetch(
       `${resolveClubApplicationApiBase()}/api/clubs/page/${slug}`,
-      { next: { revalidate: 60 } },
+      { cache: 'no-store' },
     );
     if (!res.ok) return null;
     const data = await res.json();
@@ -81,7 +83,7 @@ async function getClubPosts(clubId: string): Promise<ClubPost[]> {
   try {
     const res = await fetch(
       `${resolveClubApplicationApiBase()}/api/clubs/${clubId}/posts?limit=20`,
-      { next: { revalidate: 60 } },
+      { cache: 'no-store' },
     );
     if (!res.ok) return [];
     const data = await res.json();
@@ -142,41 +144,56 @@ export default async function ClubPublicPage({ params }: Props) {
   const upcomingEvents = club.events.filter((e) => new Date(e.startDate) >= now);
   const pastEvents = club.events.filter((e) => new Date(e.startDate) < now);
 
+  const cookieStore = await cookies();
+  const isLoggedIn = !!cookieStore.get('club_token')?.value;
+
   const theme = club.themeColor || '#dc2626';
   const socialLinks = club.socialLinks as SocialLinks | undefined;
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Banner */}
-      <div className="relative h-32 w-full overflow-hidden md:h-44">
-        {club.bannerUrl ? (
+      {/* Banner — sadece varsa göster, küçük tut */}
+      {club.bannerUrl && (
+        <div className="relative h-24 w-full overflow-hidden md:h-32">
           <Image src={club.bannerUrl} alt="banner" fill className="object-cover object-center" priority />
-        ) : (
-          <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${theme}55, ${theme}11)` }} />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/30 to-transparent" />
-      </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/20 to-transparent" />
+        </div>
+      )}
+      {/* Tema rengi şeridi (banner yoksa) */}
+      {!club.bannerUrl && (
+        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${theme}, ${theme}44)` }} />
+      )}
 
       <div className="relative mx-auto max-w-4xl px-4 pb-20">
-        {/* Back link */}
-        <Link
-          href="/clubs"
-          className="mb-4 mt-4 inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t('backHome')}
-        </Link>
+        {/* Top bar: geri + dashboard/logout */}
+        <div className="flex items-center justify-between pt-5 pb-2">
+          <Link href="/clubs" className="inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white">
+            <ArrowLeft className="h-4 w-4" />
+            {t('backHome')}
+          </Link>
+          <div className="flex items-center gap-2">
+            {isLoggedIn && club.slug && (
+              <Link
+                href={`/clubs/${club.slug}/dashboard`}
+                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/60 transition-colors hover:text-white"
+              >
+                Yönet
+              </Link>
+            )}
+            {isLoggedIn && <ClubLogoutButton />}
+          </div>
+        </div>
 
         {/* Club header */}
-        <div className="-mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-5">
+        <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
           <div
-            className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl border-4 border-[#0a0a0f] shadow-xl"
-            style={{ boxShadow: `0 0 24px ${theme}44` }}
+            className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border-2 border-white/10 shadow-xl"
+            style={{ boxShadow: `0 0 20px ${theme}33` }}
           >
             {club.logoUrl ? (
-              <Image src={club.logoUrl} alt={club.name} width={96} height={96} className="h-full w-full object-cover" />
+              <Image src={club.logoUrl} alt={club.name} width={80} height={80} className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-white" style={{ background: theme }}>
+              <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-white" style={{ background: theme }}>
                 {club.name[0]}
               </div>
             )}
