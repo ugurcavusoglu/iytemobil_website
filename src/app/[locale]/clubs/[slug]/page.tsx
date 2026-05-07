@@ -153,17 +153,8 @@ export default async function ClubPublicPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Banner — sadece varsa göster, küçük tut */}
-      {club.bannerUrl && (
-        <div className="relative h-24 w-full overflow-hidden md:h-32">
-          <Image src={club.bannerUrl} alt="banner" fill className="object-cover object-center" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/20 to-transparent" />
-        </div>
-      )}
-      {/* Tema rengi şeridi (banner yoksa) */}
-      {!club.bannerUrl && (
-        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${theme}, ${theme}44)` }} />
-      )}
+      {/* Tema rengi şeridi */}
+      <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${theme}, ${theme}44)` }} />
 
       <div className="relative mx-auto max-w-4xl px-4 pb-20">
         {/* Top bar: geri + dashboard/logout */}
