@@ -105,18 +105,18 @@ export function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <Link
+            href="/club-application"
+            className="hidden rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white transition-all hover:bg-primary/80 md:inline-flex"
+          >
+            {t('clubApplication')}
+          </Link>
+
+          <Link
             href="/clubs/login"
             className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/70 transition-all hover:border-white/20 hover:text-white md:inline-flex"
           >
             <Users className="h-3.5 w-3.5" />
             {t('clubLogin')}
-          </Link>
-
-          <Link
-            href="/club-application"
-            className="hidden rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white transition-all hover:bg-primary/80 md:inline-flex"
-          >
-            {t('clubApplication')}
           </Link>
 
           {!isLoading && (
