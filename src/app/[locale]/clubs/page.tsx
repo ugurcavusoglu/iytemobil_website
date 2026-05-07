@@ -40,7 +40,7 @@ async function getClubs(): Promise<Club[]> {
   try {
     const res = await fetch(
       `${resolveClubApplicationApiBase()}/api/clubs?status=APPROVED&sortBy=followers&limit=100`,
-      { next: { revalidate: 120 } },
+      { cache: 'no-store' },
     );
     if (!res.ok) return [];
     const data = await res.json();
