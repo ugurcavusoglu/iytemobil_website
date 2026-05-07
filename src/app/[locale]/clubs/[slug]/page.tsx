@@ -148,13 +148,13 @@ export default async function ClubPublicPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       {/* Banner */}
-      <div className="relative h-44 w-full overflow-hidden md:h-56">
+      <div className="relative h-32 w-full overflow-hidden md:h-44">
         {club.bannerUrl ? (
           <Image src={club.bannerUrl} alt="banner" fill className="object-cover object-center" priority />
         ) : (
-          <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${theme}44, ${theme}11)` }} />
+          <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${theme}55, ${theme}11)` }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/30 to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-4 pb-20">
@@ -168,13 +168,13 @@ export default async function ClubPublicPage({ params }: Props) {
         </Link>
 
         {/* Club header */}
-        <div className="-mt-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
+        <div className="-mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-5">
           <div
-            className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl border-4 border-[#0a0a0f] shadow-xl"
-            style={{ boxShadow: `0 0 32px ${theme}55` }}
+            className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl border-4 border-[#0a0a0f] shadow-xl"
+            style={{ boxShadow: `0 0 24px ${theme}44` }}
           >
             {club.logoUrl ? (
-              <Image src={club.logoUrl} alt={club.name} width={112} height={112} className="h-full w-full object-cover" />
+              <Image src={club.logoUrl} alt={club.name} width={96} height={96} className="h-full w-full object-cover" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-white" style={{ background: theme }}>
                 {club.name[0]}
@@ -186,8 +186,8 @@ export default async function ClubPublicPage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl font-bold text-white md:text-3xl">{club.name}</h1>
               <span
-                className="rounded-full px-3 py-1 text-xs font-semibold text-white"
-                style={{ backgroundColor: `${theme}33`, border: `1px solid ${theme}55`, color: theme }}
+                className="rounded-full px-3 py-1 text-xs font-semibold"
+                style={{ backgroundColor: `${theme}22`, border: `1px solid ${theme}44`, color: theme }}
               >
                 {CATEGORY_LABELS[club.category] || club.category}
               </span>

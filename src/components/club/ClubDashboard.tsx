@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from '@/i18n/navigation';
 import {
@@ -21,6 +21,9 @@ import {
   AlertCircle,
   Megaphone,
   Send,
+  Pencil,
+  Trash2,
+  X,
 } from 'lucide-react';
 
 interface Club {
@@ -40,6 +43,14 @@ interface Club {
   category: string;
   slug?: string;
   websitePublished?: boolean;
+}
+
+interface ClubPost {
+  id: string;
+  content: string;
+  createdAt: string;
+  isEdited: boolean;
+  _count: { likes: number; comments: number };
 }
 
 interface Props {
@@ -63,6 +74,9 @@ export function ClubDashboard({ club, slug }: Props) {
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [postContent, setPostContent] = useState('');
   const [posting, setPosting] = useState(false);
+  const [posts, setPosts] = useState<ClubPost[]>([]);
+  const [editingPost, setEditingPost] = useState<{ id: string; content: string } | null>(null);
+  const [deletingPostId, setDeletingPostId] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     slug: club.slug || '',
@@ -175,11 +189,54 @@ export function ClubDashboard({ club, slug }: Props) {
       if (!res.ok) { showToast('error', data?.message || 'Duyuru paylasilamadi.'); return; }
       showToast('success', 'Duyuru paylasildi!');
       setPostContent('');
-      router.refresh();
+      fetchPosts();
     } catch {
       showToast('error', 'Beklenmeyen bir hata olustu.');
     } finally {
       setPosting(false);
+    }
+  };
+
+  const fetchPosts = async () => {
+    if (!club.id) return;
+    try {
+      const res = await fetch(`/api/clubs/${club.id}/posts?limit=50`);
+      if (res.ok) {
+        const data = await res.json();
+        setPosts(data.posts || []);
+      }
+    } catch {}
+  };
+
+  useEffect(() => { fetchPosts(); }, [club.id]);
+
+  const handleEditPost = async (postId: string, content: string) => {
+    try {
+      const res = await fetch(`/api/club-auth/posts/${postId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content }),
+      });
+      if (!res.ok) { showToast('error', 'Düzenleme başarısız.'); return; }
+      showToast('success', 'Duyuru güncellendi!');
+      setEditingPost(null);
+      fetchPosts();
+    } catch {
+      showToast('error', 'Beklenmeyen bir hata oluştu.');
+    }
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    setDeletingPostId(postId);
+    try {
+      const res = await fetch(`/api/club-auth/posts/${postId}`, { method: 'DELETE' });
+      if (!res.ok) { showToast('error', 'Silme başarısız.'); return; }
+      showToast('success', 'Duyuru silindi.');
+      setPosts((p) => p.filter((post) => post.id !== postId));
+    } catch {
+      showToast('error', 'Beklenmeyen bir hata oluştu.');
+    } finally {
+      setDeletingPostId(null);
     }
   };
 
@@ -395,6 +452,70 @@ export function ClubDashboard({ club, slug }: Props) {
               </button>
             </div>
           </div>
+
+          {/* Duyuru listesi */}
+          {posts.length > 0 && (
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <h2 className="mb-4 font-semibold text-white">Yayımlanan Duyurular</h2>
+              <div className="flex flex-col gap-3">
+                {posts.map((post) => (
+                  <div key={post.id} className="rounded-xl border border-white/8 bg-white/5 p-4">
+                    {editingPost?.id === post.id ? (
+                      <div className="flex flex-col gap-2">
+                        <textarea
+                          value={editingPost.content}
+                          onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
+                          maxLength={500}
+                          rows={3}
+                          className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-white/30"
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleEditPost(post.id, editingPost.content)}
+                            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white"
+                            style={{ backgroundColor: form.themeColor }}
+                          >
+                            <Save className="h-3.5 w-3.5" /> Kaydet
+                          </button>
+                          <button
+                            onClick={() => setEditingPost(null)}
+                            className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/60 hover:text-white"
+                          >
+                            <X className="h-3.5 w-3.5" /> İptal
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <p className="text-sm text-white/80 whitespace-pre-wrap line-clamp-3">{post.content}</p>
+                        <div className="mt-2 flex items-center justify-between">
+                          <span className="text-xs text-white/30">
+                            {new Date(post.createdAt).toLocaleDateString('tr-TR')}
+                            {post.isEdited && ' (düzenlendi)'}
+                          </span>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => setEditingPost({ id: post.id, content: post.content })}
+                              className="flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/50 hover:text-white"
+                            >
+                              <Pencil className="h-3 w-3" /> Düzenle
+                            </button>
+                            <button
+                              onClick={() => handleDeletePost(post.id)}
+                              disabled={deletingPostId === post.id}
+                              className="flex items-center gap-1 rounded-lg border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-xs text-red-400 hover:bg-red-500/20 disabled:opacity-50"
+                            >
+                              <Trash2 className="h-3 w-3" /> Sil
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Save */}
           <button onClick={handleSave} disabled={saving}
