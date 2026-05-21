@@ -273,6 +273,30 @@
     "notifications": {
       "q": "Do notifications work?",
       "a": "Yes, push notifications are active on IYTE Mobile. New message, like, comment and event notifications are delivered to your phone instantly. You can manage your notification preferences from the profile settings."
+    },
+    "activities": {
+      "q": "What is an Activity and how do I create one?",
+      "a": "Activities are meetup listings designed for students who want to do things together on campus — like card games, billiards, swimming or hiking. Go to the Campus tab, tap 'Activities', then hit 'Create Activity' and fill in the title, location, date and maximum number of participants. Regular users can create activities for up to 10 people; clubs can host up to 1000."
+    },
+    "joinActivity": {
+      "q": "How do I join an activity?",
+      "a": "Browse activities on the social feed or in Campus > Activities. Tap an activity card to open its detail page and press 'Join'. Once an activity is full, joining closes automatically. You can leave an activity anytime from its detail page using the 'Leave' button."
+    },
+    "clubs": {
+      "q": "How do I follow clubs?",
+      "a": "Open the Clubs screen in the app to see all active campus clubs. Tap a club page and press 'Follow'. Events from clubs you follow will also appear in your social feed. You can browse a club's event calendar, announcements and past events from the same page."
+    },
+    "quotePost": {
+      "q": "How does post quoting work?",
+      "a": "Open the detail page of any post and tap 'Quote'. Write your own comment and share it — the original post will appear as a small preview card below your new post."
+    },
+    "carpool": {
+      "q": "How do I use carpooling?",
+      "a": "Find active listings in Campus > Carpooling. To post your own listing, tap 'Create Listing' and enter the route, date, time and number of seats. When you find a suitable ride, contact the poster directly through in-app messaging."
+    },
+    "representative": {
+      "q": "What does the Department Representative badge mean?",
+      "a": "Department representatives are designated users assigned by the app administration to represent their department. Posts from representatives are highlighted in the social feed with a green border and a 'Representative' label."
     }
   },
   "clubsPage": {

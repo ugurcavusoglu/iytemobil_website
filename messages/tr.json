@@ -273,6 +273,30 @@
     "notifications": {
       "q": "Bildirimler çalışıyor mu?",
       "a": "Evet, İYTE Mobil'de anlık bildirimler aktiftir. Yeni mesaj, beğeni, yorum ve etkinlik bildirimleri anında telefonunuza iletilir. Bildirim tercihlerinizi profil ayarlarından yönetebilirsiniz."
+    },
+    "activities": {
+      "q": "Aktivite nedir, nasıl oluşturulur?",
+      "a": "Aktiviteler, kampüste birlikte bir şeyler yapmak isteyen öğrenciler için tasarlanmış buluşma ilanlarıdır. Okey, bilardo, deniz, yürüyüş gibi her türlü aktiviteyi oluşturabilirsiniz. Kampüs sekmesindeki 'Aktiviteler' ekranından 'Aktivite Oluştur' butonuna tıklayarak başlık, yer, tarih ve maksimum katılımcı sayısı belirleyebilirsiniz. Topluluklar 1000 kişiye kadar aktivite düzenleyebilirken normal kullanıcılar en fazla 10 kişilik aktivite oluşturabilir."
+    },
+    "joinActivity": {
+      "q": "Bir aktiviteye nasıl katılırım?",
+      "a": "Sosyal akışta veya Kampüs > Aktiviteler ekranında aktif aktiviteleri görebilirsiniz. Aktivite kartına tıklayarak detay sayfasına gidin ve 'Katıl' butonuna basın. Aktivite dolduğunda katılım kapanır. Katıldığınız aktiviteden ayrılmak isterseniz detay sayfasındaki 'Ayrıl' butonunu kullanabilirsiniz."
+    },
+    "clubs": {
+      "q": "Toplulukları nasıl takip edebilirim?",
+      "a": "Uygulama içindeki Topluluklar ekranından kampüsteki tüm aktif toplulukları listeleyebilir, topluluk sayfasına girerek 'Takip Et' butonuna basabilirsiniz. Takip ettiğiniz toplulukların etkinlikleri sosyal akışınızda da görünür. Toplulukların etkinlik takvimlerine, duyurularına ve geçmiş etkinliklerine de aynı sayfadan erişebilirsiniz."
+    },
+    "quotePost": {
+      "q": "Gönderi alıntılama nasıl çalışır?",
+      "a": "Beğendiğiniz veya yorum yapmak istediğiniz bir gönderinin detay sayfasını açın ve 'Alıntıla' seçeneğine tıklayın. Kendi yorumunuzu yazarak orijinal gönderiyi alıntılayabilirsiniz. Alıntılanan gönderi yeni paylaşımınızın altında küçük bir önizleme olarak görünür."
+    },
+    "carpool": {
+      "q": "Araç paylaşımı nasıl kullanılır?",
+      "a": "Kampüs sekmesindeki 'Araç Paylaşımı' ekranından aktif ilanları görebilirsiniz. Kendi ilanınızı oluşturmak için 'İlan Ver' butonuna tıklayın, güzergah, tarih, saat ve kişi sayısı bilgilerini girin. Uygun bir ilana ulaştığınızda ilan sahibiyle mesajlaşma üzerinden iletişime geçebilirsiniz."
+    },
+    "representative": {
+      "q": "Bölüm temsilcisi rozeti ne anlama gelir?",
+      "a": "Bölüm temsilcileri, kendi bölümlerini temsil eden ve uygulama yönetimi tarafından atanan özel kullanıcılardır. Temsilci rozetine sahip kullanıcıların paylaşımları sosyal akışta yeşil çerçeve ve 'Temsilci' etiketiyle öne çıkar."
     }
   },
   "clubsPage": {

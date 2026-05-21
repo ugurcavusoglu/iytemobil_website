@@ -9,13 +9,19 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 const FAQ_KEYS = [
   'whatIsIyte',
   'platforms',
+  'isPaid',
+  'activities',
+  'joinActivity',
+  'clubs',
+  'quotePost',
+  'carpool',
   'foodMenu',
   'ringService',
-  'isPaid',
   'clubApplication',
   'documents',
   'anonymous',
   'notifications',
+  'representative',
 ] as const;
 
 export function FAQSection() {
