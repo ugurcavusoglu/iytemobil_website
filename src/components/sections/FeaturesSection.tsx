@@ -6,13 +6,11 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { FEATURES } from '@/lib/constants';
 import { staggerContainer, fadeInUp } from '@/lib/animations';
 import {
-  MessageSquare, MessagesSquare, UtensilsCrossed, Bus, Car,
-  Users, FileText, Briefcase, Trophy, Bell, UserCircle,
+  MessageSquare, MessagesSquare, UtensilsCrossed, Bus, Users, Zap,
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
-  MessageSquare, MessagesSquare, UtensilsCrossed, Bus, Car,
-  Users, FileText, Briefcase, Trophy, Bell, UserCircle,
+  MessageSquare, MessagesSquare, UtensilsCrossed, Bus, Users, Zap,
 };
 
 export function FeaturesSection() {

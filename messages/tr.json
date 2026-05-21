@@ -72,6 +72,10 @@
     "profile": {
       "title": "Profil ve Gizlilik",
       "description": "Kişiselleştirilmiş profil, sosyal medya bağlantıları ve gizlilik kontrolleri."
+    },
+    "activities": {
+      "title": "Aktiviteler & Buluşmalar",
+      "description": "Okey, bilardo, yürüyüş... Birlikte bir şeyler yapmak isteyenlerle buluş. Aktivite oluştur, katılımcıları gör."
     }
   },
   "featureDetail": {

@@ -72,6 +72,10 @@
     "profile": {
       "title": "Profile & Privacy",
       "description": "Personalized profile, social media links and privacy controls."
+    },
+    "activities": {
+      "title": "Activities & Meetups",
+      "description": "Cards, billiards, hiking... Meet people who want to do things together. Create an activity, set a limit and see who joins."
     }
   },
   "featureDetail": {
