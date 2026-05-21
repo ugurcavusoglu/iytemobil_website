@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@/i18n/navigation';
 import { ChevronLeft, ChevronRight, Utensils, Home } from 'lucide-react';
 
@@ -63,8 +63,8 @@ const MEAL_LABELS: Record<string, Record<string, string>> = {
   en: { BREAKFAST: 'Breakfast', LUNCH: 'Lunch', DINNER: 'Dinner' },
 };
 
-export default function YemekPage({ params }: { params: { locale: string } }) {
-  const locale = params.locale;
+export default function YemekPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = React.use(params);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [activeTab, setActiveTab] = useState<'SCHOOL' | 'DORM'>('SCHOOL');
   const [menus, setMenus] = useState<DailyMenu[]>([]);
