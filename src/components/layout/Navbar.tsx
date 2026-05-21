@@ -95,6 +95,12 @@ export function Navbar() {
             );
           })}
           <Link
+            href="/yemek"
+            className="text-sm text-text-secondary transition-colors hover:text-white"
+          >
+            {t('food')}
+          </Link>
+          <Link
             href="/clubs"
             className="text-sm text-text-secondary transition-colors hover:text-white"
           >
@@ -169,6 +175,13 @@ export function Navbar() {
         className="md:hidden overflow-hidden bg-surface/95 backdrop-blur-lg border-t border-white/5"
       >
         <div className="px-4 py-4 flex flex-col gap-3">
+          <Link
+            href="/yemek"
+            className="py-2 text-sm text-text-secondary transition-colors hover:text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            {t('food')}
+          </Link>
           <Link
             href="/clubs"
             className="py-2 text-sm text-text-secondary transition-colors hover:text-white"

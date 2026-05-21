@@ -114,6 +114,11 @@ export const NAV_LINKS: NavLink[] = [
   { href: '#contact', labelKey: 'nav.contact' },
 ];
 
+export const NAV_PAGE_LINKS = [
+  { href: '/yemek', labelKey: 'nav.food' },
+  { href: '/clubs', labelKey: 'nav.clubs' },
+];
+
 export const STATS: Stat[] = [
   { value: 11, suffix: '+', labelKey: 'stats.features' },
   { value: 19, suffix: '', labelKey: 'stats.departments' },
