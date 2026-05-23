@@ -212,6 +212,7 @@
     "searchPlaceholder": "Search departments...",
     "noDepartments": "No departments found.",
     "backToDepartments": "Back to departments",
+    "rootFolder": "Documents",
     "departmentNotFound": "Department not found.",
     "departmentSubtitle": "Documents for this department",
     "documentCount": "documents",

@@ -8,6 +8,14 @@ export interface Department {
   _count?: { departmentDocuments: number };
 }
 
+export interface Folder {
+  id: string;
+  name: string;
+  description?: string;
+  parentId?: string | null;
+  _count?: { documents: number; children: number };
+}
+
 export interface Document {
   id: string;
   title: string;
@@ -18,6 +26,7 @@ export interface Document {
   fileSize: number;
   grade: string;
   status: string;
+  folderId?: string | null;
   downloadCount: number;
   createdAt: string;
   user?: { id: string; name: string; verificationStatus?: string };
@@ -73,6 +82,20 @@ export async function bulkUploadDocuments(departmentId: string, file: File) {
   const data = await res.json().catch(() => null);
   if (!res.ok) throw new Error(data?.message || 'Toplu yukleme basarisiz.');
   return data as { message: string; uploaded: number; failed: number; skipped: number; details: { title: string; status: string }[] };
+}
+
+export async function fetchFolders(departmentId: string, parentId?: string): Promise<Folder[]> {
+  const url = `/api/documents/${departmentId}/folders${parentId ? `?parentId=${parentId}` : ''}`;
+  const res = await fetch(url);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function fetchFolderDocuments(folderId: string): Promise<Document[]> {
+  const res = await fetch(`/api/documents/folders/${folderId}`);
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.documents || data || [];
 }
 
 export async function trackDownload(documentId: string) {
