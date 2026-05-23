@@ -213,6 +213,8 @@
     "noDepartments": "No departments found.",
     "backToDepartments": "Back to departments",
     "rootFolder": "Documents",
+    "downloadFolder": "Download folder (ZIP)",
+    "openFolder": "Open folder",
     "departmentNotFound": "Department not found.",
     "departmentSubtitle": "Documents for this department",
     "documentCount": "documents",

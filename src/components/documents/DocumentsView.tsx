@@ -7,6 +7,7 @@ import {
   fetchDepartmentDocuments,
   fetchFolders,
   fetchFolderDocuments,
+  folderDownloadUrl,
   trackDownload,
   uploadDocument,
   bulkUploadDocuments,
@@ -329,23 +330,40 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
         <div className="space-y-2">
           {/* Folders */}
           {folders.map((folder) => (
-            <button
+            <div
               key={folder.id}
-              onClick={() => openFolder(folder)}
-              className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface/50 p-4 text-left backdrop-blur-sm transition-all hover:border-white/20 hover:bg-white/5"
+              className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface/50 p-4 backdrop-blur-sm transition-all hover:border-white/20"
             >
-              <FolderOpen className="h-5 w-5 shrink-0 text-amber-400" />
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-white">{folder.name}</p>
-                {(folder._count?.documents !== undefined || folder._count?.children !== undefined) && (
-                  <p className="mt-0.5 text-xs text-zinc-500">
-                    {folder._count.documents} {t('documentCount')}
-                    {folder._count.children > 0 && ` · ${folder._count.children} klasör`}
-                  </p>
-                )}
-              </div>
-              <ChevronRight className="h-4 w-4 shrink-0 text-zinc-600" />
-            </button>
+              <button
+                onClick={() => openFolder(folder)}
+                className="flex min-w-0 flex-1 items-center gap-3 text-left"
+              >
+                <FolderOpen className="h-5 w-5 shrink-0 text-amber-400" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-white">{folder.name}</p>
+                  {(folder._count?.documents !== undefined || folder._count?.children !== undefined) && (
+                    <p className="mt-0.5 text-xs text-zinc-500">
+                      {folder._count.documents} {t('documentCount')}
+                      {folder._count.children > 0 && ` · ${folder._count.children} klasör`}
+                    </p>
+                  )}
+                </div>
+              </button>
+              <a
+                href={folderDownloadUrl(folder.id)}
+                className="shrink-0 rounded-lg border border-white/10 bg-white/5 p-2 text-zinc-400 transition-all hover:border-primary/30 hover:text-primary"
+                title={t('downloadFolder')}
+              >
+                <Download className="h-4 w-4" />
+              </a>
+              <button
+                onClick={() => openFolder(folder)}
+                className="shrink-0 text-zinc-600 transition-colors hover:text-white"
+                title={t('openFolder')}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
           ))}
 
           {/* Documents */}

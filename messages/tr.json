@@ -213,6 +213,8 @@
     "noDepartments": "Bölüm bulunamadı.",
     "backToDepartments": "Bölümlere dön",
     "rootFolder": "Belgeler",
+    "downloadFolder": "Klasoru indir (ZIP)",
+    "openFolder": "Klasoru ac",
     "departmentNotFound": "Bölüm bulunamadı.",
     "departmentSubtitle": "Bölüme ait belgeler",
     "documentCount": "belge",

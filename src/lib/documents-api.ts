@@ -98,6 +98,10 @@ export async function fetchFolderDocuments(folderId: string): Promise<Document[]
   return data.documents || data || [];
 }
 
+export function folderDownloadUrl(folderId: string): string {
+  return `https://api.iytemobil.com/api/departments/folders/${folderId}/download`;
+}
+
 export async function trackDownload(documentId: string) {
   await fetch(`/api/documents/download/${documentId}`, { method: 'POST' });
 }
