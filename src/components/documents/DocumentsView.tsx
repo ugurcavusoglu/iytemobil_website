@@ -21,6 +21,8 @@ const ALLOWED_TYPES = new Set([
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'application/vnd.ms-powerpoint',
   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png',
+  'image/jpeg',
 ]);
 const MAX_SIZE = 10 * 1024 * 1024;
 const MAX_ZIP_SIZE = 50 * 1024 * 1024;
@@ -291,7 +293,7 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-zinc-300">{t('uploadFile')}</label>
-                <input type="file" required accept=".pdf,.doc,.docx,.ppt,.pptx" onChange={onFileChange}
+                <input type="file" required accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" onChange={onFileChange}
                   className="w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-sm file:text-white hover:file:bg-white/20" />
                 <p className="mt-1 text-xs text-zinc-500">{t('uploadHint')}</p>
               </div>
