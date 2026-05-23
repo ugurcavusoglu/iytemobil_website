@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Download, FileText, Folder, FolderOpen, Loader2, Upload, AlertCircle, CheckCircle2, Archive, ChevronRight } from 'lucide-react';
+import { Download, FileText, FolderOpen, Loader2, Upload, AlertCircle, CheckCircle2, Archive, ChevronRight } from 'lucide-react';
 import {
   fetchDepartmentDocuments,
   fetchFolders,
