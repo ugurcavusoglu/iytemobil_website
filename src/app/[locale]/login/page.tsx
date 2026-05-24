@@ -4,11 +4,10 @@ import { Link } from '@/i18n/navigation';
 import { ArrowLeft } from 'lucide-react';
 
 type Props = {
-  params: Promise<{ locale: string }>;
   searchParams: Promise<{ tab?: string }>;
 };
 
-export default async function LoginPage({ params: _params, searchParams }: Props) {
+export default async function LoginPage({ searchParams }: Props) {
   const { tab } = await searchParams;
 
   return (
