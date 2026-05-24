@@ -35,9 +35,12 @@ export function DepartmentsList() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const filtered = departments
+  const allFiltered = departments
     .filter((d) => d.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+
+  const commonDepts = allFiltered.filter((d) => d.isCommon);
+  const filtered = allFiltered.filter((d) => !d.isCommon);
 
   const totalDocs = useMemo(
     () => departments.reduce((sum, d) => sum + (d._count?.departmentDocuments ?? 0), 0),
@@ -83,46 +86,95 @@ export function DepartmentsList() {
         />
       </div>
 
-      {filtered.length === 0 ? (
+      {allFiltered.length === 0 ? (
         <p className="py-10 text-center text-sm text-zinc-500">{t('noDepartments')}</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2">
-          {filtered.map((dept) => {
-            const docCount = dept._count?.departmentDocuments ?? 0;
-            const icon = getDeptIcon(dept.slug);
-            return (
-              <Link
-                key={dept.id}
-                href={`/documents/${dept.slug}`}
-                className="group relative overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent p-5 transition-all duration-300 hover:border-primary/30 hover:from-primary/[0.06] hover:shadow-lg hover:shadow-primary/5"
-              >
-                <div className="flex items-start gap-3.5">
-                  <span className="text-2xl">{icon}</span>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[15px] font-semibold text-white group-hover:text-primary transition-colors leading-snug">
-                      {dept.name}
-                    </h3>
-                    <div className="mt-2 flex items-center gap-1.5">
-                      <FileText className="h-3.5 w-3.5 text-zinc-500" />
-                      <span className={`text-xs font-medium ${docCount > 0 ? 'text-zinc-300' : 'text-zinc-600'}`}>
-                        {docCount > 0 ? `${docCount} belge` : 'Henuz belge yok'}
-                      </span>
-                    </div>
-                  </div>
-                  <svg
-                    className="mt-1 h-4 w-4 shrink-0 text-zinc-600 transition-all group-hover:translate-x-0.5 group-hover:text-primary"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
+        <>
+          {/* Ortak dersler — full width */}
+          {commonDepts.length > 0 && (
+            <div className="mb-3 flex flex-col gap-3">
+              {commonDepts.map((dept) => {
+                const docCount = dept._count?.departmentDocuments ?? 0;
+                const icon = getDeptIcon(dept.slug);
+                return (
+                  <Link
+                    key={dept.id}
+                    href={`/documents/${dept.slug}`}
+                    className="group relative overflow-hidden rounded-xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/[0.07] to-transparent p-5 transition-all duration-300 hover:border-emerald-500/40 hover:from-emerald-500/[0.12] hover:shadow-lg hover:shadow-emerald-500/5"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                    <div className="flex items-center gap-3.5">
+                      <span className="text-2xl">{icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="text-[15px] font-semibold text-white group-hover:text-emerald-400 transition-colors leading-snug">
+                            {dept.name}
+                          </h3>
+                          <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
+                            Ortak Dersler
+                          </span>
+                        </div>
+                        <div className="mt-2 flex items-center gap-1.5">
+                          <FileText className="h-3.5 w-3.5 text-zinc-500" />
+                          <span className={`text-xs font-medium ${docCount > 0 ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                            {docCount > 0 ? `${docCount} belge` : 'Henuz belge yok'}
+                          </span>
+                        </div>
+                      </div>
+                      <svg
+                        className="h-4 w-4 shrink-0 text-zinc-600 transition-all group-hover:translate-x-0.5 group-hover:text-emerald-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Normal bölümler — 2'li grid */}
+          <div className="grid gap-3 sm:grid-cols-2">
+            {filtered.map((dept) => {
+              const docCount = dept._count?.departmentDocuments ?? 0;
+              const icon = getDeptIcon(dept.slug);
+              return (
+                <Link
+                  key={dept.id}
+                  href={`/documents/${dept.slug}`}
+                  className="group relative overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent p-5 transition-all duration-300 hover:border-primary/30 hover:from-primary/[0.06] hover:shadow-lg hover:shadow-primary/5"
+                >
+                  <div className="flex items-start gap-3.5">
+                    <span className="text-2xl">{icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-[15px] font-semibold text-white group-hover:text-primary transition-colors leading-snug">
+                        {dept.name}
+                      </h3>
+                      <div className="mt-2 flex items-center gap-1.5">
+                        <FileText className="h-3.5 w-3.5 text-zinc-500" />
+                        <span className={`text-xs font-medium ${docCount > 0 ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                          {docCount > 0 ? `${docCount} belge` : 'Henuz belge yok'}
+                        </span>
+                      </div>
+                    </div>
+                    <svg
+                      className="mt-1 h-4 w-4 shrink-0 text-zinc-600 transition-all group-hover:translate-x-0.5 group-hover:text-primary"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );

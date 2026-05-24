@@ -5,6 +5,7 @@ export interface Department {
   description?: string;
   icon?: string;
   color?: string;
+  isCommon?: boolean;
   _count?: { departmentDocuments: number };
 }
 
