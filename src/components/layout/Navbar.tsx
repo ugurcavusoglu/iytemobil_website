@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Menu, X, LogIn, LogOut, FileText, Users } from 'lucide-react';
+import { Menu, X, LogIn, LogOut, FileText } from 'lucide-react';
 import { LanguageToggle } from './LanguageToggle';
 import { NAV_LINKS } from '@/lib/constants';
 import Image from 'next/image';
@@ -117,14 +117,6 @@ export function Navbar() {
             {t('clubApplication')}
           </Link>
 
-          <Link
-            href="/clubs/login"
-            className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/70 transition-all hover:border-white/20 hover:text-white md:inline-flex"
-          >
-            <Users className="h-3.5 w-3.5" />
-            {t('clubLogin')}
-          </Link>
-
           {!isLoading && (
             <>
               {user ? (
@@ -188,15 +180,6 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           >
             {t('clubs')}
-          </Link>
-
-          <Link
-            href="/clubs/login"
-            className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-zinc-300 transition-all hover:text-white"
-            onClick={() => setIsOpen(false)}
-          >
-            <Users className="h-4 w-4" />
-            {t('clubLogin')}
           </Link>
 
           <Link
