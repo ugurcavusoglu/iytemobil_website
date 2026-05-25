@@ -260,12 +260,10 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
               : 'For restaurant menus, ratings and more,\ndownload IYTE Mobile.'}
           </p>
           <a
-            href="https://play.google.com/store/apps/details?id=com.iytemobil.app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/${locale}/indir`}
             className="inline-block bg-red-600 hover:bg-red-500 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors shadow-lg shadow-red-600/20"
           >
-            {locale === 'tr' ? "Google Play'den İndir" : 'Download on Google Play'}
+            {locale === 'tr' ? 'Uygulamayı İndir' : 'Download App'}
           </a>
         </div>
       </div>
