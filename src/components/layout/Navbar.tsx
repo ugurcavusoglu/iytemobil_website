@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Menu, X, LogIn, LogOut, FileText } from 'lucide-react';
+import { Menu, X, LogIn, LogOut } from 'lucide-react';
 import { LanguageToggle } from './LanguageToggle';
 import { NAV_LINKS } from '@/lib/constants';
 import Image from 'next/image';
@@ -127,13 +127,6 @@ export function Navbar() {
             <>
               {user ? (
                 <>
-                  <Link
-                    href="/documents"
-                    className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/70 transition-all hover:text-white md:inline-flex"
-                  >
-                    <FileText className="h-3.5 w-3.5" />
-                    {t('documents')}
-                  </Link>
                   <button
                     onClick={() => logout()}
                     className="hidden items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/70 transition-all hover:text-red-400 md:inline-flex"
@@ -202,17 +195,6 @@ export function Navbar() {
           >
             {t('clubApplication')}
           </Link>
-
-          {!isLoading && user && (
-            <Link
-              href="/documents"
-              className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-zinc-300 transition-all hover:text-white"
-              onClick={() => setIsOpen(false)}
-            >
-              <FileText className="h-4 w-4" />
-              {t('documents')}
-            </Link>
-          )}
 
           {NAV_LINKS.map((link) => {
             const sectionId = link.href.replace('#', '');
