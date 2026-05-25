@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Download, FileText, FolderOpen, Loader2, Upload, AlertCircle, CheckCircle2, Archive, ChevronRight } from 'lucide-react';
+import { Download, FileText, FolderOpen, Loader2, Upload, AlertCircle, CheckCircle2, Archive, ChevronRight, Lock } from 'lucide-react';
+import { useRouter } from '@/i18n/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   fetchDepartmentDocuments,
   fetchFolders,
@@ -53,7 +55,7 @@ interface BreadcrumbItem {
   name: string;
 }
 
-function DocumentRow({ doc, onDownload }: { doc: Document; onDownload: (doc: Document) => void }) {
+function DocumentRow({ doc, onDownload, isLoggedIn }: { doc: Document; onDownload: (doc: Document) => void; isLoggedIn: boolean }) {
   const t = useTranslations('documents');
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-surface/50 p-4 backdrop-blur-sm">
@@ -76,10 +78,14 @@ function DocumentRow({ doc, onDownload }: { doc: Document; onDownload: (doc: Doc
       </div>
       <button
         onClick={() => onDownload(doc)}
-        className="shrink-0 rounded-lg border border-white/10 bg-white/5 p-2 text-zinc-400 transition-all hover:border-primary/30 hover:text-primary"
-        title={t('downloadButton')}
+        className={`shrink-0 rounded-lg border p-2 transition-all ${
+          isLoggedIn
+            ? 'border-white/10 bg-white/5 text-zinc-400 hover:border-primary/30 hover:text-primary'
+            : 'border-yellow-500/20 bg-yellow-500/5 text-yellow-500/70 hover:border-yellow-500/40 hover:text-yellow-400'
+        }`}
+        title={isLoggedIn ? t('downloadButton') : 'Indirmek icin giris yapin'}
       >
-        <Download className="h-4 w-4" />
+        {isLoggedIn ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
       </button>
     </div>
   );
@@ -87,6 +93,8 @@ function DocumentRow({ doc, onDownload }: { doc: Document; onDownload: (doc: Doc
 
 export function DocumentsView({ departmentId }: { departmentId: string }) {
   const t = useTranslations('documents');
+  const { user } = useAuth();
+  const router = useRouter();
 
   // Explorer state
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItem[]>([{ id: null, name: t('rootFolder') }]);
@@ -145,6 +153,10 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
   }
 
   function handleDownload(doc: Document) {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
     trackDownload(doc.id);
     const url = doc.fileUrl.startsWith('http')
       ? doc.fileUrl
@@ -377,7 +389,7 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
 
           {/* Documents */}
           {documents.map((doc) => (
-            <DocumentRow key={doc.id} doc={doc} onDownload={handleDownload} />
+            <DocumentRow key={doc.id} doc={doc} onDownload={handleDownload} isLoggedIn={!!user} />
           ))}
         </div>
       )}

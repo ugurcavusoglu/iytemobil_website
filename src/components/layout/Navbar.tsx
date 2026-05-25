@@ -106,6 +106,12 @@ export function Navbar() {
           >
             {t('clubs')}
           </Link>
+          <Link
+            href="/documents"
+            className="text-sm text-text-secondary transition-colors hover:text-white"
+          >
+            {t('documents')}
+          </Link>
         </div>
 
         {/* Right side */}
@@ -180,6 +186,13 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           >
             {t('clubs')}
+          </Link>
+          <Link
+            href="/documents"
+            className="py-2 text-sm text-text-secondary transition-colors hover:text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            {t('documents')}
           </Link>
 
           <Link

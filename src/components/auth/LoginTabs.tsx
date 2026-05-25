@@ -39,6 +39,20 @@ export function LoginTabs({ defaultTab }: { defaultTab?: Tab }) {
       </div>
 
       {tab === 'user' ? <LoginForm /> : <ClubLoginForm />}
+
+      {tab === 'user' && (
+        <div className="mt-5 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-3 text-center">
+          <p className="text-xs text-zinc-500">
+            Hesabiniz yok mu?{' '}
+            <a
+              href="/indir"
+              className="text-primary hover:underline"
+            >
+              Uygulamadan kayit olabilirsiniz
+            </a>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
