@@ -91,6 +91,37 @@ function DocumentRow({ doc, onDownload, isLoggedIn }: { doc: Document; onDownloa
   );
 }
 
+function LoginRequiredModal({ onClose, onLogin }: { onClose: () => void; onLogin: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[#111] p-6 shadow-2xl">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-yellow-500/10 mx-auto">
+          <Lock className="h-6 w-6 text-yellow-400" />
+        </div>
+        <h3 className="mb-2 text-center text-lg font-semibold text-white">Giris Gerekli</h3>
+        <p className="mb-6 text-center text-sm text-zinc-400">
+          Bu belgeyi indirmek icin giris yapman gerekiyor.
+        </p>
+        <div className="flex gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 rounded-xl border border-white/10 py-2.5 text-sm font-medium text-zinc-400 transition-all hover:text-white"
+          >
+            Vazgec
+          </button>
+          <button
+            onClick={onLogin}
+            className="flex-1 rounded-xl bg-primary py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary/90"
+          >
+            Giris Yap
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DocumentsView({ departmentId }: { departmentId: string }) {
   const t = useTranslations('documents');
   const { user } = useAuth();
@@ -101,6 +132,7 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
   const [folders, setFolders] = useState<FolderType[]>([]);
   const [documents, setDocuments] = useState<Document[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Upload state
   const [showUpload, setShowUpload] = useState(false);
@@ -154,7 +186,7 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
 
   function handleDownload(doc: Document) {
     if (!user) {
-      router.push('/login');
+      setShowLoginModal(true);
       return;
     }
     trackDownload(doc.id);
@@ -232,6 +264,13 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
 
   return (
     <div>
+      {showLoginModal && (
+        <LoginRequiredModal
+          onClose={() => setShowLoginModal(false)}
+          onLogin={() => router.push('/login')}
+        />
+      )}
+
       {uploadSuccess && (
         <div className="mb-4 flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400">
           <CheckCircle2 className="h-4 w-4 shrink-0" />
@@ -372,7 +411,7 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
               </button>
               <button
                 onClick={() => {
-                  if (!user) { router.push('/login'); return; }
+                  if (!user) { setShowLoginModal(true); return; }
                   window.open(folderDownloadUrl(folder.id), '_blank');
                 }}
                 className={`shrink-0 rounded-lg border p-2 transition-all ${
