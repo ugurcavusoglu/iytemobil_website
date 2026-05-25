@@ -4,8 +4,7 @@ import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { GlowEffect } from '@/components/ui/GlowEffect';
-import { ArrowUp } from 'lucide-react';
-import { PLAY_STORE_URL } from '@/lib/constants';
+import { BookOpen } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 
 export function CTASection() {
@@ -29,17 +28,15 @@ export function CTASection() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <motion.a
-              href={PLAY_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25"
-            >
-              <ArrowUp className="w-5 h-5" />
-              {t('button')}
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/documents"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25"
+              >
+                <BookOpen className="w-5 h-5" />
+                {t('button')}
+              </Link>
+            </motion.div>
 
             <Link
               href="/club-application"
