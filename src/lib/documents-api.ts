@@ -30,6 +30,7 @@ export interface Document {
   folderId?: string | null;
   downloadCount: number;
   createdAt: string;
+  showUploader: boolean;
   user?: { id: string; name: string; verificationStatus?: string };
 }
 

@@ -70,7 +70,7 @@ function DocumentRow({ doc, onDownload, isLoggedIn }: { doc: Document; onDownloa
           )}
         </div>
         <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-zinc-500">
-          <span>{doc.user?.name || '-'}</span>
+          {doc.showUploader && doc.user?.name && <span>{doc.user.name}</span>}
           <span>{formatSize(doc.fileSize)}</span>
           <span>{formatDate(doc.createdAt)}</span>
           <span>{doc.downloadCount} {t('downloads')}</span>
