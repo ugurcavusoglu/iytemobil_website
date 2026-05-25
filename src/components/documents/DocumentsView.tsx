@@ -370,13 +370,20 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
                   )}
                 </div>
               </button>
-              <a
-                href={folderDownloadUrl(folder.id)}
-                className="shrink-0 rounded-lg border border-white/10 bg-white/5 p-2 text-zinc-400 transition-all hover:border-primary/30 hover:text-primary"
-                title={t('downloadFolder')}
+              <button
+                onClick={() => {
+                  if (!user) { router.push('/login'); return; }
+                  window.open(folderDownloadUrl(folder.id), '_blank');
+                }}
+                className={`shrink-0 rounded-lg border p-2 transition-all ${
+                  user
+                    ? 'border-white/10 bg-white/5 text-zinc-400 hover:border-primary/30 hover:text-primary'
+                    : 'border-yellow-500/20 bg-yellow-500/5 text-yellow-500/70 hover:border-yellow-500/40 hover:text-yellow-400'
+                }`}
+                title={user ? t('downloadFolder') : 'Indirmek icin giris yapin'}
               >
-                <Download className="h-4 w-4" />
-              </a>
+                {user ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+              </button>
               <button
                 onClick={() => openFolder(folder)}
                 className="shrink-0 text-zinc-600 transition-colors hover:text-white"
