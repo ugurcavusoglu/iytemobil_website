@@ -4,7 +4,6 @@ import { FeatureDetailSection } from '@/components/sections/FeatureDetailSection
 import { TeamSection } from '@/components/sections/TeamSection';
 import { DownloadSection } from '@/components/sections/DownloadSection';
 import { CTASection } from '@/components/sections/CTASection';
-import { FAQSection } from '@/components/sections/FAQSection';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -197,7 +196,6 @@ export default function HomePage() {
       <FeaturesSection />
       <FeatureDetailSection />
 <TeamSection />
-      <FAQSection />
       <DownloadSection />
       <CTASection />
     </>
