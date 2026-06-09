@@ -101,6 +101,12 @@ export function Navbar() {
             {t('food')}
           </Link>
           <Link
+            href="/ulasim"
+            className="text-sm text-text-secondary transition-colors hover:text-white"
+          >
+            {t('transport')}
+          </Link>
+          <Link
             href="/clubs"
             className="text-sm text-text-secondary transition-colors hover:text-white"
           >
@@ -172,6 +178,13 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           >
             {t('food')}
+          </Link>
+          <Link
+            href="/ulasim"
+            className="py-2 text-sm text-text-secondary transition-colors hover:text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            {t('transport')}
           </Link>
           <Link
             href="/clubs"
