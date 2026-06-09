@@ -38,8 +38,10 @@ interface BusSchedule {
   busName: string;
   dayOfWeek: string;
   departureTime: string;
-  fromLocation: string;
-  toLocation: string;
+  from: string;
+  to: string;
+  fromLocation?: string;
+  toLocation?: string;
 }
 
 interface GroupedSchedules {
@@ -74,12 +76,14 @@ async function fetchAllSchedules(): Promise<BusSchedule[]> {
 function groupSchedules(schedules: BusSchedule[]): GroupedSchedules {
   const grouped: GroupedSchedules = {};
   for (const s of schedules) {
+    const from = s.from ?? s.fromLocation ?? '';
+    const to = s.to ?? s.toLocation ?? '';
     if (!grouped[s.busCode]) {
       grouped[s.busCode] = { busName: s.busName, directions: {} };
     }
-    const dirKey = `${s.fromLocation}→${s.toLocation}`;
+    const dirKey = `${from}→${to}`;
     if (!grouped[s.busCode].directions[dirKey]) {
-      grouped[s.busCode].directions[dirKey] = { from: s.fromLocation, to: s.toLocation, days: {} };
+      grouped[s.busCode].directions[dirKey] = { from, to, days: {} };
     }
     if (!grouped[s.busCode].directions[dirKey].days[s.dayOfWeek]) {
       grouped[s.busCode].directions[dirKey].days[s.dayOfWeek] = [];
