@@ -45,8 +45,12 @@ interface BusSchedule {
 interface GroupedSchedules {
   [busCode: string]: {
     busName: string;
-    days: {
-      [day: string]: BusSchedule[];
+    directions: {
+      [directionKey: string]: {
+        from: string;
+        to: string;
+        days: { [day: string]: BusSchedule[] };
+      };
     };
   };
 }
@@ -57,7 +61,6 @@ async function fetchAllSchedules(): Promise<BusSchedule[]> {
     if (!res.ok) return [];
     const data = await res.json();
     if (Array.isArray(data)) return data;
-    // API { MONDAY: [...], TUESDAY: [...], ... } formatında dönüyor
     if (data && typeof data === 'object' && !data.schedules) {
       return Object.values(data).flat() as BusSchedule[];
     }
@@ -72,18 +75,24 @@ function groupSchedules(schedules: BusSchedule[]): GroupedSchedules {
   const grouped: GroupedSchedules = {};
   for (const s of schedules) {
     if (!grouped[s.busCode]) {
-      grouped[s.busCode] = { busName: s.busName, days: {} };
+      grouped[s.busCode] = { busName: s.busName, directions: {} };
     }
-    if (!grouped[s.busCode].days[s.dayOfWeek]) {
-      grouped[s.busCode].days[s.dayOfWeek] = [];
+    const dirKey = `${s.fromLocation}→${s.toLocation}`;
+    if (!grouped[s.busCode].directions[dirKey]) {
+      grouped[s.busCode].directions[dirKey] = { from: s.fromLocation, to: s.toLocation, days: {} };
     }
-    grouped[s.busCode].days[s.dayOfWeek].push(s);
+    if (!grouped[s.busCode].directions[dirKey].days[s.dayOfWeek]) {
+      grouped[s.busCode].directions[dirKey].days[s.dayOfWeek] = [];
+    }
+    grouped[s.busCode].directions[dirKey].days[s.dayOfWeek].push(s);
   }
   for (const code of Object.keys(grouped)) {
-    for (const day of Object.keys(grouped[code].days)) {
-      grouped[code].days[day].sort((a, b) =>
-        a.departureTime.localeCompare(b.departureTime)
-      );
+    for (const dir of Object.keys(grouped[code].directions)) {
+      for (const day of Object.keys(grouped[code].directions[dir].days)) {
+        grouped[code].directions[dir].days[day].sort((a, b) =>
+          a.departureTime.localeCompare(b.departureTime)
+        );
+      }
     }
   }
   return grouped;
@@ -184,72 +193,77 @@ export default function UlasimPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {Object.keys(grouped).length === 0 ? (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-10 text-center">
-                <Bus className="mx-auto mb-3 h-10 w-10 text-zinc-600" />
-                <p className="text-zinc-400">{t.noSchedule}</p>
-              </div>
-            ) : (
-              Object.entries(grouped).map(([busCode, busData]) => {
-                const daySchedules = busData.days[selectedDay] || [];
-                if (daySchedules.length === 0) return null;
+            {Object.entries(grouped).map(([busCode, busData]) => {
+              const color = BUS_COLORS[busCode] || DEFAULT_COLOR;
+              const directionsForDay = Object.entries(busData.directions).filter(
+                ([, dir]) => (dir.days[selectedDay]?.length ?? 0) > 0
+              );
+              if (directionsForDay.length === 0) return null;
 
-                const color = BUS_COLORS[busCode] || DEFAULT_COLOR;
-                const sample = daySchedules[0];
+              return (
+                <div
+                  key={busCode}
+                  className="rounded-2xl border p-5"
+                  style={{ backgroundColor: color.bg, borderColor: color.border }}
+                >
+                  {/* Bus code badge */}
+                  <div className="mb-4 flex items-center gap-3">
+                    <div
+                      className="flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold"
+                      style={{ backgroundColor: color.badge, color: color.text }}
+                    >
+                      {busCode}
+                    </div>
+                    <p className="font-semibold text-white">{busData.busName}</p>
+                  </div>
 
-                return (
-                  <div
-                    key={busCode}
-                    className="rounded-2xl border p-5"
-                    style={{ backgroundColor: color.bg, borderColor: color.border }}
-                  >
-                    {/* Bus header */}
-                    <div className="mb-4 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold"
-                          style={{ backgroundColor: color.badge, color: color.text }}
-                        >
-                          {busCode}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-white">{busData.busName}</p>
-                          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-zinc-400">
-                            <MapPin className="h-3 w-3" />
-                            <span>{sample.fromLocation}</span>
-                            <ArrowRight className="h-3 w-3" />
-                            <span>{sample.toLocation}</span>
+                  {/* Directions */}
+                  <div className="space-y-4">
+                    {directionsForDay.map(([dirKey, dir]) => {
+                      const daySchedules = dir.days[selectedDay];
+                      return (
+                        <div key={dirKey}>
+                          {/* Direction header */}
+                          <div className="mb-2 flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 text-sm" style={{ color: color.text }}>
+                              <MapPin className="h-3.5 w-3.5" />
+                              <span className="font-medium">{dir.from}</span>
+                              <ArrowRight className="h-3.5 w-3.5" />
+                              <span className="font-medium">{dir.to}</span>
+                            </div>
+                            <span
+                              className="rounded-full px-2.5 py-0.5 text-xs font-medium"
+                              style={{ backgroundColor: color.badge, color: color.text }}
+                            >
+                              {daySchedules.length} {t.departures}
+                            </span>
+                          </div>
+
+                          {/* Time grid */}
+                          <div className="flex flex-wrap gap-2">
+                            {daySchedules.map((s) => (
+                              <div
+                                key={s.id}
+                                className="flex items-center gap-1.5 rounded-lg px-3 py-1.5"
+                                style={{ backgroundColor: 'rgba(0,0,0,0.25)' }}
+                              >
+                                <Clock className="h-3 w-3" style={{ color: color.text }} />
+                                <span className="text-sm font-mono text-white">{s.departureTime}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                      </div>
-                      <span
-                        className="rounded-full px-3 py-1 text-xs font-medium"
-                        style={{ backgroundColor: color.badge, color: color.text }}
-                      >
-                        {daySchedules.length} {t.departures}
-                      </span>
-                    </div>
-
-                    {/* Time grid */}
-                    <div className="flex flex-wrap gap-2">
-                      {daySchedules.map((s) => (
-                        <div
-                          key={s.id}
-                          className="flex items-center gap-1.5 rounded-lg px-3 py-1.5"
-                          style={{ backgroundColor: 'rgba(0,0,0,0.25)' }}
-                        >
-                          <Clock className="h-3 w-3" style={{ color: color.text }} />
-                          <span className="text-sm font-mono text-white">{s.departureTime}</span>
-                        </div>
-                      ))}
-                    </div>
+                      );
+                    })}
                   </div>
-                );
-              })
-            )}
+                </div>
+              );
+            })}
 
             {/* No bus for selected day */}
-            {Object.entries(grouped).every(([, busData]) => !busData.days[selectedDay]?.length) && (
+            {Object.values(grouped).every((busData) =>
+              Object.values(busData.directions).every((dir) => !dir.days[selectedDay]?.length)
+            ) && (
               <div className="rounded-2xl border border-white/10 bg-white/5 p-10 text-center">
                 <Bus className="mx-auto mb-3 h-10 w-10 text-zinc-600" />
                 <p className="text-zinc-400">{t.noSchedule}</p>
