@@ -57,6 +57,10 @@ async function fetchAllSchedules(): Promise<BusSchedule[]> {
     if (!res.ok) return [];
     const data = await res.json();
     if (Array.isArray(data)) return data;
+    // API { MONDAY: [...], TUESDAY: [...], ... } formatında dönüyor
+    if (data && typeof data === 'object' && !data.schedules) {
+      return Object.values(data).flat() as BusSchedule[];
+    }
     if (data.schedules) return data.schedules;
     return [];
   } catch {
