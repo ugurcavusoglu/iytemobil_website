@@ -15,6 +15,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   login: (emailOrUsername: string, password: string) => Promise<{ ok: boolean; message?: string }>;
+  loginWithGoogle: (idToken: string) => Promise<{ ok: boolean; message?: string }>;
   logout: () => Promise<void>;
 }
 
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: true,
   login: async () => ({ ok: false }),
+  loginWithGoogle: async () => ({ ok: false }),
   logout: async () => {},
 });
 
@@ -59,6 +61,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [router],
   );
 
+  const loginWithGoogle = useCallback(
+    async (idToken: string) => {
+      const res = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        return { ok: false, message: data?.message || 'Google ile giris basarisiz.' };
+      }
+
+      setUser(data?.user || null);
+      router.push('/documents');
+      return { ok: true };
+    },
+    [router],
+  );
+
   const logout = useCallback(async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
     setUser(null);
@@ -66,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [router]);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
