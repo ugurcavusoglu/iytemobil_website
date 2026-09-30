@@ -3,11 +3,11 @@
 import { useState } from 'react';
 
 import { useRouter } from '@/i18n/navigation';
-import { Mail, Lock, LogIn, Eye, EyeOff } from 'lucide-react';
+import { User, Lock, LogIn, Eye, EyeOff } from 'lucide-react';
 
 export function ClubLoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,8 +17,8 @@ export function ClubLoginForm() {
     e.preventDefault();
     setError('');
 
-    if (!email.trim() || !password.trim()) {
-      setError('Email ve şifre gerekli.');
+    if (!identifier.trim() || !password.trim()) {
+      setError('E-posta/kullanıcı adı ve şifre gerekli.');
       return;
     }
 
@@ -27,7 +27,7 @@ export function ClubLoginForm() {
       const res = await fetch('/api/club-auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+        body: JSON.stringify({ emailOrUsername: identifier.trim(), password }),
       });
 
       const data = await res.json().catch(() => null);
@@ -61,16 +61,16 @@ export function ClubLoginForm() {
 
       <div>
         <label className="mb-1.5 block text-sm font-medium text-white/70">
-          Topluluk E-posta
+          E-posta veya Kullanıcı Adı
         </label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+          <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="topluluk@iyte.edu.tr"
-            autoComplete="email"
+            type="text"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            placeholder="topluluk@ornek.com veya kullanici_adi"
+            autoComplete="username"
             className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-white/30 focus:ring-1 focus:ring-white/20"
           />
         </div>
@@ -112,7 +112,7 @@ export function ClubLoginForm() {
       </button>
 
       <p className="text-center text-xs text-white/30">
-        Topluluk hesabınızla (campus-connect uygulamasında kayıtlı) giriş yapın
+        İYTE Mobil uygulamasındaki topluluk hesabı bilgilerinizle giriş yapın
       </p>
     </form>
   );

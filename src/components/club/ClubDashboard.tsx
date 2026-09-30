@@ -144,6 +144,7 @@ export function ClubDashboard({ club, slug }: Props) {
       const payload: Record<string, unknown> = {};
       if (form.slug) payload.slug = form.slug;
       if (form.bannerUrl) payload.bannerUrl = form.bannerUrl;
+      if (form.logoUrl) payload.logoUrl = form.logoUrl;
       payload.themeColor = form.themeColor;
       payload.websitePublished = form.websitePublished;
 

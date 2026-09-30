@@ -15,6 +15,7 @@ interface Club {
   totalRatings: number;
   slug?: string;
   websitePublished?: boolean;
+  isActivated?: boolean;
   _count: { followers: number; events: number };
 }
 
@@ -120,6 +121,11 @@ export default async function ClubsPage({ params }: Props) {
                         <span className="mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ backgroundColor: `${color}22`, color }}>
                           {categoryLabel}
                         </span>
+                        {club.isActivated === false && (
+                          <span className="ml-1.5 mt-1 inline-block rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-white/40">
+                            {t('notActivated')}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <p className="mb-5 flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">{club.description}</p>

@@ -139,10 +139,10 @@ export default function HomePage() {
           },
           {
             '@type': 'Question',
-            name: 'Topluluk başvurusu nasıl yapılır?',
+            name: "Topluluğumu İYTE Mobil'e nasıl eklerim?",
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'iytemobil.com/tr/club-application adresindeki formu doldurarak topluluk başvurusunda bulunabilirsiniz. Başvuru ekip tarafından incelendikten sonra e-posta ile bilgilendirilirsiniz.',
+              text: 'Topluluk hesaplarını İYTE Mobil ekibi açar. Topluluğunun yöneticisiysen iytemobil@gmail.com adresinden bize ulaş; hesabını aktifleştirmen için özel bir link gönderelim.',
             },
           },
           {

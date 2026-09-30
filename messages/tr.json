@@ -12,7 +12,7 @@
     "download": "İndir",
     "food": "Yemek Menüsü",
     "transport": "Ulaşım",
-    "clubApplication": "Topluluk Başvurusu",
+    "clubApplication": "Topluluklar İçin",
     "clubs": "Topluluklar",
     "clubLogin": "Topluluk Girişi",
     "documents": "Belgeler",
@@ -130,62 +130,25 @@
     "titleAccent": "Dönüştür",
     "subtitle": "İYTE Mobil ile kampüs deneyimini bir üst seviyeye çıkar.",
     "button": "Cıkmış Sorulara Ulaş",
-    "clubButton": "Topluluk olarak Başvur"
+    "clubButton": "Topluluklar İçin"
   },
   "clubApplication": {
-    "badge": "Topluluk Kaydı",
-    "title": "Topluluğunu İYTE Mobil'e Taşı",
-    "subtitle": "Aşağıdaki formu doldurarak topluluk başvurunu gönderebilirsin. Onaylanan topluluklar etkinlik yayınlayabilir ve öğrencilerle etkileşime geçer.",
+    "badge": "Topluluklar İçin",
+    "title": "Topluluğun İYTE Mobil'de hazır",
+    "subtitle": "Kampüsteki topluluk hesaplarını biz açıyoruz. Topluluğunun yöneticisiysen bize ulaş, hesabını aktifleştirmen için sana özel bir link gönderelim.",
     "backToHome": "Ana sayfaya dön",
-    "categories": {
-      "SPORTS": "Spor",
-      "ART": "Sanat",
-      "TECHNOLOGY": "Teknoloji",
-      "ARCHITECTURE": "Mimari",
-      "TRAVEL": "Gezi",
-      "MUSIC": "Müzik",
-      "ACADEMIC": "Akademik",
-      "SOCIAL": "Sosyal Sorumluluk",
-      "OTHER": "Diğer"
+    "stepsTitle": "Nasıl çalışır?",
+    "steps": {
+      "one": "Bize e-posta veya Instagram üzerinden topluluğunun adıyla ulaş.",
+      "two": "Sana tek kullanımlık bir aktivasyon linki gönderelim.",
+      "three": "Linkten e-postanı doğrula ve şifreni belirle.",
+      "four": "Uygulamada etkinlik, duyuru ve albüm paylaşmaya başla."
     },
-    "fields": {
-      "name": "Topluluk Adı",
-      "email": "Topluluk E-Posta",
-      "password": "Şifre",
-      "confirmPassword": "Şifre Tekrar",
-      "category": "Kategori",
-      "description": "Topluluk Açıklaması",
-      "logo": "Topluluk Logosu (Opsiyonel)"
-    },
-    "placeholders": {
-      "name": "Örnek: İYTE Müzik Topluluğu",
-      "email": "topluluk@ornek.com",
-      "password": "En az 8 karakter",
-      "confirmPassword": "Şifreyi tekrar gir",
-      "description": "Topluluğunu kısaca tanıt..."
-    },
-    "hints": {
-      "logo": "JPG, PNG veya WEBP. En fazla 2MB."
-    },
-    "actions": {
-      "submit": "Başvuruyu Gönder",
-      "submitting": "Gönderiliyor...",
-      "pickLogo": "Logo Seç",
-      "removeLogo": "Logoyu Kaldır"
-    },
-    "success": {
-      "title": "Başvuru Gönderildi",
-      "description": "Topluluk başvurun alındı. Ekip incelemesi sonrası email ile bilgilendirileceksin.",
-      "backHome": "Ana sayfaya dön"
-    },
-    "errors": {
-      "passwordMismatch": "Şifreler eşleşmiyor.",
-      "passwordMin": "Şifre en az 8 karakter olmalı.",
-      "logoType": "Sadece JPG, PNG veya WEBP dosyaları yüklenebilir.",
-      "logoSize": "Logo boyutu en fazla 2MB olabilir.",
-      "logoUploadFailed": "Logo yüklenemedi.",
-      "generic": "Başvuru gönderilirken bir hata oluştu. Lütfen tekrar dene."
-    }
+    "contactTitle": "Bize ulaş",
+    "email": "E-posta gönder",
+    "instagram": "Instagram'dan yaz",
+    "haveLink": "Aktivasyon linkin var mı? Linki açman yeterli. Hesabın zaten aktifse topluluk paneline giriş yapabilirsin.",
+    "login": "Topluluk paneline giriş"
   },
   "login": {
     "title": "Giriş Yap",
@@ -268,8 +231,8 @@
       "a": "Hayır, İYTE Mobil tamamen ücretsizdir. Google Play Store'dan ücretsiz olarak indirebilirsiniz."
     },
     "clubApplication": {
-      "q": "Topluluk başvurusu nasıl yapılır?",
-      "a": "iytemobil.com/tr/club-application adresindeki formu doldurarak topluluk başvurusunda bulunabilirsiniz. Başvuru ekip tarafından incelendikten sonra e-posta ile bilgilendirilirsiniz. Onaylanan topluluklar uygulama üzerinden etkinlik yayınlayabilir ve öğrencilerle etkileşime geçebilir."
+      "q": "Topluluğumu İYTE Mobil'e nasıl eklerim?",
+      "a": "Kampüsteki topluluk hesaplarını İYTE Mobil ekibi açar; tüm topluluklar uygulamada listelenir. Topluluğunun yöneticisiysen iytemobil@gmail.com adresinden veya Instagram'dan bize ulaş, hesabını aktifleştirmen için özel bir link gönderelim. Link üzerinden e-postanı doğrulayıp şifreni belirledikten sonra uygulamada etkinlik ve duyuru yayınlayabilirsin."
     },
     "documents": {
       "q": "Akademik belgeler nasıl yüklenir?",
@@ -315,7 +278,8 @@
     "subtitle": "İYTE'deki tüm aktif toplulukları keşfet",
     "empty": "Henüz aktif topluluk yok.",
     "viewPage": "Sayfayı Gör",
-    "noPage": "Sayfa yayında değil"
+    "noPage": "Sayfa yayında değil",
+    "notActivated": "Henüz katılmadı"
   },
   "clubPage": {
     "about": "Hakkımızda",
@@ -380,5 +344,45 @@
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
     "madeWith": "İYTE öğrencileri tarafından geliştirildi",
     "contact": "İletişim"
+  },
+  "clubActivation": {
+    "header": {
+      "label": "Topluluk hesabı aktivasyonu"
+    },
+    "email": {
+      "description": "Topluluk hesabın için kullanacağın e-posta adresini gir. Bu adrese 6 haneli bir doğrulama kodu göndereceğiz.",
+      "label": "E-posta",
+      "placeholder": "topluluk@ornek.com",
+      "submit": "Doğrulama Kodu Gönder",
+      "sending": "Gönderiliyor..."
+    },
+    "verify": {
+      "sent": "Kod {email} adresine gönderildi.",
+      "spamHint": "Birkaç dakika içinde gelmezse spam klasörüne bak.",
+      "code": "Doğrulama Kodu",
+      "changeEmail": "E-postayı değiştir",
+      "resend": "Kodu tekrar gönder",
+      "password": "Şifre",
+      "passwordHint": "En az 8 karakter; büyük harf, küçük harf ve rakam içermeli.",
+      "confirmPassword": "Şifre Tekrar",
+      "submit": "Hesabı Aktifleştir",
+      "submitting": "Aktifleştiriliyor..."
+    },
+    "done": {
+      "title": "Hesabın aktif!",
+      "description": "Artık İYTE Mobil uygulamasına @{username} kullanıcı adı veya {email} adresi ve belirlediğin şifreyle giriş yapabilirsin.",
+      "panel": "Web topluluk paneline giriş yap"
+    },
+    "invalid": {
+      "title": "Link geçersiz",
+      "description": "Bu aktivasyon linki geçersiz, daha önce kullanılmış veya süresi dolmuş. Yeni bir link için bize ulaş.",
+      "contact": "Bize ulaş"
+    },
+    "errors": {
+      "email": "Geçerli bir e-posta adresi gir.",
+      "code": "6 haneli doğrulama kodunu gir.",
+      "password": "Şifre en az 8 karakter olmalı; büyük harf, küçük harf ve rakam içermeli.",
+      "mismatch": "Şifreler eşleşmiyor."
+    }
   }
 }
