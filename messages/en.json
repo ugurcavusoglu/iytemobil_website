@@ -279,7 +279,10 @@
     "empty": "No active clubs yet.",
     "viewPage": "View Page",
     "noPage": "Page not published",
-    "notActivated": "Not joined yet"
+    "notActivated": "Not joined yet",
+    "members": "Members",
+    "membersCount": "{count} members",
+    "followers": "Followers in the app"
   },
   "clubPage": {
     "about": "About Us",

@@ -279,7 +279,10 @@
     "empty": "Henüz aktif topluluk yok.",
     "viewPage": "Sayfayı Gör",
     "noPage": "Sayfa yayında değil",
-    "notActivated": "Henüz katılmadı"
+    "notActivated": "Henüz katılmadı",
+    "members": "Üye",
+    "membersCount": "{count} üye",
+    "followers": "Uygulamadaki takipçi"
   },
   "clubPage": {
     "about": "Hakkımızda",

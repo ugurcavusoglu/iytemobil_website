@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { resolveClubApplicationApiBase } from '@/lib/club-application-api';
 import { GlowEffect } from '@/components/ui/GlowEffect';
-import { Users, Star, Calendar, ArrowRight, Search } from 'lucide-react';
+import { Users, UserRound, Star, Calendar, ArrowRight, Search } from 'lucide-react';
 
 interface Club {
   id: string;
@@ -16,6 +16,7 @@ interface Club {
   slug?: string;
   websitePublished?: boolean;
   isActivated?: boolean;
+  memberCount?: number;
   _count: { followers: number; events: number };
 }
 
@@ -40,7 +41,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 async function getClubs(): Promise<Club[]> {
   try {
     const res = await fetch(
-      `${resolveClubApplicationApiBase()}/api/clubs?status=APPROVED&sortBy=followers&limit=100`,
+      `${resolveClubApplicationApiBase()}/api/clubs?status=APPROVED&sortBy=members&limit=200`,
       { cache: 'no-store' },
     );
     if (!res.ok) return [];
@@ -130,7 +131,10 @@ export default async function ClubsPage({ params }: Props) {
                     </div>
                     <p className="mb-5 flex-1 text-sm leading-relaxed text-white/55 line-clamp-3">{club.description}</p>
                     <div className="mb-4 flex items-center gap-4 border-t border-white/5 pt-4 text-xs text-white/40">
-                      <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{club._count.followers}</span>
+                      {!!club.memberCount && (
+                        <span className="flex items-center gap-1.5" title={t('members')}><UserRound className="h-3.5 w-3.5" />{t('membersCount', { count: club.memberCount })}</span>
+                      )}
+                      <span className="flex items-center gap-1.5" title={t('followers')}><Users className="h-3.5 w-3.5" />{club._count.followers}</span>
                       <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{club._count.events}</span>
                       {club.totalRatings > 0 && (
                         <span className="ml-auto flex items-center gap-1 text-yellow-400/80">
