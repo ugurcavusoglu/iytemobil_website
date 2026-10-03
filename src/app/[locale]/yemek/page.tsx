@@ -1,29 +1,80 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from '@/i18n/navigation';
-import { ArrowLeft, ChevronLeft, ChevronRight, Utensils, Leaf, Wheat, Apple, School, Home } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Apple, ChevronLeft, ChevronRight, Flame, Home, Leaf, Moon, School, Sun, Utensils, Wheat } from 'lucide-react';
 import { PageHero } from '@/components/ui/PageHero';
 
 interface MenuItem {
-  id: string;
+  id?: string;
   name: string;
-  calories?: number;
-  allergens?: string;
+  calories?: number | null;
   order: number;
 }
 
 interface DailyMenu {
   id: string;
-  date: string;
   mealType: 'BREAKFAST' | 'LUNCH' | 'DINNER';
   location: 'SCHOOL' | 'DORM';
   menuType: string;
   items: MenuItem[];
 }
 
+type Location = 'SCHOOL' | 'DORM';
+type Meal = 'BREAKFAST' | 'LUNCH' | 'DINNER';
+
 const API_URL = 'https://api.iytemobil.com/api';
+const PREVIEW_ITEMS = 5;
+const CALORIE_LINE = /^\s*[\d.,]+(\s*[-–]\s*[\d.,]+)?\s*kcal\s*$/i;
+
+const TEXT = {
+  tr: {
+    eyebrow: 'Yemekhane & KYK',
+    title: 'Yemek Menüsü',
+    subtitle: 'Merkezi yemekhane ve KYK yurt menüleri, her gün güncel.',
+    today: 'Bugün',
+    school: 'Merkezi Yemekhane',
+    dorm: 'KYK Yurt',
+    kykDinner: 'KYK Akşam Yemeği',
+    meals: { BREAKFAST: 'Kahvaltı', LUNCH: 'Öğle Yemeği', DINNER: 'Akşam Yemeği' },
+    types: { REGULAR: 'Günlük Menü', VEGETARIAN: 'Vejetaryen Menü', VEGAN: 'Vegan Menü', GLUTEN_FREE: 'Glutensiz Menü' } as Record<string, string>,
+    closed: 'Kapalı',
+    schoolInfo: 'Merkezi yemekhanede sadece öğle yemeği servisi vardır.',
+    empty: 'Bu tarih için menü bulunamadı.',
+    emptySub: 'Başka bir gün seçmeyi dene.',
+    noToday: 'Bugün için menü yok',
+    days: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'],
+    cta: 'Restoranlar, puanlar ve fazlası için İYTE Mobil uygulamasını indir.',
+    ctaButton: 'Uygulamayı İndir',
+  },
+  en: {
+    eyebrow: 'Cafeteria & Dorm',
+    title: 'Food Menu',
+    subtitle: 'Central cafeteria and KYK dorm menus, updated every day.',
+    today: 'Today',
+    school: 'Central Cafeteria',
+    dorm: 'KYK Dorm',
+    kykDinner: 'KYK Dorm Dinner',
+    meals: { BREAKFAST: 'Breakfast', LUNCH: 'Lunch', DINNER: 'Dinner' },
+    types: { REGULAR: 'Daily Menu', VEGETARIAN: 'Vegetarian', VEGAN: 'Vegan', GLUTEN_FREE: 'Gluten-Free' } as Record<string, string>,
+    closed: 'Closed',
+    schoolInfo: 'The central cafeteria serves lunch only.',
+    empty: 'No menu for this date.',
+    emptySub: 'Try another day.',
+    noToday: 'No menu today',
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    cta: 'Get the IYTE Mobil app for restaurants, ratings and more.',
+    ctaButton: 'Download the App',
+  },
+};
+
+const TYPE_STYLE: Record<string, { icon: React.ElementType; color: string }> = {
+  REGULAR: { icon: Utensils, color: '#E63946' },
+  VEGETARIAN: { icon: Leaf, color: '#22c55e' },
+  VEGAN: { icon: Apple, color: '#10b981' },
+  GLUTEN_FREE: { icon: Wheat, color: '#eab308' },
+};
 
 const formatDate = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -34,286 +85,230 @@ const addDays = (date: Date, days: number) => {
   return d;
 };
 
-const displayDate = (dateStr: string, locale: string) => {
-  const date = new Date(dateStr + 'T00:00:00');
-  return date.toLocaleDateString(locale === 'tr' ? 'tr-TR' : 'en-US', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-};
+const mondayOf = (date: Date) => addDays(date, -((date.getDay() + 6) % 7));
+const sameDay = (a: Date, b: Date) => formatDate(a) === formatDate(b);
+const isWeekend = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
 
-async function fetchMenu(date: string, location: 'SCHOOL' | 'DORM'): Promise<DailyMenu[]> {
+async function fetchMenu(date: Date, location: Location): Promise<DailyMenu[]> {
   try {
-    const res = await fetch(`${API_URL}/food/daily-menu?date=${date}&location=${location}`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(`${API_URL}/food/daily-menu?date=${formatDate(date)}&location=${location}`, { cache: 'no-store' });
     if (!res.ok) return [];
     const data = await res.json();
-    if (Array.isArray(data)) return data;
-    if (data.menus) return data.menus;
-    return [];
+    return Array.isArray(data) ? data : data.menus ?? [];
   } catch {
     return [];
   }
 }
 
-const MEAL_ORDER = ['BREAKFAST', 'LUNCH', 'DINNER'];
+function splitCalories(items: MenuItem[]) {
+  const line = items.find((i) => CALORIE_LINE.test(i.name));
+  const food = items.filter((i) => i !== line).sort((a, b) => a.order - b.order);
+  const sum = food.reduce((s, i) => s + (i.calories ?? 0), 0);
+  return { food, kcal: line ? line.name.replace(/\s+/g, ' ').trim() : sum > 0 ? `${sum} kcal` : null };
+}
 
-const MEAL_LABELS: Record<string, Record<string, string>> = {
-  tr: { BREAKFAST: 'Kahvaltı', LUNCH: 'Öğle Yemeği', DINNER: 'Akşam Yemeği' },
-  en: { BREAKFAST: 'Breakfast', LUNCH: 'Lunch', DINNER: 'Dinner' },
-};
+function TodayCard({ t, locale }: { t: (typeof TEXT)['tr']; locale: string }) {
+  const [menu, setMenu] = useState<{ title: string; items: MenuItem[]; kcal: string | null } | null | undefined>(undefined);
 
-const MEAL_COLORS: Record<string, { glow: string; text: string; dot: string }> = {
-  BREAKFAST: { glow: 'bg-amber-500', text: 'text-amber-400', dot: 'bg-amber-400' },
-  LUNCH: { glow: 'bg-red-500', text: 'text-red-400', dot: 'bg-red-400' },
-  DINNER: { glow: 'bg-blue-500', text: 'text-blue-400', dot: 'bg-blue-400' },
-};
+  useEffect(() => {
+    const today = new Date();
+    (async () => {
+      const school = (await fetchMenu(today, 'SCHOOL')).find((m) => m.mealType === 'LUNCH' && m.menuType === 'REGULAR');
+      const source = school ?? (await fetchMenu(today, 'DORM')).find((m) => m.mealType === 'DINNER');
+      if (!source) return setMenu(null);
+      const { food, kcal } = splitCalories(source.items);
+      setMenu({ title: school ? t.school : t.kykDinner, items: food.slice(0, PREVIEW_ITEMS), kcal });
+    })();
+  }, [t]);
 
-const MENU_TYPE_CONFIG: Record<string, { icon: React.ElementType; label: Record<string, string>; color: string; bg: string }> = {
-  VEGETARIAN: { icon: Leaf, label: { tr: 'Vejetaryen', en: 'Vegetarian' }, color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/25' },
-  VEGAN: { icon: Apple, label: { tr: 'Vegan', en: 'Vegan' }, color: 'text-emerald-400', bg: 'bg-emerald-400/10 border-emerald-400/25' },
-  GLUTEN_FREE: { icon: Wheat, label: { tr: 'Glutensiz', en: 'Gluten-Free' }, color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/25' },
-};
+  const dateLabel = new Date().toLocaleDateString(locale === 'en' ? 'en-US' : 'tr-TR', { weekday: 'long', day: 'numeric', month: 'long' });
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
-};
+  return (
+    <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] border border-border">
+      <Image src="/images/app/food-menu.webp" alt="" fill sizes="(min-width: 1024px) 1200px, 100vw" className="object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/10" />
+      <div className="relative flex h-full min-h-[320px] flex-col justify-end p-6 md:p-10">
+        <div className="flex items-center gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/25 text-primary"><Utensils className="h-5 w-5" /></span>
+          <div>
+            <p className="text-lg font-bold">{menu?.title ?? t.today}</p>
+            <p className="text-sm capitalize text-white/60">{dateLabel}</p>
+          </div>
+          {menu?.kcal && (
+            <span className="ml-auto flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-amber-500/20 px-3 py-1 text-sm font-semibold text-amber-400"><Flame className="h-4 w-4" />{menu.kcal}</span>
+          )}
+        </div>
+        <div className="mt-5 min-h-[7.5rem]">
+          {menu === undefined && <div className="h-28 w-2/3 animate-pulse rounded-2xl bg-white/10" />}
+          {menu === null && <p className="text-xl font-semibold text-white/70">{t.noToday}</p>}
+          {menu && (
+            <ul className="space-y-1.5">
+              {menu.items.map((item, i) => (
+                <motion.li
+                  key={`${item.name}-${i}`}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + i * 0.06 }}
+                  className="truncate text-lg font-medium md:text-xl"
+                >
+                  {item.name}
+                </motion.li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MenuCard({ menu, t }: { menu: DailyMenu; t: (typeof TEXT)['tr'] }) {
+  const style = TYPE_STYLE[menu.menuType] ?? TYPE_STYLE.REGULAR;
+  const Icon = style.icon;
+  const { food, kcal } = splitCalories(menu.items);
+  return (
+    <motion.div layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="overflow-hidden rounded-3xl border border-border bg-surface">
+      <div className="flex items-center gap-3 border-b border-border px-5 py-4 md:px-6">
+        <Icon className="h-5 w-5" style={{ color: style.color }} />
+        <h3 className="text-lg font-bold">{t.types[menu.menuType] ?? menu.menuType}</h3>
+        {kcal && (
+          <span className="ml-auto flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-amber-500/15 px-3 py-1 text-sm font-semibold text-amber-400"><Flame className="h-4 w-4" />{kcal}</span>
+        )}
+      </div>
+      <ul>
+        {food.map((item, i) => (
+          <li key={`${item.name}-${i}`} className="flex items-center gap-4 border-b border-border px-5 py-3.5 last:border-b-0 md:px-6">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white" style={{ backgroundColor: style.color }}>{i + 1}</span>
+            <span className="flex-1 text-[15px]">{item.name}</span>
+            {!!item.calories && <span className="text-sm font-semibold text-primary">{item.calories} <span className="text-[10px] text-text-muted">kcal</span></span>}
+          </li>
+        ))}
+      </ul>
+    </motion.div>
+  );
+}
 
 export default function YemekPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = React.use(params);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [activeTab, setActiveTab] = useState<'SCHOOL' | 'DORM'>('SCHOOL');
+  const t = TEXT[locale === 'en' ? 'en' : 'tr'];
+  const today = useMemo(() => new Date(), []);
+  const [selectedDate, setSelectedDate] = useState(today);
+  const [weekStart, setWeekStart] = useState(() => mondayOf(today));
+  const [location, setLocation] = useState<Location>(isWeekend(today) ? 'DORM' : 'SCHOOL');
+  const [meal, setMeal] = useState<Meal>(isWeekend(today) || today.getHours() >= 15 ? 'DINNER' : 'LUNCH');
   const [menus, setMenus] = useState<DailyMenu[]>([]);
   const [loading, setLoading] = useState(true);
-  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     setLoading(true);
-    fetchMenu(formatDate(selectedDate), activeTab).then((data) => {
-      if (isFirstLoad.current && activeTab === 'SCHOOL' && data.length === 0) {
-        isFirstLoad.current = false;
-        setActiveTab('DORM');
-        return;
-      }
-      isFirstLoad.current = false;
+    fetchMenu(selectedDate, location).then((data) => {
       setMenus(data);
       setLoading(false);
     });
-  }, [selectedDate, activeTab]);
+  }, [selectedDate, location]);
 
-  const mealLabels = MEAL_LABELS[locale] || MEAL_LABELS.tr;
-  const isTr = locale === 'tr';
+  const activeMeal: Meal = location === 'SCHOOL' ? 'LUNCH' : meal === 'LUNCH' ? 'DINNER' : meal;
+  const shown = menus.filter((m) => m.mealType === activeMeal);
+  const week = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  const schoolClosed = location === 'SCHOOL' && isWeekend(selectedDate);
 
-  const groupedMenus = MEAL_ORDER.reduce<Record<string, DailyMenu[]>>((acc, mealType) => {
-    acc[mealType] = menus.filter((m) => m.mealType === mealType);
-    return acc;
-  }, {});
-
-  const hasSomeMenu = menus.length > 0;
+  const pickDay = (date: Date) => setSelectedDate(date);
+  const shiftWeek = (dir: number) => {
+    const start = addDays(weekStart, dir * 7);
+    setWeekStart(start);
+    setSelectedDate(sameDay(start, mondayOf(today)) ? today : start);
+  };
 
   return (
     <>
-      <PageHero
-        eyebrow={isTr ? 'Yemekhane & KYK' : 'Cafeteria & Dorm'}
-        title={isTr ? 'Yemek Menüsü' : 'Food Menu'}
-        subtitle={isTr ? 'Kampüs yemekhanesi ve KYK yurdunun günlük menüsü, kalori bilgisiyle.' : 'Daily menus of the campus cafeteria and KYK dorm, with calories.'}
-        image="amfi"
-      >
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-border-light bg-background/50 px-5 py-2.5 text-sm font-semibold text-text-secondary backdrop-blur transition-colors hover:border-primary hover:text-primary"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {isTr ? 'Geri' : 'Back'}
-        </Link>
-      </PageHero>
+      <PageHero eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} image="amfi" compact />
 
-      <section className="pb-24 pt-4 md:pb-32">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="mx-auto max-w-3xl">
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              transition={{ staggerChildren: 0.08 }}
-              className="space-y-3"
-            >
-              <motion.div variants={fadeUp} className="flex gap-1 rounded-full border border-border bg-surface p-1">
-                {(['SCHOOL', 'DORM'] as const).map((loc) => {
-                  const Icon = loc === 'SCHOOL' ? School : Home;
-                  return (
-                    <button
-                      key={loc}
-                      onClick={() => setActiveTab(loc)}
-                      className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-all ${
-                        activeTab === loc
-                          ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                          : 'text-text-secondary hover:text-text-primary'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      {loc === 'SCHOOL'
-                        ? isTr ? 'Yemekhane' : 'Cafeteria'
-                        : isTr ? 'KYK Yurt' : 'KYK Dorm'}
-                    </button>
-                  );
-                })}
-              </motion.div>
+      <section className="pb-24 pt-4">
+        <div className="mx-auto max-w-5xl px-6 md:px-12">
+          <TodayCard t={t} locale={locale} />
 
-              <motion.div variants={fadeUp} className="flex items-center justify-between gap-2 rounded-full border border-border bg-surface p-1.5">
-                <button
-                  onClick={() => setSelectedDate((d) => addDays(d, -1))}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-light text-text-secondary transition-colors hover:bg-primary hover:text-white"
-                >
-                  <ChevronLeft className="h-5 w-5" />
+          <div className="mt-10 grid grid-cols-2 gap-2 rounded-full border border-border bg-surface p-1.5">
+            {(['SCHOOL', 'DORM'] as const).map((loc) => {
+              const active = loc === location;
+              const Icon = loc === 'SCHOOL' ? School : Home;
+              return (
+                <button key={loc} onClick={() => setLocation(loc)} className={`relative flex items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-colors md:text-base ${active ? 'text-white' : 'text-text-secondary hover:text-text-primary'}`}>
+                  {active && <motion.span layoutId="loc-pill" className="absolute inset-0 rounded-full" style={{ backgroundColor: loc === 'SCHOOL' ? '#E63946' : '#f59e0b' }} transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
+                  <Icon className="relative h-4 w-4" />
+                  <span className="relative">{loc === 'SCHOOL' ? t.school : t.dorm}</span>
                 </button>
-                <p className="min-w-0 text-center text-sm font-semibold capitalize text-text-primary md:text-base">
-                  {displayDate(formatDate(selectedDate), locale)}
-                </p>
-                <button
-                  onClick={() => setSelectedDate((d) => addDays(d, 1))}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-light text-text-secondary transition-colors hover:bg-primary hover:text-white"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </motion.div>
-            </motion.div>
+              );
+            })}
+          </div>
 
-            <div className="mt-8">
-              {loading ? (
-                <div className="space-y-4">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="animate-pulse rounded-3xl border border-border bg-surface p-6">
-                      <div className="mb-5 flex items-center gap-2">
-                        <div className="h-2.5 w-2.5 rounded-full bg-surface-light" />
-                        <div className="h-4 w-32 rounded-full bg-surface-light" />
-                      </div>
-                      <div className="space-y-3">
-                        {[1, 2, 3, 4].map((j) => (
-                          <div key={j} className="flex justify-between">
-                            <div className="h-3 w-3/5 rounded-full bg-surface-light" />
-                            <div className="h-3 w-12 rounded-full bg-surface-light" />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : !hasSomeMenu ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="rounded-3xl border border-border bg-surface px-6 py-16 text-center"
-                >
-                  <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-surface-light">
-                    <Utensils className="h-7 w-7 text-text-muted" />
-                  </div>
-                  <p className="text-lg font-bold text-text-primary">
-                    {isTr ? 'Bu tarih için menü bulunamadı.' : 'No menu found for this date.'}
-                  </p>
-                  <p className="mt-1 text-sm text-text-secondary">
-                    {isTr ? 'Başka bir tarih seçmeyi deneyin.' : 'Try selecting a different date.'}
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true }}
-                  transition={{ staggerChildren: 0.08 }}
-                  className="space-y-4"
-                >
-                  {MEAL_ORDER.map((mealType) => {
-                    const mealMenus = groupedMenus[mealType];
-                    if (!mealMenus || mealMenus.length === 0) return null;
-                    const colors = MEAL_COLORS[mealType];
-
+          <AnimatePresence initial={false}>
+            {location === 'DORM' && (
+              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {(['BREAKFAST', 'DINNER'] as const).map((m) => {
+                    const active = m === activeMeal;
+                    const Icon = m === 'BREAKFAST' ? Sun : Moon;
                     return (
-                      <motion.div
-                        key={mealType}
-                        variants={fadeUp}
-                        className="relative overflow-hidden rounded-3xl border border-border bg-surface"
-                      >
-                        <div className={`pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full opacity-20 blur-3xl ${colors.glow}`} />
-                        <div className="relative flex items-center gap-2.5 border-b border-border px-6 py-4">
-                          <div className={`h-2.5 w-2.5 rounded-full ${colors.dot}`} />
-                          <h2 className={`text-sm font-bold uppercase tracking-[0.2em] ${colors.text}`}>
-                            {mealLabels[mealType]}
-                          </h2>
-                        </div>
-
-                        <div className="relative divide-y divide-border">
-                          {mealMenus
-                            .sort((a, b) => {
-                              const order = ['REGULAR', 'VEGETARIAN', 'VEGAN', 'GLUTEN_FREE'];
-                              return order.indexOf(a.menuType) - order.indexOf(b.menuType);
-                            })
-                            .map((menu) => {
-                              const typeConfig = MENU_TYPE_CONFIG[menu.menuType];
-                              const TypeIcon = typeConfig?.icon;
-                              return (
-                                <div key={menu.id} className="px-6 py-5">
-                                  {typeConfig && (
-                                    <div className={`mb-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${typeConfig.bg} ${typeConfig.color}`}>
-                                      <TypeIcon className="h-3 w-3" />
-                                      {typeConfig.label[locale] || typeConfig.label.tr}
-                                    </div>
-                                  )}
-                                  <ul className="space-y-3">
-                                    {menu.items
-                                      .sort((a, b) => a.order - b.order)
-                                      .map((item) => (
-                                        <li key={item.id} className="flex items-center justify-between gap-4">
-                                          <span className="text-[15px] leading-snug text-text-primary">{item.name}</span>
-                                          {item.calories ? (
-                                            <span className="shrink-0 rounded-full bg-surface-light px-2.5 py-0.5 text-xs tabular-nums text-text-muted">
-                                              {item.calories} kcal
-                                            </span>
-                                          ) : null}
-                                        </li>
-                                      ))}
-                                  </ul>
-                                </div>
-                              );
-                            })}
-                        </div>
-                      </motion.div>
+                      <button key={m} onClick={() => setMeal(m)} className={`flex items-center justify-center gap-2 rounded-full border py-2.5 text-sm font-semibold transition-colors ${active ? 'border-primary/50 bg-primary/10 text-primary' : 'border-border text-text-secondary hover:text-text-primary'}`}>
+                        <Icon className="h-4 w-4" />
+                        {t.meals[m]}
+                      </button>
                     );
                   })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="mt-6 flex items-center gap-2">
+            <button onClick={() => shiftWeek(-1)} aria-label="prev" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-text-secondary hover:text-text-primary"><ChevronLeft className="h-5 w-5" /></button>
+            <div className="grid flex-1 grid-cols-7 gap-1.5">
+              {week.map((date, i) => {
+                const active = sameDay(date, selectedDate);
+                const isToday = sameDay(date, today);
+                const closed = location === 'SCHOOL' && isWeekend(date);
+                return (
+                  <button
+                    key={formatDate(date)}
+                    onClick={() => pickDay(date)}
+                    className={`relative flex flex-col items-center rounded-2xl py-2.5 transition-colors ${active ? 'text-white' : 'bg-surface text-text-secondary hover:text-text-primary'} ${closed && !active ? 'opacity-40' : ''}`}
+                  >
+                    {active && <motion.span layoutId="day-box" className="absolute inset-0 rounded-2xl bg-primary" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
+                    <span className="relative text-[11px] font-semibold uppercase">{t.days[i]}</span>
+                    <span className="relative text-lg font-bold md:text-xl">{date.getDate()}</span>
+                    {isToday && <span className={`relative mt-0.5 h-1 w-1 rounded-full ${active ? 'bg-white' : 'bg-primary'}`} />}
+                  </button>
+                );
+              })}
+            </div>
+            <button onClick={() => shiftWeek(1)} aria-label="next" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-text-secondary hover:text-text-primary"><ChevronRight className="h-5 w-5" /></button>
+          </div>
+
+          {location === 'SCHOOL' && <p className="mt-4 text-center text-xs text-text-muted">{t.schoolInfo}</p>}
+
+          <div className="mt-6 space-y-4">
+            <AnimatePresence mode="popLayout">
+              {loading ? (
+                <motion.div key="loading" exit={{ opacity: 0 }} className="h-72 animate-pulse rounded-3xl bg-surface" />
+              ) : shown.length > 0 ? (
+                shown.map((menu) => <MenuCard key={`${menu.id}-${menu.menuType}`} menu={menu} t={t} />)
+              ) : (
+                <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-2 rounded-3xl border border-border bg-surface py-16 text-center">
+                  <Utensils className="h-10 w-10 text-text-disabled" />
+                  <p className="mt-2 font-semibold">{schoolClosed ? t.closed : t.empty}</p>
+                  {!schoolClosed && <p className="text-sm text-text-muted">{t.emptySub}</p>}
                 </motion.div>
               )}
-            </div>
+            </AnimatePresence>
+          </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="relative mt-12 overflow-hidden rounded-3xl border border-border bg-surface p-8 text-center md:p-10"
-            >
-              <div className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-primary/30 blur-3xl" />
-              <div className="relative">
-                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-light">
-                  <Utensils className="h-6 w-6 text-primary" />
-                </div>
-                <p className="mx-auto mb-6 max-w-md whitespace-pre-line text-text-secondary">
-                  {isTr
-                    ? 'Restoran menüleri, değerlendirmeler ve daha fazlası için\nİYTE Mobil uygulamasını indir.'
-                    : 'For restaurant menus, ratings and more,\ndownload IYTE Mobile.'}
-                </p>
-                <a
-                  href={`/${locale}/indir`}
-                  className="inline-flex items-center rounded-full bg-primary px-7 py-3 font-semibold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary-dark"
-                >
-                  {isTr ? 'Uygulamayı İndir' : 'Download App'}
-                </a>
-              </div>
-            </motion.div>
+          <div className="relative mt-16 overflow-hidden rounded-[2rem] border border-border p-8 text-center md:p-12">
+            <Image src="/images/app/food-hero.webp" alt="" fill sizes="1000px" className="object-cover opacity-30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
+            <div className="relative">
+              <p className="mx-auto max-w-md text-lg text-text-secondary">{t.cta}</p>
+              <a href={`/${locale}/indir`} className="mt-6 inline-flex rounded-full bg-primary px-7 py-3 font-semibold text-white transition-transform hover:scale-105">{t.ctaButton}</a>
+            </div>
           </div>
         </div>
       </section>

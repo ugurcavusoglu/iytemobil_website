@@ -1,307 +1,365 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Bus, Clock, MapPin, ArrowRight } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useLocale } from 'next-intl';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowLeftRight, Bus, Clock, MapPin } from 'lucide-react';
 import { PageHero } from '@/components/ui/PageHero';
 
 const API_URL = 'https://api.iytemobil.com/api';
+const WEEK = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+const NEXT_COUNT = 5;
+const VISIBLE_TIMES = 10;
 
-const DAYS_TR: Record<string, string> = {
-  MONDAY: 'Pazartesi',
-  TUESDAY: 'Salı',
-  WEDNESDAY: 'Çarşamba',
-  THURSDAY: 'Perşembe',
-  FRIDAY: 'Cuma',
-  SATURDAY: 'Cumartesi',
-  SUNDAY: 'Pazar',
+const LINES: Record<string, { color: string; image: string; label: string }> = {
+  '882': { color: '#3b82f6', image: '/images/app/transport-bus.webp', label: '882' },
+  '883': { color: '#8b5cf6', image: '/images/app/transport-bus.webp', label: '883' },
+  '982': { color: '#10b981', image: '/images/app/transport-bus.webp', label: '982' },
+  RING: { color: '#f59e0b', image: '/images/app/transport-ring.webp', label: 'RING' },
+  DOLMUS: { color: '#ec4899', image: '/images/app/transport-minibus.webp', label: 'DOLMUŞ' },
+};
+const DEFAULT_LINE = { color: '#E63946', image: '/images/app/transport-bus.webp', label: '' };
+
+const TEXT = {
+  tr: {
+    eyebrow: 'ESHOT · Ring · Dolmuş',
+    title: 'Ulaşım',
+    subtitle: 'Ring, dolmuş ve ESHOT seferleri. Sıradaki sefer bir bakışta.',
+    next: 'Sonraki seferler',
+    nextTrip: 'SONRAKİ SEFER',
+    left: 'dk kaldı',
+    min: 'dk',
+    hours: 'sa',
+    from: 'Nereden',
+    to: 'Nereye',
+    anywhere: 'Her yer',
+    today: 'Bugün',
+    tomorrow: 'Yarın',
+    lines: 'Hatlar',
+    noTrips: 'Bu güzergâh için sefer bulunamadı.',
+    noMoreToday: 'Bugün için başka sefer yok.',
+    noNext: 'Bugün için kalan sefer yok.',
+    showAll: 'Tüm saatleri göster',
+    showLess: 'Daha az göster',
+    days: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'],
+  },
+  en: {
+    eyebrow: 'ESHOT · Shuttle · Minibus',
+    title: 'Transit',
+    subtitle: 'Shuttle, minibus and ESHOT departures. Next trip at a glance.',
+    next: 'Next departures',
+    nextTrip: 'NEXT TRIP',
+    left: 'min left',
+    min: 'min',
+    hours: 'h',
+    from: 'From',
+    to: 'To',
+    anywhere: 'Anywhere',
+    today: 'Today',
+    tomorrow: 'Tomorrow',
+    lines: 'Lines',
+    noTrips: 'No trips found for this route.',
+    noMoreToday: 'No more trips today.',
+    noNext: 'No more departures today.',
+    showAll: 'Show all times',
+    showLess: 'Show less',
+    days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  },
 };
 
-const DAYS_EN: Record<string, string> = {
-  MONDAY: 'Monday',
-  TUESDAY: 'Tuesday',
-  WEDNESDAY: 'Wednesday',
-  THURSDAY: 'Thursday',
-  FRIDAY: 'Friday',
-  SATURDAY: 'Saturday',
-  SUNDAY: 'Sunday',
-};
-
-const DAY_ORDER = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
-
-const getCurrentDay = (): string => {
-  const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-  return days[new Date().getDay()];
-};
+type Text = (typeof TEXT)['tr'];
 
 interface BusSchedule {
   id: string;
   busCode: string;
-  busName: string;
+  busName?: string;
   dayOfWeek: string;
   departureTime: string;
   from: string;
   to: string;
-  fromLocation?: string;
-  toLocation?: string;
 }
 
-interface GroupedSchedules {
-  [busCode: string]: {
-    busName: string;
-    directions: {
-      [directionKey: string]: {
-        from: string;
-        to: string;
-        days: { [day: string]: BusSchedule[] };
-      };
-    };
-  };
-}
+const toMinutes = (time: string) => {
+  const [h, m] = time.split(':').map(Number);
+  return h * 60 + m;
+};
 
-async function fetchAllSchedules(): Promise<BusSchedule[]> {
+const routeStops = (s: BusSchedule) => {
+  const stops = s.busCode === 'DOLMUS' ? s.busName?.split(' - ')[1]?.split(' -> ') : undefined;
+  return stops && stops.length > 2 ? stops : [s.from, s.to];
+};
+
+const lineOf = (code: string) => LINES[code] ?? { ...DEFAULT_LINE, label: code };
+
+async function fetchSchedules(): Promise<BusSchedule[]> {
   try {
     const res = await fetch(`${API_URL}/bus`, { cache: 'no-store' });
     if (!res.ok) return [];
     const data = await res.json();
-    if (Array.isArray(data)) return data;
-    if (data && typeof data === 'object' && !data.schedules) {
-      return Object.values(data).flat() as BusSchedule[];
-    }
-    if (data.schedules) return data.schedules;
-    return [];
+    return Array.isArray(data) ? data : (Object.values(data).flat() as BusSchedule[]);
   } catch {
     return [];
   }
 }
 
-function groupSchedules(schedules: BusSchedule[]): GroupedSchedules {
-  const grouped: GroupedSchedules = {};
-  for (const s of schedules) {
-    const from = s.from ?? s.fromLocation ?? '';
-    const to = s.to ?? s.toLocation ?? '';
-    if (!grouped[s.busCode]) {
-      grouped[s.busCode] = { busName: s.busName, directions: {} };
-    }
-    const dirKey = `${from}→${to}`;
-    if (!grouped[s.busCode].directions[dirKey]) {
-      grouped[s.busCode].directions[dirKey] = { from, to, days: {} };
-    }
-    if (!grouped[s.busCode].directions[dirKey].days[s.dayOfWeek]) {
-      grouped[s.busCode].directions[dirKey].days[s.dayOfWeek] = [];
-    }
-    grouped[s.busCode].directions[dirKey].days[s.dayOfWeek].push(s);
-  }
-  for (const code of Object.keys(grouped)) {
-    for (const dir of Object.keys(grouped[code].directions)) {
-      for (const day of Object.keys(grouped[code].directions[dir].days)) {
-        grouped[code].directions[dir].days[day].sort((a, b) =>
-          a.departureTime.localeCompare(b.departureTime)
-        );
-      }
-    }
-  }
-  return grouped;
+function useNowMinutes() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(timer);
+  }, []);
+  return now.getHours() * 60 + now.getMinutes();
 }
 
-const BUS_COLORS: Record<string, { bg: string; border: string; text: string; badge: string }> = {
-  '882': { bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.25)', text: '#3b82f6', badge: 'rgba(59,130,246,0.15)' },
-  '883': { bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.25)', text: '#8b5cf6', badge: 'rgba(139,92,246,0.15)' },
-  '982': { bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.25)', text: '#10b981', badge: 'rgba(16,185,129,0.15)' },
-  'RING': { bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.25)', text: '#f59e0b', badge: 'rgba(245,158,11,0.15)' },
-  'DOLMUS': { bg: 'rgba(236,72,153,0.08)', border: 'rgba(236,72,153,0.25)', text: '#ec4899', badge: 'rgba(236,72,153,0.15)' },
-};
+function formatLeft(mins: number, t: Text) {
+  if (mins < 60) return `${mins} ${t.left}`;
+  return `${Math.floor(mins / 60)} ${t.hours} ${mins % 60} ${t.left}`;
+}
 
-const LINE_LABELS: Record<string, { tr: string; en: string; badge: string }> = {
-  DOLMUS: { tr: 'Gülbahçe – İYTE – İzmir / Urla dolmuşları', en: 'Gülbahçe – IZTECH – İzmir / Urla minibuses', badge: 'DOLMUŞ' },
-  RING: { tr: 'Ring servisi', en: 'Campus shuttle', badge: 'RING' },
-};
+function NextCard({ trip, nowMinutes, t }: { trip: BusSchedule; nowMinutes: number; t: Text }) {
+  const line = lineOf(trip.busCode);
+  const left = toMinutes(trip.departureTime) - nowMinutes;
+  const progress = Math.max(0.05, Math.min(1, 1 - left / 120));
+  return (
+    <div className="relative h-[300px] w-[85vw] max-w-[520px] shrink-0 snap-center overflow-hidden rounded-[2rem] border border-border md:h-[320px]">
+      <Image src={line.image} alt="" fill sizes="520px" className="object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+      <div className="relative flex h-full flex-col justify-end p-6 md:p-8">
+        <span className="w-fit rounded-full px-3 py-1 text-[11px] font-bold tracking-[0.2em] text-white" style={{ backgroundColor: line.color }}>{t.nextTrip}</span>
+        <p className="mt-3 text-7xl font-black leading-none tracking-tighter md:text-8xl">{trip.departureTime}</p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className="rounded-lg px-2.5 py-1 text-sm font-bold text-white" style={{ backgroundColor: line.color }}>{line.label}</span>
+          <span className="text-lg font-semibold">{routeStops(trip).join(' → ')}</span>
+        </div>
+        <p className="mt-3 flex items-center gap-1.5 text-sm font-semibold" style={{ color: line.color }}>
+          <Clock className="h-4 w-4" />
+          {formatLeft(left, t)}
+        </p>
+        <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/15">
+          <div className="h-full rounded-full" style={{ width: `${progress * 100}%`, backgroundColor: line.color }} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-const DEFAULT_COLOR = { bg: 'rgba(230,57,70,0.08)', border: 'rgba(230,57,70,0.25)', text: '#E63946', badge: 'rgba(230,57,70,0.15)' };
+function StopLine({ stops, from, to, color }: { stops: string[]; from: string; to: string; color: string }) {
+  return (
+    <div className="mt-4 flex items-center gap-2 border-t border-border pt-4 text-sm">
+      {stops.map((stop, i) => (
+        <div key={stop} className="flex min-w-0 flex-1 items-center gap-2 last:flex-none">
+          <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: stop === from ? color : stop === to ? '#E63946' : '#52525b' }} />
+          <span className={`shrink-0 ${stop === from ? 'font-semibold text-text-primary' : 'text-text-muted'}`}>{stop}</span>
+          {i < stops.length - 1 && <span className="h-px min-w-4 flex-1 border-t border-dashed border-border-light" />}
+        </div>
+      ))}
+    </div>
+  );
+}
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
-};
+function RouteCard({ trips, isToday, nowMinutes, t }: { trips: BusSchedule[]; isToday: boolean; nowMinutes: number; t: Text }) {
+  const [expanded, setExpanded] = useState(false);
+  const first = trips[0];
+  const line = lineOf(first.busCode);
+  const stops = routeStops(first);
+  const nextIndex = isToday ? trips.findIndex((s) => toMinutes(s.departureTime) >= nowMinutes) : -1;
+  const start = isToday && !expanded && nextIndex >= 0 ? nextIndex : 0;
+  const visible = expanded ? trips : trips.slice(start, start + VISIBLE_TIMES);
+  const allPassed = isToday && nextIndex === -1;
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      className="relative overflow-hidden rounded-3xl border border-border bg-surface p-5 md:p-6"
+    >
+      <span className="absolute inset-y-6 left-0 w-1 rounded-r-full" style={{ backgroundColor: line.color }} />
+      <div className="flex items-center gap-3">
+        <span className="shrink-0 rounded-lg px-2.5 py-1 text-sm font-bold text-white" style={{ backgroundColor: line.color }}>{line.label}</span>
+        <h3 className="truncate text-lg font-bold">{stops.join(' → ')}</h3>
+      </div>
+      {first.busName && first.busCode !== 'DOLMUS' && <p className="mt-1 truncate text-sm text-text-muted">{first.busName}</p>}
+      <StopLine stops={stops} from={first.from} to={first.to} color={line.color} />
+
+      {allPassed && !expanded ? (
+        <p className="mt-4 text-sm text-text-muted">{t.noMoreToday}</p>
+      ) : (
+        <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-5">
+          {visible.map((s) => {
+            const mins = toMinutes(s.departureTime) - nowMinutes;
+            const past = isToday && mins < 0;
+            const isNext = isToday && s === trips[nextIndex];
+            return (
+              <div
+                key={s.id}
+                className={`rounded-2xl border px-2 py-2.5 text-center ${isNext ? '' : 'border-border bg-surface-light'} ${past ? 'opacity-35' : ''}`}
+                style={isNext ? { backgroundColor: `${line.color}26`, borderColor: `${line.color}66` } : undefined}
+              >
+                <p className="text-base font-bold" style={isNext ? { color: line.color } : undefined}>{s.departureTime}</p>
+                {isToday && !past && mins < 180 && <p className="text-[11px] text-text-muted">{mins} {t.min}</p>}
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {(trips.length > VISIBLE_TIMES || allPassed) && (
+        <button onClick={() => setExpanded((v) => !v)} className="mt-4 text-sm font-semibold text-primary">
+          {expanded ? t.showLess : `${t.showAll} (${trips.length})`}
+        </button>
+      )}
+    </motion.div>
+  );
+}
+
+function Select({ label, value, options, onChange, anywhere }: { label: string; value: string; options: string[]; onChange: (v: string) => void; anywhere?: string }) {
+  return (
+    <label className="flex min-w-0 flex-1 flex-col gap-1">
+      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-text-muted">{label}</span>
+      <span className="flex items-center gap-2">
+        <MapPin className="h-5 w-5 shrink-0 text-primary" />
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full min-w-0 cursor-pointer appearance-none truncate bg-transparent text-xl font-bold text-text-primary outline-none md:text-2xl"
+        >
+          {anywhere && <option value="" className="bg-surface">{anywhere}</option>}
+          {options.map((o) => (
+            <option key={o} value={o} className="bg-surface">{o}</option>
+          ))}
+        </select>
+      </span>
+    </label>
+  );
+}
 
 export default function UlasimPage() {
+  const locale = useLocale();
+  const t = TEXT[locale === 'en' ? 'en' : 'tr'];
+  const nowMinutes = useNowMinutes();
   const [schedules, setSchedules] = useState<BusSchedule[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDay, setSelectedDay] = useState<string>(getCurrentDay());
-  const [locale, setLocale] = useState('tr');
+  const [from, setFrom] = useState('İYTE');
+  const [to, setTo] = useState('');
+  const [dayOffset, setDayOffset] = useState(0);
 
   useEffect(() => {
-    const lang = document.documentElement.lang || navigator.language || 'tr';
-    setLocale(lang.startsWith('en') ? 'en' : 'tr');
-  }, []);
-
-  useEffect(() => {
-    fetchAllSchedules().then((data) => {
+    fetchSchedules().then((data) => {
       setSchedules(data);
       setLoading(false);
     });
   }, []);
 
-  const grouped = groupSchedules(schedules);
-  const DAYS = locale === 'en' ? DAYS_EN : DAYS_TR;
+  const todayIndex = new Date().getDay();
+  const selectedDay = WEEK[(todayIndex + dayOffset) % 7];
+  const isToday = dayOffset === 0;
 
-  const t = {
-    title: locale === 'en' ? 'Bus Schedules' : 'Otobüs Saatleri',
-    subtitle: locale === 'en'
-      ? 'ESHOT bus lines and campus ring/minibus schedules'
-      : 'ESHOT otobüs hatları ve kampüs ring/dolmuş saatleri',
-    noSchedule: locale === 'en' ? 'No schedule for this day.' : 'Bu gün için sefer bulunamadı.',
-    from: locale === 'en' ? 'From' : 'Nereden',
-    to: locale === 'en' ? 'To' : 'Nereye',
-    departures: locale === 'en' ? 'departures' : 'sefer',
-    loading: locale === 'en' ? 'Loading...' : 'Yükleniyor...',
-    today: locale === 'en' ? 'Today' : 'Bugün',
+  const origins = useMemo(() => Array.from(new Set(schedules.filter((s) => s.from !== s.to).map((s) => s.from))).sort((a, b) => a.localeCompare(b, 'tr')), [schedules]);
+  const destinations = useMemo(() => Array.from(new Set(schedules.filter((s) => s.from === from && s.to !== from).map((s) => s.to))).sort((a, b) => a.localeCompare(b, 'tr')), [schedules, from]);
+
+  const nextTrips = useMemo(() => {
+    const seen = new Set<string>();
+    return schedules
+      .filter((s) => s.dayOfWeek === WEEK[todayIndex] && toMinutes(s.departureTime) >= nowMinutes && s.from !== s.to)
+      .sort((a, b) => toMinutes(a.departureTime) - toMinutes(b.departureTime))
+      .filter((s) => {
+        const key = `${s.busCode}|${s.busName}|${s.from}|${s.departureTime}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .slice(0, NEXT_COUNT);
+  }, [schedules, todayIndex, nowMinutes]);
+
+  const routes = useMemo(() => {
+    const groups = new Map<string, BusSchedule[]>();
+    for (const s of schedules) {
+      if (s.dayOfWeek !== selectedDay || s.from !== from || s.to === s.from || (to && s.to !== to)) continue;
+      const key = `${s.busCode}|${s.from}|${s.to}|${s.busName ?? ''}`;
+      groups.set(key, [...(groups.get(key) ?? []), s]);
+    }
+    return Array.from(groups.entries()).map(([key, trips]) => [key, trips.sort((a, b) => toMinutes(a.departureTime) - toMinutes(b.departureTime))] as const);
+  }, [schedules, selectedDay, from, to]);
+
+  const swap = () => {
+    if (!to) return;
+    setFrom(to);
+    setTo(from);
   };
-
-  const hasNoSchedule = Object.values(grouped).every((busData) =>
-    Object.values(busData.directions).every((dir) => !dir.days[selectedDay]?.length)
-  );
 
   return (
     <>
-      <PageHero eyebrow="ESHOT · Ring · Dolmuş" title={t.title} subtitle={t.subtitle} image="kampus-yol" />
+      <PageHero eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} image="kampus-yol" compact />
 
-      <section className="pb-24 pt-4 md:pb-32">
+      <section className="pb-6 pt-4">
         <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="-mx-6 mb-10 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:flex-wrap md:px-0"
-          >
-            {DAY_ORDER.map((day) => {
-              const isActive = selectedDay === day;
-              const isToday = day === getCurrentDay();
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-text-secondary">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+            {t.next}
+          </p>
+        </div>
+        <div className="mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 [scrollbar-width:none] md:px-12 [&::-webkit-scrollbar]:hidden">
+          {loading
+            ? Array.from({ length: 2 }).map((_, i) => <div key={i} className="h-[300px] w-[85vw] max-w-[520px] shrink-0 animate-pulse rounded-[2rem] bg-surface md:h-[320px]" />)
+            : nextTrips.map((trip) => <NextCard key={trip.id} trip={trip} nowMinutes={nowMinutes} t={t} />)}
+          {!loading && nextTrips.length === 0 && (
+            <div className="flex h-40 w-full items-center justify-center rounded-[2rem] border border-border bg-surface text-text-muted">{t.noNext}</div>
+          )}
+        </div>
+      </section>
+
+      <section className="pb-24">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <div className="flex items-center gap-3 rounded-[2rem] border border-border bg-surface p-5 md:p-7">
+            <Select label={t.from} value={from} options={origins} onChange={(v) => { setFrom(v); setTo(''); }} />
+            <button
+              onClick={swap}
+              disabled={!to}
+              aria-label="swap"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary transition-transform duration-300 hover:rotate-180 disabled:opacity-40"
+            >
+              <ArrowLeftRight className="h-5 w-5" />
+            </button>
+            <Select label={t.to} value={to} options={destinations} onChange={setTo} anywhere={t.anywhere} />
+          </div>
+
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {Array.from({ length: 7 }).map((_, offset) => {
+              const active = offset === dayOffset;
+              const label = offset === 0 ? t.today : offset === 1 ? t.tomorrow : t.days[(todayIndex + offset) % 7];
               return (
                 <button
-                  key={day}
-                  onClick={() => setSelectedDay(day)}
-                  className={`shrink-0 rounded-full border px-5 py-2.5 text-sm font-semibold transition-all ${
-                    isActive
-                      ? 'border-transparent bg-primary text-white shadow-lg shadow-primary/20'
-                      : isToday
-                        ? 'border-primary/40 bg-surface text-text-primary'
-                        : 'border-border-light text-text-secondary hover:text-text-primary'
-                  }`}
+                  key={offset}
+                  onClick={() => setDayOffset(offset)}
+                  className={`relative shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${active ? 'text-white' : 'border border-border-light text-text-secondary hover:text-text-primary'}`}
                 >
-                  {DAYS[day]}
-                  {isToday && <span className="ml-1.5 text-xs font-medium opacity-70">({t.today})</span>}
+                  {active && <motion.span layoutId="day-pill" className="absolute inset-0 rounded-full bg-primary" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
+                  <span className="relative">{label}</span>
                 </button>
               );
             })}
-          </motion.div>
+          </div>
 
-          {loading ? (
-            <div className="grid items-start gap-4 lg:grid-cols-2" aria-label={t.loading}>
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="animate-pulse rounded-3xl border border-border bg-surface p-6">
-                  <div className="mb-6 flex items-center gap-3">
-                    <div className="h-12 w-14 rounded-2xl bg-surface-light" />
-                    <div className="h-4 w-40 rounded-full bg-surface-light" />
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {[1, 2, 3, 4, 5, 6].map((j) => (
-                      <div key={j} className="h-8 w-20 rounded-full bg-surface-light" />
-                    ))}
-                  </div>
-                </div>
-              ))}
+          <div className="mt-10 flex items-baseline gap-3">
+            <h2 className="text-3xl font-black tracking-tight md:text-4xl">{t.lines}</h2>
+            <span className="rounded-full bg-primary/15 px-3 py-0.5 text-sm font-bold text-primary">{routes.length}</span>
+          </div>
+
+          <div className="mt-6 grid items-start gap-4 lg:grid-cols-2">
+            <AnimatePresence mode="popLayout">
+              {loading
+                ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-56 animate-pulse rounded-3xl bg-surface" />)
+                : routes.map(([key, trips]) => <RouteCard key={`${key}|${selectedDay}`} trips={trips} isToday={isToday} nowMinutes={nowMinutes} t={t} />)}
+            </AnimatePresence>
+          </div>
+          {!loading && routes.length === 0 && (
+            <div className="flex flex-col items-center gap-3 rounded-3xl border border-border bg-surface py-16 text-text-muted">
+              <Bus className="h-10 w-10" />
+              <p>{t.noTrips}</p>
             </div>
-          ) : hasNoSchedule ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="rounded-3xl border border-border bg-surface px-6 py-16 text-center"
-            >
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-surface-light">
-                <Bus className="h-7 w-7 text-text-muted" />
-              </div>
-              <p className="text-lg font-bold text-text-primary">{t.noSchedule}</p>
-            </motion.div>
-          ) : (
-            <motion.div
-              key={selectedDay}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              transition={{ staggerChildren: 0.07 }}
-              className="grid items-start gap-4 lg:grid-cols-2"
-            >
-              {Object.entries(grouped).map(([busCode, busData]) => {
-                const color = BUS_COLORS[busCode] || DEFAULT_COLOR;
-                const directionsForDay = Object.entries(busData.directions).filter(
-                  ([, dir]) => (dir.days[selectedDay]?.length ?? 0) > 0
-                );
-                if (directionsForDay.length === 0) return null;
-
-                return (
-                  <motion.div
-                    key={busCode}
-                    variants={fadeUp}
-                    className="relative overflow-hidden rounded-3xl border border-border bg-surface p-6"
-                  >
-                    <div
-                      className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full opacity-25 blur-3xl"
-                      style={{ backgroundColor: color.text }}
-                    />
-                    <div className="relative mb-6 flex items-center gap-3">
-                      <div
-                        className="flex h-12 min-w-14 items-center justify-center rounded-2xl px-3 text-base font-black tracking-tight"
-                        style={{ backgroundColor: color.badge, color: color.text }}
-                      >
-                        {LINE_LABELS[busCode]?.badge ?? busCode}
-                      </div>
-                      <p className="min-w-0 text-lg font-bold leading-snug text-text-primary">
-                        {LINE_LABELS[busCode]?.[locale === 'en' ? 'en' : 'tr'] ?? busData.busName}
-                      </p>
-                    </div>
-
-                    <div className="relative space-y-6">
-                      {directionsForDay.map(([dirKey, dir]) => {
-                        const daySchedules = dir.days[selectedDay];
-                        return (
-                          <div key={dirKey}>
-                            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                              <div className="flex min-w-0 flex-wrap items-center gap-1.5 text-sm font-semibold" style={{ color: color.text }}>
-                                <MapPin className="h-3.5 w-3.5 shrink-0" />
-                                <span>{dir.from}</span>
-                                <ArrowRight className="h-3.5 w-3.5 shrink-0" />
-                                <span>{dir.to}</span>
-                              </div>
-                              <span
-                                className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
-                                style={{ backgroundColor: color.badge, color: color.text }}
-                              >
-                                {daySchedules.length} {t.departures}
-                              </span>
-                            </div>
-
-                            <div className="flex flex-wrap gap-2">
-                              {daySchedules.map((s) => (
-                                <div
-                                  key={s.id}
-                                  className="flex items-center gap-1.5 rounded-full border border-border bg-surface-light px-3 py-1.5"
-                                >
-                                  <Clock className="h-3 w-3" style={{ color: color.text }} />
-                                  <span className="font-mono text-sm tabular-nums text-text-primary">{s.departureTime}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
           )}
         </div>
       </section>
