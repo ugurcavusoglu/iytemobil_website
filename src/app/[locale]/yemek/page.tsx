@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from '@/i18n/navigation';
 import { ChevronLeft, ChevronRight, Utensils, Leaf, Wheat, Apple } from 'lucide-react';
 
@@ -23,7 +23,8 @@ interface DailyMenu {
 
 const API_URL = 'https://api.iytemobil.com/api';
 
-const formatDate = (date: Date) => date.toISOString().split('T')[0];
+const formatDate = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
 const addDays = (date: Date, days: number) => {
   const d = new Date(date);
@@ -81,10 +82,17 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
   const [activeTab, setActiveTab] = useState<'SCHOOL' | 'DORM'>('SCHOOL');
   const [menus, setMenus] = useState<DailyMenu[]>([]);
   const [loading, setLoading] = useState(true);
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     setLoading(true);
     fetchMenu(formatDate(selectedDate), activeTab).then((data) => {
+      if (isFirstLoad.current && activeTab === 'SCHOOL' && data.length === 0) {
+        isFirstLoad.current = false;
+        setActiveTab('DORM');
+        return;
+      }
+      isFirstLoad.current = false;
       setMenus(data);
       setLoading(false);
     });
