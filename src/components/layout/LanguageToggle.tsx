@@ -6,7 +6,6 @@ import { Globe } from 'lucide-react';
 export function LanguageToggle() {
   const pathname = usePathname();
 
-  // Pathname'den locale'i direkt parse et
   const currentLocale = pathname.startsWith('/en') ? 'en' : 'tr';
   const nextLocale = currentLocale === 'tr' ? 'en' : 'tr';
 
@@ -19,10 +18,10 @@ export function LanguageToggle() {
   return (
     <button
       onClick={toggleLocale}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all duration-300 text-sm hover:scale-105 active:scale-95"
+      className="flex h-9 items-center gap-1.5 rounded-full px-3 text-sm text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary"
     >
-      <Globe className="w-4 h-4 text-text-secondary" />
-      <span className="font-medium text-white uppercase">
+      <Globe className="h-4 w-4" />
+      <span className="font-semibold uppercase">
         {nextLocale.toUpperCase()}
       </span>
     </button>

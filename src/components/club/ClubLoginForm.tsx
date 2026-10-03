@@ -52,46 +52,46 @@ export function ClubLoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       {error && (
-        <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {error}
         </div>
       )}
 
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-white/70">
+        <label className="mb-2 block text-sm font-semibold text-text-secondary">
           E-posta veya Kullanıcı Adı
         </label>
         <div className="relative">
-          <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+          <User className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             placeholder="topluluk@ornek.com veya kullanici_adi"
             autoComplete="username"
-            className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-white/30 focus:ring-1 focus:ring-white/20"
+            className="w-full rounded-2xl border border-border bg-surface-light py-3.5 pl-11 pr-4 text-sm text-text-primary placeholder-text-disabled outline-none transition-colors focus:border-primary"
           />
         </div>
       </div>
 
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-white/70">Şifre</label>
+        <label className="mb-2 block text-sm font-semibold text-text-secondary">Şifre</label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+          <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             autoComplete="current-password"
-            className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-10 text-sm text-white placeholder-white/30 outline-none transition-colors focus:border-white/30 focus:ring-1 focus:ring-white/20"
+            className="w-full rounded-2xl border border-border bg-surface-light py-3.5 pl-11 pr-11 text-sm text-text-primary placeholder-text-disabled outline-none transition-colors focus:border-primary"
           />
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
@@ -101,7 +101,7 @@ export function ClubLoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60"
       >
         {loading ? (
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -111,7 +111,7 @@ export function ClubLoginForm() {
         {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
       </button>
 
-      <p className="text-center text-xs text-white/30">
+      <p className="text-center text-xs text-text-muted">
         İYTE Mobil uygulamasındaki topluluk hesabı bilgilerinizle giriş yapın
       </p>
     </form>

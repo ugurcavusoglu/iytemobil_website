@@ -3,15 +3,15 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
 import { PhoneFrame } from '@/components/ui/PhoneFrame';
 
 const PANELS = [
-  { key: 'social', screen: '/images/screens/feed.webp', photo: '/images/iyte/konser-kalabalik.webp', color: '#E63946' },
-  { key: 'transport', screen: '/images/screens/transport.webp', photo: '/images/iyte/kampus-yol.webp', color: '#22c55e' },
-  { key: 'food', screen: '/images/screens/food.webp', photo: '/images/iyte/kampus-panorama.webp', color: '#f97316' },
-  { key: 'clubs', screen: '/images/screens/clubs.webp', photo: '/images/iyte/topluluk-stant.webp', color: '#3b82f6' },
-  { key: 'events', screen: '/images/screens/events.webp', photo: '/images/iyte/hdt-sahne.webp', color: '#8b5cf6' },
+  { key: 'social', screen: '/images/screens/feed.webp', photo: '/images/iyte/sm/konser-kalabalik.webp', color: '#E63946' },
+  { key: 'transport', screen: '/images/screens/transport.webp', photo: '/images/iyte/sm/kampus-yol.webp', color: '#22c55e' },
+  { key: 'food', screen: '/images/screens/food.webp', photo: '/images/iyte/sm/kampus-panorama.webp', color: '#f97316' },
+  { key: 'clubs', screen: '/images/screens/clubs.webp', photo: '/images/iyte/sm/topluluk-stant.webp', color: '#3b82f6' },
+  { key: 'events', screen: '/images/screens/events.webp', photo: '/images/iyte/sm/hdt-sahne.webp', color: '#8b5cf6' },
 ] as const;
 
 function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; index: number; progress: MotionValue<number> }) {
@@ -29,7 +29,7 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
 
       <motion.span
         style={{ x: wordX, WebkitTextStroke: `2px ${panel.color}` }}
-        className="pointer-events-none absolute select-none whitespace-nowrap text-[26vw] font-black leading-none tracking-tighter text-transparent md:text-[20vw]"
+        className="pointer-events-none absolute select-none whitespace-nowrap will-change-transform text-[26vw] font-black leading-none tracking-tighter text-transparent md:text-[20vw]"
       >
         {t(`${panel.key}.word`)}
       </motion.span>
@@ -55,7 +55,8 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
 export function FeatureRail() {
   const t = useTranslations('home.rail');
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const scrollYProgress = useSpring(rawProgress, { stiffness: 140, damping: 32, mass: 0.35 });
   const x = useTransform(scrollYProgress, [0, 1], ['0vw', `-${(PANELS.length - 1) * 100}vw`]);
   const bar = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
@@ -63,7 +64,7 @@ export function FeatureRail() {
     <section id="tour" ref={ref} style={{ height: `${PANELS.length * 100}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <p className="absolute left-6 top-24 z-10 text-xs font-semibold uppercase tracking-[0.35em] text-text-muted md:left-12">{t('eyebrow')}</p>
-        <motion.div style={{ x }} className="flex h-full">
+        <motion.div style={{ x }} className="flex h-full will-change-transform">
           {PANELS.map((panel, i) => (
             <Panel key={panel.key} panel={panel} index={i} progress={scrollYProgress} />
           ))}

@@ -3,16 +3,17 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { motion, transform, useScroll, useTransform } from 'framer-motion';
+import { motion, transform, useScroll, useSpring, useTransform } from 'framer-motion';
 import { Apple, ChevronDown, Play } from 'lucide-react';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 
 export function HeroIyte() {
   const t = useTranslations('home.hero');
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const scrollYProgress = useSpring(rawProgress, { stiffness: 140, damping: 32, mass: 0.35 });
 
-  const maskScale = useTransform(scrollYProgress, [0, 0.42], [1, 60]);
+  const maskScale = useTransform(scrollYProgress, [0, 0.42], [1, 40]);
   const maskOpacity = useTransform(scrollYProgress, (v) => transform(v, [0.26, 0.4], [1, 0]));
   const photoScale = useTransform(scrollYProgress, [0, 0.6], [1.25, 1]);
   const introFade = useTransform(scrollYProgress, (v) => transform(v, [0, 0.12], [1, 0]));
@@ -23,13 +24,13 @@ export function HeroIyte() {
   return (
     <section ref={ref} className="relative h-[320vh]">
       <div className="sticky top-0 isolate h-[100svh] overflow-hidden">
-        <motion.div style={{ scale: photoScale }} className="absolute inset-0">
+        <motion.div style={{ scale: photoScale }} className="absolute inset-0 will-change-transform">
           <Image src="/images/iyte/cam-bina.webp" alt="" fill priority sizes="100vw" className="object-cover" />
         </motion.div>
 
         <motion.div
           style={{ scale: maskScale, opacity: maskOpacity, transformOrigin: '59% 52%' }}
-          className="absolute inset-0 flex items-center justify-center bg-background mix-blend-multiply"
+          className="absolute inset-0 flex items-center justify-center bg-background mix-blend-multiply will-change-transform"
         >
           <span className="select-none text-[38vw] font-black leading-none tracking-[-0.06em] text-white md:text-[30vw]">İYTE</span>
         </motion.div>

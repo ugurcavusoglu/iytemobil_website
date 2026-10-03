@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
-import { ChevronLeft, ChevronRight, Utensils, Leaf, Wheat, Apple } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Utensils, Leaf, Wheat, Apple, School, Home } from 'lucide-react';
+import { PageHero } from '@/components/ui/PageHero';
 
 interface MenuItem {
   id: string;
@@ -64,16 +66,21 @@ const MEAL_LABELS: Record<string, Record<string, string>> = {
   en: { BREAKFAST: 'Breakfast', LUNCH: 'Lunch', DINNER: 'Dinner' },
 };
 
-const MEAL_COLORS: Record<string, { bg: string; border: string; text: string; dot: string }> = {
-  BREAKFAST: { bg: 'bg-amber-500/8', border: 'border-amber-500/20', text: 'text-amber-400', dot: 'bg-amber-400' },
-  LUNCH:     { bg: 'bg-red-500/8',   border: 'border-red-500/20',   text: 'text-red-400',   dot: 'bg-red-400'   },
-  DINNER:    { bg: 'bg-blue-500/8',  border: 'border-blue-500/20',  text: 'text-blue-400',  dot: 'bg-blue-400'  },
+const MEAL_COLORS: Record<string, { glow: string; text: string; dot: string }> = {
+  BREAKFAST: { glow: 'bg-amber-500', text: 'text-amber-400', dot: 'bg-amber-400' },
+  LUNCH: { glow: 'bg-red-500', text: 'text-red-400', dot: 'bg-red-400' },
+  DINNER: { glow: 'bg-blue-500', text: 'text-blue-400', dot: 'bg-blue-400' },
 };
 
 const MENU_TYPE_CONFIG: Record<string, { icon: React.ElementType; label: Record<string, string>; color: string; bg: string }> = {
-  VEGETARIAN: { icon: Leaf,  label: { tr: 'Vejetaryen', en: 'Vegetarian' }, color: 'text-green-400',  bg: 'bg-green-400/10 border-green-400/25' },
-  VEGAN:      { icon: Apple, label: { tr: 'Vegan',      en: 'Vegan'      }, color: 'text-emerald-400', bg: 'bg-emerald-400/10 border-emerald-400/25' },
-  GLUTEN_FREE:{ icon: Wheat, label: { tr: 'Glutensiz',  en: 'Gluten-Free'}, color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/25' },
+  VEGETARIAN: { icon: Leaf, label: { tr: 'Vejetaryen', en: 'Vegetarian' }, color: 'text-green-400', bg: 'bg-green-400/10 border-green-400/25' },
+  VEGAN: { icon: Apple, label: { tr: 'Vegan', en: 'Vegan' }, color: 'text-emerald-400', bg: 'bg-emerald-400/10 border-emerald-400/25' },
+  GLUTEN_FREE: { icon: Wheat, label: { tr: 'Glutensiz', en: 'Gluten-Free' }, color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/25' },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
 export default function YemekPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -99,6 +106,7 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
   }, [selectedDate, activeTab]);
 
   const mealLabels = MEAL_LABELS[locale] || MEAL_LABELS.tr;
+  const isTr = locale === 'tr';
 
   const groupedMenus = MEAL_ORDER.reduce<Record<string, DailyMenu[]>>((acc, mealType) => {
     acc[mealType] = menus.filter((m) => m.mealType === mealType);
@@ -108,173 +116,207 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
   const hasSomeMenu = menus.length > 0;
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white">
-      {/* Top nav bar */}
-      <div className="border-b border-white/5 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            {locale === 'tr' ? 'Geri' : 'Back'}
-          </Link>
-          <div className="flex items-center gap-2">
-            <Utensils className="w-4 h-4 text-red-500" />
-            <span className="font-semibold text-sm">
-              {locale === 'tr' ? 'Yemek Menüsü' : 'Food Menu'}
-            </span>
-          </div>
-          <div className="w-12" />
-        </div>
-      </div>
+    <>
+      <PageHero
+        eyebrow={isTr ? 'Yemekhane & KYK' : 'Cafeteria & Dorm'}
+        title={isTr ? 'Yemek Menüsü' : 'Food Menu'}
+        subtitle={isTr ? 'Kampüs yemekhanesi ve KYK yurdunun günlük menüsü, kalori bilgisiyle.' : 'Daily menus of the campus cafeteria and KYK dorm, with calories.'}
+        image="amfi"
+      >
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 rounded-full border border-border-light bg-background/50 px-5 py-2.5 text-sm font-semibold text-text-secondary backdrop-blur transition-colors hover:border-primary hover:text-primary"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {isTr ? 'Geri' : 'Back'}
+        </Link>
+      </PageHero>
 
-      <div className="max-w-3xl mx-auto px-4 py-6">
-        {/* Location tabs */}
-        <div className="flex gap-2 mb-5">
-          {(['SCHOOL', 'DORM'] as const).map((loc) => (
-            <button
-              key={loc}
-              onClick={() => setActiveTab(loc)}
-              className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
-                activeTab === loc
-                  ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/8'
-              }`}
+      <section className="pb-24 pt-4 md:pb-32">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <div className="mx-auto max-w-3xl">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              transition={{ staggerChildren: 0.08 }}
+              className="space-y-3"
             >
-              {loc === 'SCHOOL'
-                ? locale === 'tr' ? '🏫 Yemekhane' : '🏫 Cafeteria'
-                : locale === 'tr' ? '🏠 KYK Yurt' : '🏠 KYK Dorm'}
-            </button>
-          ))}
-        </div>
+              <motion.div variants={fadeUp} className="flex gap-1 rounded-full border border-border bg-surface p-1">
+                {(['SCHOOL', 'DORM'] as const).map((loc) => {
+                  const Icon = loc === 'SCHOOL' ? School : Home;
+                  return (
+                    <button
+                      key={loc}
+                      onClick={() => setActiveTab(loc)}
+                      className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-all ${
+                        activeTab === loc
+                          ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                          : 'text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {loc === 'SCHOOL'
+                        ? isTr ? 'Yemekhane' : 'Cafeteria'
+                        : isTr ? 'KYK Yurt' : 'KYK Dorm'}
+                    </button>
+                  );
+                })}
+              </motion.div>
 
-        {/* Date navigator */}
-        <div className="flex items-center justify-between mb-6 bg-white/4 border border-white/8 rounded-2xl px-3 py-2.5">
-          <button
-            onClick={() => setSelectedDate((d) => addDays(d, -1))}
-            className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white transition-all"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="text-center">
-            <p className="font-semibold text-white text-sm capitalize">
-              {displayDate(formatDate(selectedDate), locale)}
-            </p>
-          </div>
-          <button
-            onClick={() => setSelectedDate((d) => addDays(d, 1))}
-            className="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white transition-all"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+              <motion.div variants={fadeUp} className="flex items-center justify-between gap-2 rounded-full border border-border bg-surface p-1.5">
+                <button
+                  onClick={() => setSelectedDate((d) => addDays(d, -1))}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-light text-text-secondary transition-colors hover:bg-primary hover:text-white"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <p className="min-w-0 text-center text-sm font-semibold capitalize text-text-primary md:text-base">
+                  {displayDate(formatDate(selectedDate), locale)}
+                </p>
+                <button
+                  onClick={() => setSelectedDate((d) => addDays(d, 1))}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-light text-text-secondary transition-colors hover:bg-primary hover:text-white"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </motion.div>
+            </motion.div>
 
-        {/* Content */}
-        {loading ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white/4 border border-white/8 rounded-2xl p-5 animate-pulse">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-2 h-2 rounded-full bg-white/20" />
-                  <div className="h-3.5 bg-white/10 rounded w-28" />
-                </div>
-                <div className="space-y-3">
-                  {[1, 2, 3, 4].map((j) => (
-                    <div key={j} className="flex justify-between">
-                      <div className="h-3 bg-white/8 rounded w-3/5" />
-                      <div className="h-3 bg-white/8 rounded w-12" />
+            <div className="mt-8">
+              {loading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="animate-pulse rounded-3xl border border-border bg-surface p-6">
+                      <div className="mb-5 flex items-center gap-2">
+                        <div className="h-2.5 w-2.5 rounded-full bg-surface-light" />
+                        <div className="h-4 w-32 rounded-full bg-surface-light" />
+                      </div>
+                      <div className="space-y-3">
+                        {[1, 2, 3, 4].map((j) => (
+                          <div key={j} className="flex justify-between">
+                            <div className="h-3 w-3/5 rounded-full bg-surface-light" />
+                            <div className="h-3 w-12 rounded-full bg-surface-light" />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : !hasSomeMenu ? (
-          <div className="text-center py-20 text-zinc-600">
-            <Utensils className="w-14 h-14 mx-auto mb-4 opacity-20" />
-            <p className="font-medium text-zinc-500">
-              {locale === 'tr' ? 'Bu tarih için menü bulunamadı.' : 'No menu found for this date.'}
-            </p>
-            <p className="text-sm mt-1 text-zinc-600">
-              {locale === 'tr' ? 'Başka bir tarih seçmeyi deneyin.' : 'Try selecting a different date.'}
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {MEAL_ORDER.map((mealType) => {
-              const mealMenus = groupedMenus[mealType];
-              if (!mealMenus || mealMenus.length === 0) return null;
-              const colors = MEAL_COLORS[mealType];
-
-              return (
-                <div key={mealType} className={`${colors.bg} border ${colors.border} rounded-2xl overflow-hidden`}>
-                  {/* Meal header */}
-                  <div className="px-5 py-3.5 border-b border-white/5 flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${colors.dot}`} />
-                    <h2 className={`text-sm font-bold ${colors.text} uppercase tracking-wider`}>
-                      {mealLabels[mealType]}
-                    </h2>
+              ) : !hasSomeMenu ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="rounded-3xl border border-border bg-surface px-6 py-16 text-center"
+                >
+                  <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-surface-light">
+                    <Utensils className="h-7 w-7 text-text-muted" />
                   </div>
+                  <p className="text-lg font-bold text-text-primary">
+                    {isTr ? 'Bu tarih için menü bulunamadı.' : 'No menu found for this date.'}
+                  </p>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    {isTr ? 'Başka bir tarih seçmeyi deneyin.' : 'Try selecting a different date.'}
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true }}
+                  transition={{ staggerChildren: 0.08 }}
+                  className="space-y-4"
+                >
+                  {MEAL_ORDER.map((mealType) => {
+                    const mealMenus = groupedMenus[mealType];
+                    if (!mealMenus || mealMenus.length === 0) return null;
+                    const colors = MEAL_COLORS[mealType];
 
-                  {/* Menu type groups */}
-                  <div className="divide-y divide-white/5">
-                    {mealMenus
-                      .sort((a, b) => {
-                        const order = ['REGULAR', 'VEGETARIAN', 'VEGAN', 'GLUTEN_FREE'];
-                        return order.indexOf(a.menuType) - order.indexOf(b.menuType);
-                      })
-                      .map((menu) => {
-                        const typeConfig = MENU_TYPE_CONFIG[menu.menuType];
-                        const TypeIcon = typeConfig?.icon;
-                        return (
-                          <div key={menu.id} className="px-5 py-4">
-                            {typeConfig && (
-                              <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-semibold mb-3 ${typeConfig.bg} ${typeConfig.color}`}>
-                                <TypeIcon className="w-3 h-3" />
-                                {typeConfig.label[locale] || typeConfig.label.tr}
-                              </div>
-                            )}
-                            <ul className="space-y-2.5">
-                              {menu.items
-                                .sort((a, b) => a.order - b.order)
-                                .map((item) => (
-                                  <li key={item.id} className="flex items-center justify-between gap-4">
-                                    <span className="text-zinc-200 text-sm leading-snug">{item.name}</span>
-                                    {item.calories ? (
-                                      <span className="text-zinc-600 text-xs shrink-0 tabular-nums">
-                                        {item.calories} kcal
-                                      </span>
-                                    ) : null}
-                                  </li>
-                                ))}
-                            </ul>
-                          </div>
-                        );
-                      })}
-                  </div>
+                    return (
+                      <motion.div
+                        key={mealType}
+                        variants={fadeUp}
+                        className="relative overflow-hidden rounded-3xl border border-border bg-surface"
+                      >
+                        <div className={`pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full opacity-20 blur-3xl ${colors.glow}`} />
+                        <div className="relative flex items-center gap-2.5 border-b border-border px-6 py-4">
+                          <div className={`h-2.5 w-2.5 rounded-full ${colors.dot}`} />
+                          <h2 className={`text-sm font-bold uppercase tracking-[0.2em] ${colors.text}`}>
+                            {mealLabels[mealType]}
+                          </h2>
+                        </div>
+
+                        <div className="relative divide-y divide-border">
+                          {mealMenus
+                            .sort((a, b) => {
+                              const order = ['REGULAR', 'VEGETARIAN', 'VEGAN', 'GLUTEN_FREE'];
+                              return order.indexOf(a.menuType) - order.indexOf(b.menuType);
+                            })
+                            .map((menu) => {
+                              const typeConfig = MENU_TYPE_CONFIG[menu.menuType];
+                              const TypeIcon = typeConfig?.icon;
+                              return (
+                                <div key={menu.id} className="px-6 py-5">
+                                  {typeConfig && (
+                                    <div className={`mb-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${typeConfig.bg} ${typeConfig.color}`}>
+                                      <TypeIcon className="h-3 w-3" />
+                                      {typeConfig.label[locale] || typeConfig.label.tr}
+                                    </div>
+                                  )}
+                                  <ul className="space-y-3">
+                                    {menu.items
+                                      .sort((a, b) => a.order - b.order)
+                                      .map((item) => (
+                                        <li key={item.id} className="flex items-center justify-between gap-4">
+                                          <span className="text-[15px] leading-snug text-text-primary">{item.name}</span>
+                                          {item.calories ? (
+                                            <span className="shrink-0 rounded-full bg-surface-light px-2.5 py-0.5 text-xs tabular-nums text-text-muted">
+                                              {item.calories} kcal
+                                            </span>
+                                          ) : null}
+                                        </li>
+                                      ))}
+                                  </ul>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative mt-12 overflow-hidden rounded-3xl border border-border bg-surface p-8 text-center md:p-10"
+            >
+              <div className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-primary/30 blur-3xl" />
+              <div className="relative">
+                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-light">
+                  <Utensils className="h-6 w-6 text-primary" />
                 </div>
-              );
-            })}
+                <p className="mx-auto mb-6 max-w-md whitespace-pre-line text-text-secondary">
+                  {isTr
+                    ? 'Restoran menüleri, değerlendirmeler ve daha fazlası için\nİYTE Mobil uygulamasını indir.'
+                    : 'For restaurant menus, ratings and more,\ndownload IYTE Mobile.'}
+                </p>
+                <a
+                  href={`/${locale}/indir`}
+                  className="inline-flex items-center rounded-full bg-primary px-7 py-3 font-semibold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary-dark"
+                >
+                  {isTr ? 'Uygulamayı İndir' : 'Download App'}
+                </a>
+              </div>
+            </motion.div>
           </div>
-        )}
-
-        {/* Download CTA */}
-        <div className="mt-10 p-5 rounded-2xl bg-gradient-to-br from-primary/15 to-red-900/10 border border-primary/20 text-center">
-          <Utensils className="w-8 h-8 mx-auto mb-2 text-red-500 opacity-70" />
-          <p className="text-sm text-zinc-300 mb-4 leading-relaxed">
-            {locale === 'tr'
-              ? 'Restoran menüleri, değerlendirmeler ve daha fazlası için\nİYTE Mobil uygulamasını indir.'
-              : 'For restaurant menus, ratings and more,\ndownload IYTE Mobile.'}
-          </p>
-          <a
-            href={`/${locale}/indir`}
-            className="inline-block bg-primary hover:bg-red-500 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors shadow-lg shadow-primary/20"
-          >
-            {locale === 'tr' ? 'Uygulamayı İndir' : 'Download App'}
-          </a>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

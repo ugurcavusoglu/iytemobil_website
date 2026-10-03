@@ -158,6 +158,12 @@
     "title": "Giriş Yap",
     "subtitle": "Belgelere erişmek için hesabınla giriş yap.",
     "backToHome": "Ana sayfaya dön",
+    "pageSubtitle": "Öğrenci ya da topluluk hesabınla giriş yap.",
+    "userTab": "Kullanıcı Girişi",
+    "clubTab": "Topluluk Girişi",
+    "or": "veya",
+    "noAccount": "Hesabın yok mu?",
+    "registerInApp": "Uygulamadan kayıt olabilirsin",
     "fields": {
       "emailOrUsername": "E-posta veya Kullanıcı Adı",
       "password": "Şifre"
@@ -186,6 +192,8 @@
     "departmentNotFound": "Bölüm bulunamadı.",
     "departmentSubtitle": "Bölüme ait belgeler",
     "documentCount": "belge",
+    "departmentCount": "bölüm",
+    "commonCourses": "Ortak Dersler",
     "noDocuments": "Henüz belge yok.",
     "uploadButton": "Belge Yükle",
     "uploadTitle": "Belge Başlığı",
@@ -350,11 +358,24 @@
   "footer": {
     "copyright": "İYTE Mobil. Tüm hakları saklıdır.",
     "madeWith": "İYTE öğrencileri tarafından geliştirildi",
-    "contact": "İletişim"
+    "contact": "İletişim",
+    "tagline": "İYTE öğrencileri için, İYTE öğrencilerinden.",
+    "explore": "Keşfet",
+    "community": "Topluluklar",
+    "legal": "Yasal",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları",
+    "childSafety": "Çocuk Güvenliği",
+    "accountDeletion": "Hesap Silme",
+    "download": "İndir"
   },
   "clubActivation": {
     "header": {
       "label": "Topluluk hesabı aktivasyonu"
+    },
+    "hero": {
+      "title": "Hesabını aktifleştir",
+      "subtitle": "E-postanı doğrula, şifreni belirle ve topluluğunu İYTE Mobil üzerinden yönetmeye başla."
     },
     "email": {
       "description": "Topluluk hesabın için kullanacağın e-posta adresini gir. Bu adrese 6 haneli bir doğrulama kodu göndereceğiz.",

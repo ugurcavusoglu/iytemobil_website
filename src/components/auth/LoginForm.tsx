@@ -2,7 +2,7 @@
 
 import { useState, useEffect, FormEvent, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { AlertCircle, Loader2, LogIn } from 'lucide-react';
+import { AlertCircle, Loader2, Lock, LogIn, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from '@/i18n/navigation';
 
@@ -62,7 +62,7 @@ export function LoginForm() {
         size: 'large',
         width: googleBtnRef.current.offsetWidth || 400,
         text: 'continue_with',
-        shape: 'rectangular',
+        shape: 'pill',
       });
     };
 
@@ -98,46 +98,52 @@ export function LoginForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {error && (
-        <div className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="flex items-start gap-2 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <span className="whitespace-pre-line">{error}</span>
         </div>
       )}
 
       <div>
-        <label htmlFor="emailOrUsername" className="mb-1.5 block text-sm font-medium text-zinc-300">
+        <label htmlFor="emailOrUsername" className="mb-2 block text-sm font-semibold text-text-secondary">
           {t('fields.emailOrUsername')}
         </label>
-        <input
-          id="emailOrUsername"
-          type="text"
-          required
-          value={emailOrUsername}
-          onChange={(e) => setEmailOrUsername(e.target.value)}
-          placeholder={t('placeholders.emailOrUsername')}
-          className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-primary/50 focus:ring-1 focus:ring-primary/25"
-        />
+        <div className="relative">
+          <User className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <input
+            id="emailOrUsername"
+            type="text"
+            required
+            value={emailOrUsername}
+            onChange={(e) => setEmailOrUsername(e.target.value)}
+            placeholder={t('placeholders.emailOrUsername')}
+            className="w-full rounded-2xl border border-border bg-surface-light py-3.5 pl-11 pr-4 text-sm text-text-primary placeholder-text-disabled outline-none transition-colors focus:border-primary"
+          />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-zinc-300">
+        <label htmlFor="password" className="mb-2 block text-sm font-semibold text-text-secondary">
           {t('fields.password')}
         </label>
-        <input
-          id="password"
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder={t('placeholders.password')}
-          className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-primary/50 focus:ring-1 focus:ring-primary/25"
-        />
+        <div className="relative">
+          <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder={t('placeholders.password')}
+            className="w-full rounded-2xl border border-border bg-surface-light py-3.5 pl-11 pr-4 text-sm text-text-primary placeholder-text-disabled outline-none transition-colors focus:border-primary"
+          />
+        </div>
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? (
           <>
@@ -153,14 +159,14 @@ export function LoginForm() {
       </button>
 
       <div className="flex items-center gap-3">
-        <div className="h-px flex-1 bg-white/10" />
-        <span className="text-xs text-zinc-500">veya</span>
-        <div className="h-px flex-1 bg-white/10" />
+        <div className="h-px flex-1 bg-border-light" />
+        <span className="text-xs font-semibold uppercase tracking-widest text-text-muted">{t('or')}</span>
+        <div className="h-px flex-1 bg-border-light" />
       </div>
 
-      <div className="relative w-full overflow-hidden rounded-lg">
+      <div className="relative w-full overflow-hidden rounded-full">
         {isGoogleLoading && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-black/60">
+          <div className="absolute inset-0 z-10 flex items-center justify-center rounded-full bg-background/70">
             <Loader2 className="h-5 w-5 animate-spin text-white" />
           </div>
         )}

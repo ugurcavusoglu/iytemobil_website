@@ -158,6 +158,12 @@
     "title": "Login",
     "subtitle": "Sign in to access documents.",
     "backToHome": "Back to homepage",
+    "pageSubtitle": "Sign in with your student or club account.",
+    "userTab": "User Login",
+    "clubTab": "Club Login",
+    "or": "or",
+    "noAccount": "Don't have an account?",
+    "registerInApp": "Sign up in the app",
     "fields": {
       "emailOrUsername": "Email or Username",
       "password": "Password"
@@ -186,6 +192,8 @@
     "departmentNotFound": "Department not found.",
     "departmentSubtitle": "Documents for this department",
     "documentCount": "documents",
+    "departmentCount": "departments",
+    "commonCourses": "Common Courses",
     "noDocuments": "No documents yet.",
     "uploadButton": "Upload Document",
     "uploadTitle": "Document Title",
@@ -350,11 +358,24 @@
   "footer": {
     "copyright": "IYTE Mobile. All rights reserved.",
     "madeWith": "Developed by IYTE students",
-    "contact": "Contact"
+    "contact": "Contact",
+    "tagline": "For IZTECH students, by IZTECH students.",
+    "explore": "Explore",
+    "community": "Clubs",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "childSafety": "Child Safety",
+    "accountDeletion": "Account Deletion",
+    "download": "Download"
   },
   "clubActivation": {
     "header": {
       "label": "Club account activation"
+    },
+    "hero": {
+      "title": "Activate your account",
+      "subtitle": "Verify your email, set your password and start managing your club on IYTE Mobile."
     },
     "email": {
       "description": "Enter the email address you want to use for the club account. We will send a 6-digit verification code to it.",

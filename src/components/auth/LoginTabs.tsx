@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { motion } from 'framer-motion';
 import { LogIn, Users } from 'lucide-react';
 import { LoginForm } from './LoginForm';
 import { ClubLoginForm } from '@/components/club/ClubLoginForm';
@@ -8,51 +10,43 @@ import { ClubLoginForm } from '@/components/club/ClubLoginForm';
 type Tab = 'user' | 'club';
 
 export function LoginTabs({ defaultTab }: { defaultTab?: Tab }) {
+  const t = useTranslations('login');
   const [tab, setTab] = useState<Tab>(defaultTab ?? 'user');
 
+  const tabs = [
+    { key: 'user' as const, icon: LogIn, label: t('userTab') },
+    { key: 'club' as const, icon: Users, label: t('clubTab') },
+  ];
+
   return (
-    <div>
-      {/* Tabs */}
-      <div className="mb-6 flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
-        <button
-          onClick={() => setTab('user')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition-all ${
-            tab === 'user'
-              ? 'bg-primary text-white shadow'
-              : 'text-zinc-400 hover:text-white'
-          }`}
-        >
-          <LogIn className="h-4 w-4" />
-          Kullanici Girisi
-        </button>
-        <button
-          onClick={() => setTab('club')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition-all ${
-            tab === 'club'
-              ? 'bg-primary text-white shadow'
-              : 'text-zinc-400 hover:text-white'
-          }`}
-        >
-          <Users className="h-4 w-4" />
-          Topluluk Girisi
-        </button>
+    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+      <div className="mb-7 flex gap-1 rounded-full border border-border bg-surface-container p-1">
+        {tabs.map(({ key, icon: Icon, label }) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-sm font-semibold transition-all ${
+              tab === key ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            <Icon className="h-4 w-4" />
+            {label}
+          </button>
+        ))}
       </div>
 
       {tab === 'user' ? <LoginForm /> : <ClubLoginForm />}
 
       {tab === 'user' && (
-        <div className="mt-5 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-3 text-center">
-          <p className="text-xs text-zinc-500">
-            Hesabiniz yok mu?{' '}
-            <a
-              href="/indir"
-              className="text-primary hover:underline"
-            >
-              Uygulamadan kayit olabilirsiniz
+        <div className="mt-6 rounded-2xl bg-surface-container px-4 py-3.5 text-center">
+          <p className="text-sm text-text-muted">
+            {t('noAccount')}{' '}
+            <a href="/indir" className="font-semibold text-primary hover:underline">
+              {t('registerInApp')}
             </a>
           </p>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

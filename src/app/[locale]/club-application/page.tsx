@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { GlowEffect } from '@/components/ui/GlowEffect';
+import { PageHero } from '@/components/ui/PageHero';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Link } from '@/i18n/navigation';
 import { ArrowLeft, Instagram, LogIn, Mail } from 'lucide-react';
 
@@ -14,48 +15,29 @@ export default async function ClubApplicationPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: 'clubApplication' });
 
   return (
-    <section className="relative min-h-screen overflow-hidden pb-20 pt-28 md:pt-32">
-      <div className="absolute inset-0 bg-hero-gradient" />
-      <GlowEffect className="left-1/2 top-0 -translate-x-1/2" size="lg" />
+    <>
+      <PageHero eyebrow={t('badge')} title={t('title')} subtitle={t('subtitle')} image="konser-kalabalik" />
 
-      <div className="relative mx-auto w-full max-w-3xl px-4 md:px-8">
-        <Link
-          href="/"
-          className="mb-6 inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-white"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {t('backToHome')}
-        </Link>
+      <section className="mx-auto w-full max-w-6xl px-6 pb-24 pt-4 md:px-12 md:pb-32">
+        <h2 className="text-3xl font-black tracking-tight md:text-5xl">{t('stepsTitle')}</h2>
+        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((step, index) => (
+            <li key={step}>
+              <ScrollReveal delay={index * 0.08} className="h-full rounded-3xl border border-border bg-surface p-6">
+                <span className="text-6xl font-black leading-none tracking-tighter text-primary/80">{String(index + 1).padStart(2, '0')}</span>
+                <p className="mt-6 leading-relaxed text-text-secondary">{t(`steps.${step}`)}</p>
+              </ScrollReveal>
+            </li>
+          ))}
+        </ol>
 
-        <div className="mb-8">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            {t('badge')}
-          </div>
-          <h1 className="mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">{t('title')}</h1>
-          <p className="max-w-2xl text-text-secondary">{t('subtitle')}</p>
-        </div>
-
-        <div className="glass-card mb-6 p-6 md:p-8">
-          <h2 className="mb-5 text-lg font-semibold">{t('stepsTitle')}</h2>
-          <ol className="space-y-4">
-            {STEPS.map((step, index) => (
-              <li key={step} className="flex items-start gap-4">
-                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
-                  {index + 1}
-                </span>
-                <p className="pt-1 text-text-secondary">{t(`steps.${step}`)}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <div className="glass-card p-6 md:p-8">
-          <h2 className="mb-5 text-lg font-semibold">{t('contactTitle')}</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
+        <ScrollReveal className="relative mt-16 overflow-hidden rounded-[2rem] border border-border bg-surface p-8 md:p-12">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
+          <h2 className="relative text-3xl font-black tracking-tight md:text-4xl">{t('contactTitle')}</h2>
+          <div className="relative mt-8 grid gap-3 sm:max-w-xl sm:grid-cols-2">
             <a
               href="mailto:iytemobil@gmail.com"
-              className="flex items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              className="flex items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
               <Mail className="h-4 w-4" />
               {t('email')}
@@ -64,22 +46,32 @@ export default async function ClubApplicationPage({ params }: Props) {
               href="https://instagram.com/iyte.mobil"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+              className="flex items-center justify-center gap-2 rounded-full border border-border-light py-3.5 text-sm font-semibold text-text-primary transition-colors hover:border-primary hover:text-primary"
             >
               <Instagram className="h-4 w-4" />
               {t('instagram')}
             </a>
           </div>
-          <p className="mt-6 text-sm text-text-secondary">{t('haveLink')}</p>
-          <Link
-            href="/login?tab=club"
-            className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary hover:opacity-80"
-          >
-            <LogIn className="h-4 w-4" />
-            {t('login')}
-          </Link>
-        </div>
-      </div>
-    </section>
+          <div className="relative mt-10 border-t border-border pt-6">
+            <p className="max-w-2xl leading-relaxed text-text-secondary">{t('haveLink')}</p>
+            <Link
+              href="/login?tab=club"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:opacity-80"
+            >
+              <LogIn className="h-4 w-4" />
+              {t('login')}
+            </Link>
+          </div>
+        </ScrollReveal>
+
+        <Link
+          href="/"
+          className="mt-10 inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t('backToHome')}
+        </Link>
+      </section>
+    </>
   );
 }

@@ -17,9 +17,9 @@ type Props = {
 type Step = 'email' | 'verify' | 'done';
 
 const inputClass =
-  'w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none transition-colors focus:border-primary';
+  'w-full rounded-2xl border border-border bg-surface-light px-4 py-3.5 text-text-primary placeholder-text-disabled outline-none transition-colors focus:border-primary';
 const buttonClass =
-  'flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60';
+  'flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60';
 
 const STRONG_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,72}$/;
 
@@ -83,24 +83,24 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
   };
 
   return (
-    <div className="glass-card p-6 md:p-8">
-      <div className="mb-6 flex items-center gap-4">
-        <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary/15">
+    <div className="rounded-3xl border border-border bg-surface p-6 md:p-8">
+      <div className="mb-6 flex items-center gap-4 border-b border-border pb-6">
+        <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-primary/15 ring-2 ring-primary/40">
           {logoUrl ? (
-            <Image src={logoUrl} alt={clubName} width={56} height={56} className="h-full w-full object-cover" />
+            <Image src={logoUrl} alt={clubName} width={64} height={64} className="h-full w-full object-cover" />
           ) : (
             <UsersRound className="h-7 w-7 text-primary" />
           )}
         </div>
         <div className="min-w-0">
           <p className="text-sm text-text-secondary">{t('header.label')}</p>
-          <h1 className="truncate text-xl font-bold md:text-2xl">{clubName}</h1>
+          <h2 className="truncate text-xl font-bold md:text-2xl">{clubName}</h2>
           <p className="text-sm text-text-secondary">@{username}</p>
         </div>
       </div>
 
       {error && (
-        <div className="mb-5 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+        <div className="mb-5 flex items-start gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
           <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
           <p className="whitespace-pre-line">{error}</p>
         </div>
@@ -110,7 +110,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
         <form className="space-y-5" onSubmit={sendCode}>
           <p className="text-sm text-text-secondary">{t('email.description')}</p>
           <div>
-            <label className="mb-2 block text-sm font-medium text-white">{t('email.label')}</label>
+            <label className="mb-2 block text-sm font-semibold text-text-secondary">{t('email.label')}</label>
             <input
               type="email"
               value={email}
@@ -130,12 +130,12 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
       {step === 'verify' && (
         <form className="space-y-5" onSubmit={complete}>
           {info && (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-200">
+            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-200">
               {info} {t('verify.spamHint')}
             </div>
           )}
           <div>
-            <label className="mb-2 block text-sm font-medium text-white">{t('verify.code')}</label>
+            <label className="mb-2 block text-sm font-semibold text-text-secondary">{t('verify.code')}</label>
             <input
               inputMode="numeric"
               maxLength={6}
@@ -146,7 +146,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
               className={`${inputClass} tracking-[0.4em]`}
             />
             <div className="mt-2 flex justify-between text-xs">
-              <button type="button" onClick={() => { setStep('email'); setCode(''); setError(''); }} className="text-text-secondary hover:text-white">
+              <button type="button" onClick={() => { setStep('email'); setCode(''); setError(''); }} className="text-text-secondary hover:text-text-primary">
                 {t('verify.changeEmail')}
               </button>
               <button type="button" onClick={() => sendCode()} disabled={loading} className="font-medium text-primary hover:opacity-80">
@@ -155,7 +155,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
             </div>
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-white">{t('verify.password')}</label>
+            <label className="mb-2 block text-sm font-semibold text-text-secondary">{t('verify.password')}</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -167,7 +167,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -175,7 +175,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
             <p className="mt-2 text-xs text-text-secondary">{t('verify.passwordHint')}</p>
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-white">{t('verify.confirmPassword')}</label>
+            <label className="mb-2 block text-sm font-semibold text-text-secondary">{t('verify.confirmPassword')}</label>
             <input
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
@@ -193,7 +193,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
 
       {step === 'done' && (
         <div className="space-y-5">
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4">
             <div className="mb-2 flex items-center gap-2 text-emerald-300">
               <CheckCircle2 className="h-5 w-5" />
               <p className="font-semibold">{t('done.title')}</p>
@@ -208,7 +208,7 @@ export function ClubActivationForm({ token, clubName, logoUrl, username }: Props
               href={APP_STORE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white hover:bg-white/10"
+              className="flex w-full items-center justify-center rounded-full border border-border-light py-3.5 text-sm font-semibold text-text-primary transition-colors hover:border-primary hover:text-primary"
             >
               App Store
             </a>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { motion } from 'framer-motion';
 import { Download, FileText, FolderOpen, Loader2, Upload, AlertCircle, CheckCircle2, Archive, ChevronRight, Lock } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -55,69 +56,98 @@ interface BreadcrumbItem {
   name: string;
 }
 
+const rowVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.4, delay: Math.min(i * 0.04, 0.4) } }),
+};
+
+const inputClass =
+  'w-full rounded-2xl border border-border bg-surface-light px-4 py-3 text-sm text-text-primary placeholder-text-disabled outline-none transition-colors focus:border-primary/50';
+const fileInputClass =
+  'w-full text-sm text-text-secondary file:mr-3 file:rounded-full file:border-0 file:bg-surface-light file:px-4 file:py-2 file:text-sm file:font-semibold file:text-text-primary hover:file:bg-surface-container';
+const submitClass =
+  'flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-50';
+
+function DownloadButton({ isLoggedIn, title, onClick }: { isLoggedIn: boolean; title: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors ${
+        isLoggedIn
+          ? 'border-border-light bg-surface-light text-text-secondary hover:border-primary hover:bg-primary hover:text-white'
+          : 'border-yellow-500/20 bg-yellow-500/5 text-yellow-500/70 hover:border-yellow-500/40 hover:text-yellow-400'
+      }`}
+      title={title}
+    >
+      {isLoggedIn ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+    </button>
+  );
+}
+
 function DocumentRow({ doc, onDownload, isLoggedIn }: { doc: Document; onDownload: (doc: Document) => void; isLoggedIn: boolean }) {
   const t = useTranslations('documents');
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-surface/50 p-4 backdrop-blur-sm">
+    <div className="flex items-center gap-4 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-border-light md:p-5">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-light">
+        <FileText className="h-5 w-5 text-primary" />
+      </span>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <FileText className="h-4 w-4 shrink-0 text-primary" />
-          <h4 className="truncate text-sm font-medium text-white">{doc.title}</h4>
+          <h4 className="truncate font-semibold text-text-primary">{doc.title}</h4>
           {doc.status === 'PENDING' && (
-            <span className="shrink-0 rounded-full bg-yellow-500/15 px-2 py-0.5 text-[10px] font-medium text-yellow-400">
+            <span className="shrink-0 rounded-full bg-yellow-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-yellow-400">
               {t('statusPending')}
             </span>
           )}
         </div>
-        <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-zinc-500">
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-muted">
           {doc.showUploader && doc.user?.name && <span>{doc.user.name}</span>}
           <span>{formatSize(doc.fileSize)}</span>
           <span>{formatDate(doc.createdAt)}</span>
           <span>{doc.downloadCount} {t('downloads')}</span>
         </div>
       </div>
-      <button
-        onClick={() => onDownload(doc)}
-        className={`shrink-0 rounded-lg border p-2 transition-all ${
-          isLoggedIn
-            ? 'border-white/10 bg-white/5 text-zinc-400 hover:border-primary/30 hover:text-primary'
-            : 'border-yellow-500/20 bg-yellow-500/5 text-yellow-500/70 hover:border-yellow-500/40 hover:text-yellow-400'
-        }`}
+      <DownloadButton
+        isLoggedIn={isLoggedIn}
         title={isLoggedIn ? t('downloadButton') : 'Indirmek icin giris yapin'}
-      >
-        {isLoggedIn ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-      </button>
+        onClick={() => onDownload(doc)}
+      />
     </div>
   );
 }
 
 function LoginRequiredModal({ onClose, onLogin }: { onClose: () => void; onLogin: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[#18181b] p-6 shadow-2xl">
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-yellow-500/10 mx-auto">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-background/70 backdrop-blur-sm" onClick={onClose} />
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full max-w-sm rounded-3xl border border-border-light bg-surface p-7 shadow-2xl"
+      >
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-500/10">
           <Lock className="h-6 w-6 text-yellow-400" />
         </div>
-        <h3 className="mb-2 text-center text-lg font-semibold text-white">Giris Gerekli</h3>
-        <p className="mb-6 text-center text-sm text-zinc-400">
+        <h3 className="mb-2 text-center text-xl font-black tracking-tight text-text-primary">Giris Gerekli</h3>
+        <p className="mb-7 text-center text-sm text-text-secondary">
           Bu belgeyi indirmek icin giris yapman gerekiyor.
         </p>
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 rounded-xl border border-white/10 py-2.5 text-sm font-medium text-zinc-400 transition-all hover:text-white"
+            className="flex-1 rounded-full border border-border-light py-3 text-sm font-semibold text-text-secondary transition-colors hover:text-text-primary"
           >
             Vazgec
           </button>
           <button
             onClick={onLogin}
-            className="flex-1 rounded-xl bg-primary py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary/90"
+            className="flex-1 rounded-full bg-primary py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
           >
             Giris Yap
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -127,14 +157,12 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
   const { user } = useAuth();
   const router = useRouter();
 
-  // Explorer state
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItem[]>([{ id: null, name: t('rootFolder') }]);
   const [folders, setFolders] = useState<FolderType[]>([]);
   const [documents, setDocuments] = useState<Document[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // Upload state
   const [showUpload, setShowUpload] = useState(false);
   const [uploadTab, setUploadTab] = useState<UploadTab>('single');
   const [uploadTitle, setUploadTitle] = useState('');
@@ -170,7 +198,6 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
         setDocuments(folderDocs);
       }
     } catch {
-      // silent
     } finally {
       setIsLoading(false);
     }
@@ -272,24 +299,22 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
       )}
 
       {uploadSuccess && (
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400">
+        <div className="mb-5 flex items-center gap-2 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400">
           <CheckCircle2 className="h-4 w-4 shrink-0" />
           {uploadSuccess}
         </div>
       )}
 
-      {/* Top bar */}
-      <div className="mb-4 flex items-center justify-between gap-3">
-        {/* Breadcrumb */}
-        <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto text-sm">
+      <div className="mb-6 flex items-center justify-between gap-3">
+        <nav className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto rounded-full border border-border bg-surface px-4 py-2.5 text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {breadcrumb.map((item, i) => (
             <span key={i} className="flex items-center gap-1 whitespace-nowrap">
-              {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-zinc-600" />}
+              {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-text-disabled" />}
               <button
                 onClick={() => navigateTo(i)}
                 className={i === breadcrumb.length - 1
-                  ? 'font-medium text-white'
-                  : 'text-zinc-400 hover:text-white transition-colors'}
+                  ? 'font-semibold text-text-primary'
+                  : 'text-text-secondary transition-colors hover:text-text-primary'}
               >
                 {item.name}
               </button>
@@ -299,35 +324,40 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
 
         <button
           onClick={() => setShowUpload(!showUpload)}
-          className="shrink-0 flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white transition-all hover:bg-primary/90"
+          aria-label={t('uploadButton')}
+          className="flex shrink-0 items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary-dark md:px-5"
         >
-          <Upload className="h-3.5 w-3.5" />
-          {t('uploadButton')}
+          <Upload className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('uploadButton')}</span>
         </button>
       </div>
 
-      {/* Upload form */}
       {showUpload && (
-        <div className="mb-6 rounded-xl border border-white/10 bg-surface/50 p-5 backdrop-blur-sm">
-          <div className="mb-4 flex gap-1 rounded-lg bg-white/5 p-1">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mb-6 rounded-3xl border border-border bg-surface p-5 md:p-7"
+        >
+          <div className="mb-5 flex gap-1 rounded-full bg-surface-container p-1">
             <button
               onClick={() => { setUploadTab('single'); setUploadError(null); }}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium transition-all ${uploadTab === 'single' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2.5 text-sm font-semibold transition-all ${uploadTab === 'single' ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}
             >
-              <FileText className="h-3.5 w-3.5" />
+              <FileText className="h-4 w-4" />
               {t('tabSingle')}
             </button>
             <button
               onClick={() => { setUploadTab('zip'); setUploadError(null); }}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-md px-3 py-2 text-xs font-medium transition-all ${uploadTab === 'zip' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}
+              className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2.5 text-sm font-semibold transition-all ${uploadTab === 'zip' ? 'bg-primary text-white' : 'text-text-secondary hover:text-text-primary'}`}
             >
-              <Archive className="h-3.5 w-3.5" />
+              <Archive className="h-4 w-4" />
               {t('tabZip')}
             </button>
           </div>
 
           {uploadError && (
-            <div className="mb-4 flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+            <div className="mb-5 flex items-start gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{uploadError}</span>
             </div>
@@ -336,25 +366,24 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
           {uploadTab === 'single' && (
             <form onSubmit={handleSingleUpload} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-300">{t('uploadTitle')}</label>
+                <label className="mb-1.5 block text-sm font-semibold text-text-secondary">{t('uploadTitle')}</label>
                 <input type="text" required value={uploadTitle} onChange={(e) => setUploadTitle(e.target.value)}
                   placeholder={t('uploadTitlePlaceholder')}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-primary/50" />
+                  className={inputClass} />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-300">{t('uploadDescription')}</label>
+                <label className="mb-1.5 block text-sm font-semibold text-text-secondary">{t('uploadDescription')}</label>
                 <input type="text" value={uploadDesc} onChange={(e) => setUploadDesc(e.target.value)}
                   placeholder={t('uploadDescPlaceholder')}
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-primary/50" />
+                  className={inputClass} />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-300">{t('uploadFile')}</label>
+                <label className="mb-1.5 block text-sm font-semibold text-text-secondary">{t('uploadFile')}</label>
                 <input type="file" required accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg,.txt,.csv,.zip" onChange={onFileChange}
-                  className="w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-sm file:text-white hover:file:bg-white/20" />
-                <p className="mt-1 text-xs text-zinc-500">{t('uploadHint')}</p>
+                  className={fileInputClass} />
+                <p className="mt-2 text-xs text-text-muted">{t('uploadHint')}</p>
               </div>
-              <button type="submit" disabled={isUploading || !uploadFile}
-                className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary/90 disabled:opacity-50">
+              <button type="submit" disabled={isUploading || !uploadFile} className={submitClass}>
                 {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                 {isUploading ? t('uploading') : t('uploadSubmit')}
               </button>
@@ -364,80 +393,89 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
           {uploadTab === 'zip' && (
             <form onSubmit={handleZipUpload} className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-300">{t('zipFile')}</label>
+                <label className="mb-1.5 block text-sm font-semibold text-text-secondary">{t('zipFile')}</label>
                 <input type="file" required accept=".zip" onChange={onZipChange}
-                  className="w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-sm file:text-white hover:file:bg-white/20" />
-                <p className="mt-1 text-xs text-zinc-500">{t('zipHint')}</p>
+                  className={fileInputClass} />
+                <p className="mt-2 text-xs text-text-muted">{t('zipHint')}</p>
               </div>
-              <button type="submit" disabled={isUploading || !zipFile}
-                className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary/90 disabled:opacity-50">
+              <button type="submit" disabled={isUploading || !zipFile} className={submitClass}>
                 {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Archive className="h-4 w-4" />}
                 {isUploading ? t('uploading') : t('zipSubmit')}
               </button>
             </form>
           )}
-        </div>
+        </motion.div>
       )}
 
-      {/* Content */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="space-y-2">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="flex animate-pulse items-center gap-4 rounded-3xl border border-border bg-surface p-5">
+              <div className="h-11 w-11 shrink-0 rounded-2xl bg-surface-light" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-1/2 rounded-full bg-surface-light" />
+                <div className="h-3 w-1/3 rounded-full bg-surface-light" />
+              </div>
+            </div>
+          ))}
         </div>
       ) : isEmpty ? (
-        <p className="py-10 text-center text-sm text-zinc-500">{t('noDocuments')}</p>
+        <div className="rounded-3xl border border-border bg-surface px-6 py-16 text-center">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-surface-light">
+            <FolderOpen className="h-7 w-7 text-text-muted" />
+          </div>
+          <p className="font-semibold text-text-secondary">{t('noDocuments')}</p>
+        </div>
       ) : (
-        <div className="space-y-2">
-          {/* Folders */}
-          {folders.map((folder) => (
-            <div
+        <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} className="space-y-2">
+          {folders.map((folder, i) => (
+            <motion.div
               key={folder.id}
-              className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface/50 p-4 backdrop-blur-sm transition-all hover:border-white/20"
+              custom={i}
+              variants={rowVariants}
+              className="flex w-full items-center gap-3 rounded-3xl border border-border bg-surface p-4 transition-colors hover:border-border-light md:p-5"
             >
               <button
                 onClick={() => openFolder(folder)}
-                className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                className="flex min-w-0 flex-1 items-center gap-4 text-left"
               >
-                <FolderOpen className="h-5 w-5 shrink-0 text-amber-400" />
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-400/10">
+                  <FolderOpen className="h-5 w-5 text-amber-400" />
+                </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-white">{folder.name}</p>
+                  <p className="truncate font-semibold text-text-primary">{folder.name}</p>
                   {(folder._count?.documents !== undefined || folder._count?.children !== undefined) && (
-                    <p className="mt-0.5 text-xs text-zinc-500">
+                    <p className="mt-0.5 text-xs text-text-muted">
                       {folder._count.documents} {t('documentCount')}
                       {folder._count.children > 0 && ` · ${folder._count.children} klasör`}
                     </p>
                   )}
                 </div>
               </button>
-              <button
+              <DownloadButton
+                isLoggedIn={!!user}
+                title={user ? t('downloadFolder') : 'Indirmek icin giris yapin'}
                 onClick={() => {
                   if (!user) { setShowLoginModal(true); return; }
                   window.open(folderDownloadUrl(folder.id), '_blank');
                 }}
-                className={`shrink-0 rounded-lg border p-2 transition-all ${
-                  user
-                    ? 'border-white/10 bg-white/5 text-zinc-400 hover:border-primary/30 hover:text-primary'
-                    : 'border-yellow-500/20 bg-yellow-500/5 text-yellow-500/70 hover:border-yellow-500/40 hover:text-yellow-400'
-                }`}
-                title={user ? t('downloadFolder') : 'Indirmek icin giris yapin'}
-              >
-                {user ? <Download className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-              </button>
+              />
               <button
                 onClick={() => openFolder(folder)}
-                className="shrink-0 text-zinc-600 transition-colors hover:text-white"
+                className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full text-text-disabled transition-colors hover:bg-surface-light hover:text-text-primary sm:flex"
                 title={t('openFolder')}
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
-            </div>
+            </motion.div>
           ))}
 
-          {/* Documents */}
-          {documents.map((doc) => (
-            <DocumentRow key={doc.id} doc={doc} onDownload={handleDownload} isLoggedIn={!!user} />
+          {documents.map((doc, i) => (
+            <motion.div key={doc.id} custom={folders.length + i} variants={rowVariants}>
+              <DocumentRow doc={doc} onDownload={handleDownload} isLoggedIn={!!user} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );

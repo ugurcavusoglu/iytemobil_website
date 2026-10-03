@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
+import { PageHero } from '@/components/ui/PageHero';
 import { fetchDepartments, type Department } from '@/lib/documents-api';
 import { DocumentsView } from './DocumentsView';
 
@@ -26,25 +28,38 @@ export function DepartmentDocumentsWrapper({ slug }: { slug: string }) {
       .finally(() => setIsLoading(false));
   }, [slug]);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (notFound || !department) {
-    return <p className="py-10 text-center text-sm text-zinc-500">{t('departmentNotFound')}</p>;
-  }
+  const heroTitle = isLoading ? ' ' : department?.name ?? t('departmentNotFound');
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="mb-1 text-2xl font-bold md:text-3xl">{department.name}</h1>
-        <p className="text-sm text-text-secondary">{t('departmentSubtitle')}</p>
-      </div>
-      <DocumentsView departmentId={department.id} />
-    </div>
+    <>
+      <PageHero
+        key={isLoading ? 'loading' : 'loaded'}
+        compact
+        eyebrow={t('title')}
+        title={heroTitle}
+        subtitle={department ? t('departmentSubtitle') : undefined}
+        image="kutuphane"
+      >
+        <Link
+          href="/documents"
+          className="inline-flex items-center gap-2 rounded-full border border-border-light bg-background/50 px-5 py-2.5 text-sm font-semibold text-text-secondary backdrop-blur transition-colors hover:border-primary hover:text-primary"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t('backToDepartments')}
+        </Link>
+      </PageHero>
+
+      <section className="pb-24 pt-4 md:pb-32">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            !notFound && department && <DocumentsView departmentId={department.id} />
+          )}
+        </div>
+      </section>
+    </>
   );
 }
