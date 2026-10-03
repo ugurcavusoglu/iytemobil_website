@@ -109,7 +109,7 @@ function DocumentRow({ doc, onDownload, isLoggedIn }: { doc: Document; onDownloa
       </div>
       <DownloadButton
         isLoggedIn={isLoggedIn}
-        title={isLoggedIn ? t('downloadButton') : 'Indirmek icin giris yapin'}
+        title={isLoggedIn ? t('downloadButton') : 'İndirmek için giriş yapın'}
         onClick={() => onDownload(doc)}
       />
     </div>
@@ -129,22 +129,22 @@ function LoginRequiredModal({ onClose, onLogin }: { onClose: () => void; onLogin
         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-500/10">
           <Lock className="h-6 w-6 text-yellow-400" />
         </div>
-        <h3 className="mb-2 text-center text-xl font-black tracking-tight text-text-primary">Giris Gerekli</h3>
+        <h3 className="mb-2 text-center text-xl font-black tracking-tight text-text-primary">Giriş Gerekli</h3>
         <p className="mb-7 text-center text-sm text-text-secondary">
-          Bu belgeyi indirmek icin giris yapman gerekiyor.
+          Bu belgeyi indirmek için giriş yapman gerekiyor.
         </p>
         <div className="flex gap-3">
           <button
             onClick={onClose}
             className="flex-1 rounded-full border border-border-light py-3 text-sm font-semibold text-text-secondary transition-colors hover:text-text-primary"
           >
-            Vazgec
+            Vazgeç
           </button>
           <button
             onClick={onLogin}
             className="flex-1 rounded-full bg-primary py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
           >
-            Giris Yap
+            Giriş Yap
           </button>
         </div>
       </motion.div>
@@ -454,7 +454,7 @@ export function DocumentsView({ departmentId }: { departmentId: string }) {
               </button>
               <DownloadButton
                 isLoggedIn={!!user}
-                title={user ? t('downloadFolder') : 'Indirmek icin giris yapin'}
+                title={user ? t('downloadFolder') : 'İndirmek için giriş yapın'}
                 onClick={() => {
                   if (!user) { setShowLoginModal(true); return; }
                   window.open(folderDownloadUrl(folder.id), '_blank');

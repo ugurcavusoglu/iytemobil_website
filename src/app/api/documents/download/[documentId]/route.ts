@@ -24,7 +24,7 @@ export async function POST(_request: Request, context: Context) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: 'Indirme sayaci guncellenemedi.' },
+        { message: 'İndirme sayacı güncellenemedi.' },
         { status: upstream.status },
       );
     }

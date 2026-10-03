@@ -14,13 +14,13 @@ export async function POST(request: Request) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Yukleme basarisiz.' },
+        { message: data?.message || 'Yükleme başarısız.' },
         { status: upstream.status },
       );
     }
 
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ message: 'Beklenmeyen bir hata olustu.' }, { status: 500 });
+    return NextResponse.json({ message: 'Beklenmeyen bir hata oluştu.' }, { status: 500 });
   }
 }

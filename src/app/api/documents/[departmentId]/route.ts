@@ -24,7 +24,7 @@ export async function GET(request: NextRequest, context: Context) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: 'Belgeler alinamadi.' },
+        { message: 'Belgeler alınamadı.' },
         { status: upstream.status },
       );
     }

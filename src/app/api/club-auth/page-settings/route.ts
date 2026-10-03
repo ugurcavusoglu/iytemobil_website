@@ -8,7 +8,7 @@ export async function PATCH(request: Request) {
     const token = cookieStore.get('club_token')?.value;
 
     if (!token) {
-      return NextResponse.json({ message: 'Yetkisiz erisim.' }, { status: 401 });
+      return NextResponse.json({ message: 'Yetkisiz erişim.' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -27,7 +27,7 @@ export async function PATCH(request: Request) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Guncelleme basarisiz.' },
+        { message: data?.message || 'Güncelleme başarısız.' },
         { status: upstream.status },
       );
     }
@@ -35,7 +35,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json(data);
   } catch {
     return NextResponse.json(
-      { message: 'Beklenmeyen bir hata olustu.' },
+      { message: 'Beklenmeyen bir hata oluştu.' },
       { status: 500 },
     );
   }

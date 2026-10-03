@@ -20,14 +20,14 @@ export async function POST(request: Request) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Google ile giris basarisiz.' },
+        { message: data?.message || 'Google ile giriş başarısız.' },
         { status: upstream.status },
       );
     }
 
     const token = data?.token || data?.access_token;
     if (!token) {
-      return NextResponse.json({ message: 'Token alinamadi.' }, { status: 500 });
+      return NextResponse.json({ message: 'Token alınamadı.' }, { status: 500 });
     }
 
     const cookieStore = await cookies();
@@ -39,10 +39,10 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({ user: data.user, message: 'Giris basarili.' });
+    return NextResponse.json({ user: data.user, message: 'Giriş başarılı.' });
   } catch {
     return NextResponse.json(
-      { message: 'Google ile giris sirasinda beklenmeyen bir hata olustu.' },
+      { message: 'Google ile giriş sırasında beklenmeyen bir hata oluştu.' },
       { status: 500 },
     );
   }

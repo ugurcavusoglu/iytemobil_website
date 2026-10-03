@@ -36,7 +36,7 @@ export async function POST(request: NextRequest, context: Context) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Toplu yukleme basarisiz.' },
+        { message: data?.message || 'Toplu yükleme başarısız.' },
         { status: upstream.status },
       );
     }

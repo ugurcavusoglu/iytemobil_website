@@ -8,7 +8,7 @@ export async function GET() {
     });
 
     if (!upstream.ok) {
-      return NextResponse.json({ message: 'Bolumler alinamadi.' }, { status: upstream.status });
+      return NextResponse.json({ message: 'Bölümler alınamadı.' }, { status: upstream.status });
     }
 
     const data = await upstream.json();

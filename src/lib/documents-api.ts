@@ -36,7 +36,7 @@ export interface Document {
 
 export async function fetchDepartments(): Promise<Department[]> {
   const res = await fetch('/api/documents/departments');
-  if (!res.ok) throw new Error('Bolumler yuklenemedi.');
+  if (!res.ok) throw new Error('Bölümler yüklenemedi.');
   const data = await res.json();
   return data.departments || data || [];
 }
@@ -47,7 +47,7 @@ export async function fetchDepartmentDocuments(
   limit = 50,
 ): Promise<{ documents: Document[]; pagination: { total: number; page: number; limit: number; totalPages: number } }> {
   const res = await fetch(`/api/documents/${departmentId}?page=${page}&limit=${limit}`);
-  if (!res.ok) throw new Error('Belgeler yuklenemedi.');
+  if (!res.ok) throw new Error('Belgeler yüklenemedi.');
   return res.json();
 }
 
@@ -57,7 +57,7 @@ export async function uploadDocument(departmentId: string, formData: FormData) {
     body: formData,
   });
   const data = await res.json().catch(() => null);
-  if (!res.ok) throw new Error(data?.message || 'Yukleme basarisiz.');
+  if (!res.ok) throw new Error(data?.message || 'Yükleme başarısız.');
   return data;
 }
 
@@ -67,7 +67,7 @@ export async function bulkUploadDocuments(departmentId: string, file: File) {
   const tokenData = await tokenRes.json().catch(() => null);
   const token = tokenData?.token;
 
-  if (!token) throw new Error('Oturum bulunamadi.');
+  if (!token) throw new Error('Oturum bulunamadı.');
 
   const formData = new FormData();
   formData.append('file', file);
@@ -82,7 +82,7 @@ export async function bulkUploadDocuments(departmentId: string, file: File) {
     },
   );
   const data = await res.json().catch(() => null);
-  if (!res.ok) throw new Error(data?.message || 'Toplu yukleme basarisiz.');
+  if (!res.ok) throw new Error(data?.message || 'Toplu yükleme başarısız.');
   return data as { message: string; uploaded: number; failed: number; skipped: number; details: { title: string; status: string }[] };
 }
 

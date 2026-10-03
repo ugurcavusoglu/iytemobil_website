@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        return { ok: false, message: data?.message || 'Giris basarisiz.' };
+        return { ok: false, message: data?.message || 'Giriş başarısız.' };
       }
 
       setUser(data?.user || null);
@@ -72,7 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        return { ok: false, message: data?.message || 'Google ile giris basarisiz.' };
+        return { ok: false, message: data?.message || 'Google ile giriş başarısız.' };
       }
 
       setUser(data?.user || null);

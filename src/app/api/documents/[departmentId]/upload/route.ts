@@ -29,7 +29,7 @@ export async function POST(request: NextRequest, context: Context) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Yukleme basarisiz.' },
+        { message: data?.message || 'Yükleme başarısız.' },
         { status: upstream.status },
       );
     }

@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const token = cookieStore.get('club_token')?.value;
 
     if (!token) {
-      return NextResponse.json({ message: 'Yetkisiz erisim.' }, { status: 401 });
+      return NextResponse.json({ message: 'Yetkisiz erişim.' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -27,13 +27,13 @@ export async function POST(request: Request) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Duyuru paylasilamadi.' },
+        { message: data?.message || 'Duyuru paylaşılamadı.' },
         { status: upstream.status },
       );
     }
 
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ message: 'Beklenmeyen bir hata olustu.' }, { status: 500 });
+    return NextResponse.json({ message: 'Beklenmeyen bir hata oluştu.' }, { status: 500 });
   }
 }

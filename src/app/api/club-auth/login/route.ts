@@ -17,14 +17,14 @@ export async function POST(request: Request) {
 
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: data?.message || 'Giris basarisiz.' },
+        { message: data?.message || 'Giriş başarısız.' },
         { status: upstream.status },
       );
     }
 
     const token = data?.accessToken || data?.token || data?.access_token;
     if (!token) {
-      return NextResponse.json({ message: 'Token alinamadi.' }, { status: 500 });
+      return NextResponse.json({ message: 'Token alınamadı.' }, { status: 500 });
     }
 
     const cookieStore = await cookies();
@@ -38,11 +38,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       club: data.club || data,
-      message: 'Giris basarili.',
+      message: 'Giriş başarılı.',
     });
   } catch {
     return NextResponse.json(
-      { message: 'Giris sirasinda beklenmeyen bir hata olustu.' },
+      { message: 'Giriş sırasında beklenmeyen bir hata oluştu.' },
       { status: 500 },
     );
   }

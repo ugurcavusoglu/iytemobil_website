@@ -14,12 +14,12 @@ export async function forwardToActivationApi(token: string, path: string, init?:
     const json = await upstream.json().catch(() => null);
     if (!upstream.ok) {
       return NextResponse.json(
-        { message: getClubApiErrorMessage(json, 'Islem basarisiz.') },
+        { message: getClubApiErrorMessage(json, 'İşlem başarısız.') },
         { status: upstream.status || 500 },
       );
     }
     return NextResponse.json(json, { status: 200 });
   } catch {
-    return NextResponse.json({ message: 'Sunucuya ulasilamadi. Lutfen tekrar deneyin.' }, { status: 502 });
+    return NextResponse.json({ message: 'Sunucuya ulaşılamadı. Lütfen tekrar deneyin.' }, { status: 502 });
   }
 }

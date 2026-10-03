@@ -49,9 +49,9 @@ export function LoginForm() {
           setError(null);
           try {
             const result = await loginWithGoogle(response.credential);
-            if (!result.ok) setError(result.message || 'Google ile giris basarisiz.');
+            if (!result.ok) setError(result.message || 'Google ile giriş başarısız.');
           } catch {
-            setError('Google ile giris sirasinda bir hata olustu.');
+            setError('Google ile giriş sırasında bir hata oluştu.');
           } finally {
             setIsGoogleLoading(false);
           }

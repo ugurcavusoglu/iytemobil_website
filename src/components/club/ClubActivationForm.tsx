@@ -30,7 +30,7 @@ async function post(url: string, body: unknown) {
     body: JSON.stringify(body),
   });
   const data = await res.json().catch(() => null);
-  if (!res.ok) throw new Error(data?.message || 'Islem basarisiz.');
+  if (!res.ok) throw new Error(data?.message || 'İşlem başarısız.');
   return data;
 }
 

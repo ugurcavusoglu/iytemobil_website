@@ -111,10 +111,10 @@ export function ClubDashboard({ club, slug }: Props) {
       fd.append('image', file);
       const res = await fetch('/api/club-auth/upload-banner', { method: 'POST', body: fd });
       const data = await res.json().catch(() => null);
-      if (!res.ok) { showToast('error', data?.message || 'Banner yuklenemedi.'); return; }
+      if (!res.ok) { showToast('error', data?.message || 'Banner yüklenemedi.'); return; }
       setForm((f) => ({ ...f, bannerUrl: data.url }));
     } catch {
-      showToast('error', 'Banner yuklenemedi.');
+      showToast('error', 'Banner yüklenemedi.');
     } finally {
       setUploadingBanner(false);
       e.target.value = '';
@@ -131,10 +131,10 @@ export function ClubDashboard({ club, slug }: Props) {
       fd.append('image', file);
       const res = await fetch('/api/club-auth/upload-logo', { method: 'POST', body: fd });
       const data = await res.json().catch(() => null);
-      if (!res.ok) { showToast('error', data?.message || 'Logo yuklenemedi.'); return; }
+      if (!res.ok) { showToast('error', data?.message || 'Logo yüklenemedi.'); return; }
       setForm((f) => ({ ...f, logoUrl: data.url }));
     } catch {
-      showToast('error', 'Logo yuklenemedi.');
+      showToast('error', 'Logo yüklenemedi.');
     } finally {
       setUploadingLogo(false);
       e.target.value = '';
@@ -164,9 +164,9 @@ export function ClubDashboard({ club, slug }: Props) {
       });
 
       const data = await res.json().catch(() => null);
-      if (!res.ok) { showToast('error', data?.message || 'Kaydetme basarisiz.'); return; }
+      if (!res.ok) { showToast('error', data?.message || 'Kaydetme başarısız.'); return; }
 
-      showToast('success', 'Sayfa ayarlari kaydedildi!');
+      showToast('success', 'Sayfa ayarları kaydedildi!');
 
       if (form.slug && form.slug !== slug) {
         router.push(`/clubs/${form.slug}/dashboard`);
@@ -174,7 +174,7 @@ export function ClubDashboard({ club, slug }: Props) {
         router.refresh();
       }
     } catch {
-      showToast('error', 'Beklenmeyen bir hata olustu.');
+      showToast('error', 'Beklenmeyen bir hata oluştu.');
     } finally {
       setSaving(false);
     }
@@ -190,12 +190,12 @@ export function ClubDashboard({ club, slug }: Props) {
         body: JSON.stringify({ content: postContent.trim() }),
       });
       const data = await res.json().catch(() => null);
-      if (!res.ok) { showToast('error', data?.message || 'Duyuru paylasilamadi.'); return; }
-      showToast('success', 'Duyuru paylasildi!');
+      if (!res.ok) { showToast('error', data?.message || 'Duyuru paylaşılamadı.'); return; }
+      showToast('success', 'Duyuru paylaşıldı!');
       setPostContent('');
       fetchPosts();
     } catch {
-      showToast('error', 'Beklenmeyen bir hata olustu.');
+      showToast('error', 'Beklenmeyen bir hata oluştu.');
     } finally {
       setPosting(false);
     }

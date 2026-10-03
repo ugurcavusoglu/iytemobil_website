@@ -4,5 +4,5 @@ import { cookies } from 'next/headers';
 export async function POST() {
   const cookieStore = await cookies();
   cookieStore.delete('club_token');
-  return NextResponse.json({ message: 'Cikis basarili.' });
+  return NextResponse.json({ message: 'Çıkış başarılı.' });
 }

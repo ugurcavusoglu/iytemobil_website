@@ -11,5 +11,5 @@ export async function POST() {
     maxAge: 0,
   });
 
-  return NextResponse.json({ message: 'Cikis yapildi.' });
+  return NextResponse.json({ message: 'Çıkış yapıldı.' });
 }

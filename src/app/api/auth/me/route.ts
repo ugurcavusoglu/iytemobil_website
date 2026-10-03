@@ -17,12 +17,12 @@ export async function GET() {
     });
 
     if (!upstream.ok) {
-      return NextResponse.json({ message: 'Oturum gecersiz.' }, { status: 401 });
+      return NextResponse.json({ message: 'Oturum geçersiz.' }, { status: 401 });
     }
 
     const user = await upstream.json();
     return NextResponse.json({ user });
   } catch {
-    return NextResponse.json({ message: 'Profil alinamadi.' }, { status: 500 });
+    return NextResponse.json({ message: 'Profil alınamadı.' }, { status: 500 });
   }
 }
