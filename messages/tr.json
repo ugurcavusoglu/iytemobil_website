@@ -535,12 +535,27 @@
         "SOCIAL": "Sosyal",
         "OTHER": "Diğer"
       },
-      "students": "öğrenci"
+      "students": "öğrenci",
+      "gravityHint": "Logoları tut, fırlat. Çift tıkla, sars."
     },
     "finale": {
       "top": "Kampüs",
       "bottom": "cebinde.",
       "text": "Ücretsiz. Android ve iPhone'da."
+    },
+    "explode": {
+      "title": "Hepsi tek uygulamada.",
+      "subtitle": "Ring, yemek, etkinlik, sohbet ve rozetler. Kampüsün her parçası cebinde.",
+      "nextTrip": "SONRAKİ SEFER",
+      "menu": "Bugünün menüsü",
+      "event": "Akademik Açılış Gösterisi",
+      "chatIn": "Ring kaçta geliyordu?",
+      "chatOut": "08:25, uygulamada yazıyor",
+      "badge": "Sosyal Kelebek"
+    },
+    "particles": {
+      "eyebrow": "Kampüs, parça parça",
+      "title": "Binlerce öğrenci, tek bir İYTE."
     }
   }
 }

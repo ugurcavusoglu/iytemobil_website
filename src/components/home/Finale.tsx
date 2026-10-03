@@ -7,6 +7,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { Apple, Play } from 'lucide-react';
 import { PhoneFrame } from '@/components/ui/PhoneFrame';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
+import { Magnetic } from '@/components/ui/Magnetic';
 
 function Letters({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
   return (
@@ -64,14 +65,18 @@ export function Finale() {
             {t('text')}
           </motion.p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-semibold text-white transition-transform hover:scale-105">
-              <Play className="h-5 w-5 fill-current" />
-              {tHero('googlePlay')}
-            </a>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-lg font-semibold text-black transition-transform hover:scale-105">
-              <Apple className="h-5 w-5" />
-              {tHero('appStore')}
-            </a>
+            <Magnetic>
+              <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-semibold text-white transition-transform hover:scale-105">
+                <Play className="h-5 w-5 fill-current" />
+                {tHero('googlePlay')}
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-lg font-semibold text-black transition-transform hover:scale-105">
+                <Apple className="h-5 w-5" />
+                {tHero('appStore')}
+              </a>
+            </Magnetic>
           </div>
         </div>
         <motion.div style={{ y: phoneY }} className="mx-auto hidden md:block">

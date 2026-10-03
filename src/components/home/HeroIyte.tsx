@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { motion, transform, useScroll, useSpring, useTransform } from 'framer-motion';
 import { Apple, ChevronDown, Play } from 'lucide-react';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
+import { Magnetic } from '@/components/ui/Magnetic';
 
 export function HeroIyte() {
   const t = useTranslations('home.hero');
@@ -57,14 +58,18 @@ export function HeroIyte() {
             <span className="text-primary">{t('titleBottom')}</span>
           </h1>
           <div className="mt-10 flex flex-wrap gap-3">
-            <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 font-semibold text-white transition-transform hover:scale-105">
-              <Play className="h-5 w-5 fill-current" />
-              {t('googlePlay')}
-            </a>
-            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-semibold text-black transition-transform hover:scale-105">
-              <Apple className="h-5 w-5" />
-              {t('appStore')}
-            </a>
+            <Magnetic>
+              <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 font-semibold text-white transition-transform hover:scale-105">
+                <Play className="h-5 w-5 fill-current" />
+                {t('googlePlay')}
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-semibold text-black transition-transform hover:scale-105">
+                <Apple className="h-5 w-5" />
+                {t('appStore')}
+              </a>
+            </Magnetic>
           </div>
         </motion.div>
       </div>

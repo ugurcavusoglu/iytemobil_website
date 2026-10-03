@@ -18,10 +18,17 @@ function Column({ images, shift, progress, className }: { images: string[]; shif
   return (
     <motion.div style={{ y }} className={`flex flex-col gap-4 will-change-transform ${className ?? ''}`}>
       {images.map((name, i) => (
-        <div key={name} className={`group relative overflow-hidden rounded-3xl ${i % 2 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}>
+        <motion.div
+          key={name}
+          initial={{ clipPath: 'inset(100% 0% 0% 0% round 24px)' }}
+          whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 24px)' }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: i * 0.08 }}
+          className={`group relative overflow-hidden rounded-3xl ${i % 2 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}
+        >
           <Image src={`/images/iyte/sm/${name}.webp`} alt="" fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-transparent" />
-        </div>
+        </motion.div>
       ))}
     </motion.div>
   );

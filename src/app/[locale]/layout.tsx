@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { CustomCursor } from '@/components/ui/CustomCursor';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { Inter } from 'next/font/google';
 import '../globals.css';
@@ -79,6 +80,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className="bg-background text-text-primary antialiased font-sans">
         <NextIntlClientProvider messages={messages} locale={locale}>
           <AuthProvider>
+            <CustomCursor />
             <Navbar />
             <main>{children}</main>
             <Footer />

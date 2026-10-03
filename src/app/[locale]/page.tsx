@@ -1,9 +1,11 @@
 import { SmoothScroll } from '@/components/home/SmoothScroll';
 import { IntroOverlay } from '@/components/home/IntroOverlay';
 import { HeroIyte } from '@/components/home/HeroIyte';
+import { ExplodedPhone } from '@/components/home/ExplodedPhone';
 import { FeatureRail } from '@/components/home/FeatureRail';
 import { WordStream } from '@/components/home/WordStream';
 import { Moments } from '@/components/home/Moments';
+import { ParticleWordmark } from '@/components/home/ParticleWordmark';
 import { ClubsSection } from '@/components/home/ClubsSection';
 import { Finale } from '@/components/home/Finale';
 import { TeamSection } from '@/components/sections/TeamSection';
@@ -198,9 +200,11 @@ export default function HomePage() {
       <SmoothScroll />
       <IntroOverlay />
       <HeroIyte />
+      <ExplodedPhone />
       <FeatureRail />
       <WordStream />
       <Moments />
+      <ParticleWordmark />
       <ClubsSection />
       <TeamSection />
       <Finale />

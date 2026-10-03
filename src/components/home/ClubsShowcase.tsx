@@ -6,6 +6,22 @@ import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, animate, motion, useInView } from 'framer-motion';
 import { ArrowRight, CalendarDays, MapPin, Users } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { GravityClubs } from './GravityClubs';
+
+function tiltHandlers(strength = 10) {
+  return {
+    onPointerMove: (e: React.PointerEvent<HTMLElement>) => {
+      if (e.pointerType !== 'mouse') return;
+      const r = e.currentTarget.getBoundingClientRect();
+      const rx = -((e.clientY - r.top) / r.height - 0.5) * strength;
+      const ry = ((e.clientX - r.left) / r.width - 0.5) * strength;
+      e.currentTarget.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+    },
+    onPointerLeave: (e: React.PointerEvent<HTMLElement>) => {
+      e.currentTarget.style.transform = '';
+    },
+  };
+}
 
 export interface ShowcaseClub {
   id: string;
@@ -121,9 +137,8 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.45, delay: i * 0.06 }}
-                  whileHover={{ y: -6 }}
-                  className="group relative overflow-hidden rounded-[2rem] border border-border bg-surface p-7"
                 >
+                  <div {...tiltHandlers()} className="group relative h-full overflow-hidden rounded-[2rem] border border-border bg-surface p-7 transition-transform duration-200 ease-out will-change-transform">
                   <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-70" style={{ backgroundColor: color }} />
                   <span className="absolute right-7 top-7 text-6xl font-black text-white/5">{String(i + 1).padStart(2, '0')}</span>
                   <ClubLogo club={club} size={72} />
@@ -133,6 +148,7 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
                     {!!club.memberCount && (
                       <span className="flex items-center gap-1.5 text-text-secondary"><Users className="h-4 w-4" />{club.memberCount.toLocaleString(locale)} {t('members')}</span>
                     )}
+                  </div>
                   </div>
                 </motion.div>
               );
@@ -161,6 +177,8 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
             ))}
           </AnimatePresence>
         </motion.div>
+
+        <GravityClubs clubs={clubs.map((c) => ({ ...c, color: CATEGORY_COLORS[c.category] ?? CATEGORY_COLORS.OTHER }))} hint={t('gravityHint')} />
 
         <Link href="/clubs" className="group mt-10 inline-flex items-center gap-2 rounded-full border border-border-light px-6 py-3 font-semibold transition-colors hover:border-primary hover:text-primary">
           {t('seeAll')}

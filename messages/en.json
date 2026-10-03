@@ -535,12 +535,27 @@
         "SOCIAL": "Social",
         "OTHER": "Other"
       },
-      "students": "students"
+      "students": "students",
+      "gravityHint": "Grab and throw the logos. Double-click to shake."
     },
     "finale": {
       "top": "Campus",
       "bottom": "in your pocket.",
       "text": "Free. On Android and iPhone."
+    },
+    "explode": {
+      "title": "All in one app.",
+      "subtitle": "Shuttle, food, events, chat and badges. Every piece of campus in your pocket.",
+      "nextTrip": "NEXT TRIP",
+      "menu": "Today's menu",
+      "event": "Opening Ceremony Show",
+      "chatIn": "When is the next shuttle?",
+      "chatOut": "08:25, it is in the app",
+      "badge": "Social Butterfly"
+    },
+    "particles": {
+      "eyebrow": "Campus, piece by piece",
+      "title": "Thousands of students, one IZTECH."
     }
   }
 }
