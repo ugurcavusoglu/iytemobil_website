@@ -534,7 +534,8 @@
         "ACADEMIC": "Akademik",
         "SOCIAL": "Sosyal",
         "OTHER": "Diğer"
-      }
+      },
+      "students": "öğrenci"
     },
     "finale": {
       "top": "Kampüs",

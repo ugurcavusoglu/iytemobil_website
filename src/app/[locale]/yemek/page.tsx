@@ -25,7 +25,6 @@ type Location = 'SCHOOL' | 'DORM';
 type Meal = 'BREAKFAST' | 'LUNCH' | 'DINNER';
 
 const API_URL = 'https://api.iytemobil.com/api';
-const PREVIEW_ITEMS = 5;
 const CALORIE_LINE = /^\s*[\d.,]+(\s*[-–]\s*[\d.,]+)?\s*kcal\s*$/i;
 
 const TEXT = {
@@ -33,17 +32,14 @@ const TEXT = {
     eyebrow: 'Yemekhane & KYK',
     title: 'Yemek Menüsü',
     subtitle: 'Merkezi yemekhane ve KYK yurt menüleri, her gün güncel.',
-    today: 'Bugün',
     school: 'Merkezi Yemekhane',
     dorm: 'KYK Yurt',
-    kykDinner: 'KYK Akşam Yemeği',
     meals: { BREAKFAST: 'Kahvaltı', LUNCH: 'Öğle Yemeği', DINNER: 'Akşam Yemeği' },
     types: { REGULAR: 'Günlük Menü', VEGETARIAN: 'Vejetaryen Menü', VEGAN: 'Vegan Menü', GLUTEN_FREE: 'Glutensiz Menü' } as Record<string, string>,
     closed: 'Kapalı',
     schoolInfo: 'Merkezi yemekhanede sadece öğle yemeği servisi vardır.',
     empty: 'Bu tarih için menü bulunamadı.',
     emptySub: 'Başka bir gün seçmeyi dene.',
-    noToday: 'Bugün için menü yok',
     days: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'],
     cta: 'Restoranlar, puanlar ve fazlası için İYTE Mobil uygulamasını indir.',
     ctaButton: 'Uygulamayı İndir',
@@ -52,17 +48,14 @@ const TEXT = {
     eyebrow: 'Cafeteria & Dorm',
     title: 'Food Menu',
     subtitle: 'Central cafeteria and KYK dorm menus, updated every day.',
-    today: 'Today',
     school: 'Central Cafeteria',
     dorm: 'KYK Dorm',
-    kykDinner: 'KYK Dorm Dinner',
     meals: { BREAKFAST: 'Breakfast', LUNCH: 'Lunch', DINNER: 'Dinner' },
     types: { REGULAR: 'Daily Menu', VEGETARIAN: 'Vegetarian', VEGAN: 'Vegan', GLUTEN_FREE: 'Gluten-Free' } as Record<string, string>,
     closed: 'Closed',
     schoolInfo: 'The central cafeteria serves lunch only.',
     empty: 'No menu for this date.',
     emptySub: 'Try another day.',
-    noToday: 'No menu today',
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     cta: 'Get the IYTE Mobil app for restaurants, ratings and more.',
     ctaButton: 'Download the App',
@@ -105,61 +98,6 @@ function splitCalories(items: MenuItem[]) {
   const food = items.filter((i) => i !== line).sort((a, b) => a.order - b.order);
   const sum = food.reduce((s, i) => s + (i.calories ?? 0), 0);
   return { food, kcal: line ? line.name.replace(/\s+/g, ' ').trim() : sum > 0 ? `${sum} kcal` : null };
-}
-
-function TodayCard({ t, locale }: { t: (typeof TEXT)['tr']; locale: string }) {
-  const [menu, setMenu] = useState<{ title: string; items: MenuItem[]; kcal: string | null } | null | undefined>(undefined);
-
-  useEffect(() => {
-    const today = new Date();
-    (async () => {
-      const school = (await fetchMenu(today, 'SCHOOL')).find((m) => m.mealType === 'LUNCH' && m.menuType === 'REGULAR');
-      const source = school ?? (await fetchMenu(today, 'DORM')).find((m) => m.mealType === 'DINNER');
-      if (!source) return setMenu(null);
-      const { food, kcal } = splitCalories(source.items);
-      setMenu({ title: school ? t.school : t.kykDinner, items: food.slice(0, PREVIEW_ITEMS), kcal });
-    })();
-  }, [t]);
-
-  const dateLabel = new Date().toLocaleDateString(locale === 'en' ? 'en-US' : 'tr-TR', { weekday: 'long', day: 'numeric', month: 'long' });
-
-  return (
-    <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] border border-border">
-      <Image src="/images/app/food-menu.webp" alt="" fill sizes="(min-width: 1024px) 1200px, 100vw" className="object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/10" />
-      <div className="relative flex h-full min-h-[320px] flex-col justify-end p-6 md:p-10">
-        <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/25 text-primary"><Utensils className="h-5 w-5" /></span>
-          <div>
-            <p className="text-lg font-bold">{menu?.title ?? t.today}</p>
-            <p className="text-sm capitalize text-white/60">{dateLabel}</p>
-          </div>
-          {menu?.kcal && (
-            <span className="ml-auto flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-amber-500/20 px-3 py-1 text-sm font-semibold text-amber-400"><Flame className="h-4 w-4" />{menu.kcal}</span>
-          )}
-        </div>
-        <div className="mt-5 min-h-[7.5rem]">
-          {menu === undefined && <div className="h-28 w-2/3 animate-pulse rounded-2xl bg-white/10" />}
-          {menu === null && <p className="text-xl font-semibold text-white/70">{t.noToday}</p>}
-          {menu && (
-            <ul className="space-y-1.5">
-              {menu.items.map((item, i) => (
-                <motion.li
-                  key={`${item.name}-${i}`}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06 }}
-                  className="truncate text-lg font-medium md:text-xl"
-                >
-                  {item.name}
-                </motion.li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function MenuCard({ menu, t }: { menu: DailyMenu; t: (typeof TEXT)['tr'] }) {
@@ -225,9 +163,7 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
 
       <section className="pb-24 pt-4">
         <div className="mx-auto max-w-5xl px-6 md:px-12">
-          <TodayCard t={t} locale={locale} />
-
-          <div className="mt-10 grid grid-cols-2 gap-2 rounded-full border border-border bg-surface p-1.5">
+          <div className="grid grid-cols-2 gap-2 rounded-full border border-border bg-surface p-1.5">
             {(['SCHOOL', 'DORM'] as const).map((loc) => {
               const active = loc === location;
               const Icon = loc === 'SCHOOL' ? School : Home;

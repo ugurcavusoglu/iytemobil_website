@@ -33,7 +33,6 @@ export default async function ClubsPage({ params }: Props) {
     getTranslations({ locale, namespace: 'nav' }),
     getTranslations({ locale, namespace: 'home.clubs' }),
   ]);
-  const totalMembers = clubs.reduce((sum, c) => sum + (c.memberCount ?? 0), 0);
 
   return (
     <>
@@ -44,12 +43,10 @@ export default async function ClubsPage({ params }: Props) {
               <p className="text-4xl font-black leading-none tracking-tighter md:text-5xl">{clubs.length.toLocaleString(locale)}</p>
               <p className="mt-1 text-sm text-text-secondary">{tHome('clubs')}</p>
             </div>
-            {totalMembers > 0 && (
-              <div>
-                <p className="text-4xl font-black leading-none tracking-tighter text-primary md:text-5xl">{totalMembers.toLocaleString(locale)}+</p>
-                <p className="mt-1 text-sm text-text-secondary">{tHome('members')}</p>
-              </div>
-            )}
+            <div>
+              <p className="text-4xl font-black leading-none tracking-tighter text-primary md:text-5xl">7K+</p>
+              <p className="mt-1 text-sm text-text-secondary">{tHome('students')}</p>
+            </div>
           </div>
         )}
       </PageHero>

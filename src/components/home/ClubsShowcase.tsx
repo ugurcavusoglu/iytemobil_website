@@ -70,7 +70,6 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
   const filtered = category === 'ALL' ? clubs : clubs.filter((c) => c.category === category);
   const featured = filtered.slice(0, FEATURED_COUNT);
   const rest = filtered.slice(FEATURED_COUNT, FEATURED_COUNT + GRID_COUNT);
-  const totalMembers = clubs.reduce((sum, c) => sum + (c.memberCount ?? 0), 0);
   const dateFormat = new Intl.DateTimeFormat(locale === 'tr' ? 'tr-TR' : 'en-US', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Istanbul' });
 
   return (
@@ -87,12 +86,10 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
             <p className="text-7xl font-black leading-none tracking-tighter md:text-9xl"><CountUp value={clubs.length} locale={locale} start={countersInView} /></p>
             <p className="mt-2 text-text-secondary">{t('clubs')}</p>
           </div>
-          {totalMembers > 0 && (
-            <div>
-              <p className="text-7xl font-black leading-none tracking-tighter text-primary md:text-9xl"><CountUp value={totalMembers} locale={locale} start={countersInView} />+</p>
-              <p className="mt-2 text-text-secondary">{t('members')}</p>
-            </div>
-          )}
+          <div>
+            <p className="text-7xl font-black leading-none tracking-tighter text-primary md:text-9xl"><CountUp value={7} locale={locale} start={countersInView} />K+</p>
+            <p className="mt-2 text-text-secondary">{t('students')}</p>
+          </div>
         </div>
 
         <div className="mt-12 flex flex-wrap gap-2">
