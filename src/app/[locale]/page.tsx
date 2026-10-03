@@ -1,11 +1,12 @@
+import { SmoothScroll } from '@/components/home/SmoothScroll';
 import { IntroOverlay } from '@/components/home/IntroOverlay';
-import { HeroSection } from '@/components/sections/HeroSection';
-import { FeatureTour } from '@/components/sections/FeatureTour';
-import { FAQSection } from '@/components/sections/FAQSection';
-import { CampusPulse } from '@/components/sections/CampusPulse';
+import { HeroIyte } from '@/components/home/HeroIyte';
+import { FeatureRail } from '@/components/home/FeatureRail';
+import { WordStream } from '@/components/home/WordStream';
+import { Moments } from '@/components/home/Moments';
+import { ClubsSection } from '@/components/home/ClubsSection';
+import { Finale } from '@/components/home/Finale';
 import { TeamSection } from '@/components/sections/TeamSection';
-import { DownloadSection } from '@/components/sections/DownloadSection';
-import { CTASection } from '@/components/sections/CTASection';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -194,14 +195,15 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <SmoothScroll />
       <IntroOverlay />
-      <HeroSection />
-      <FeatureTour />
-      <CampusPulse />
+      <HeroIyte />
+      <FeatureRail />
+      <WordStream />
+      <Moments />
+      <ClubsSection />
       <TeamSection />
-      <FAQSection />
-      <DownloadSection />
-      <CTASection />
+      <Finale />
     </>
   );
 }

@@ -437,5 +437,88 @@
     "members": "members",
     "upcoming": "Upcoming events",
     "allClubs": "See all clubs"
+  },
+  "home": {
+    "intro": {
+      "skip": "Skip"
+    },
+    "hero": {
+      "eyebrow": "Izmir Institute of Technology",
+      "scroll": "Scroll",
+      "titleTop": "Your campus life,",
+      "titleBottom": "in one app.",
+      "googlePlay": "Google Play",
+      "appStore": "App Store"
+    },
+    "rail": {
+      "eyebrow": "What's inside",
+      "items": {
+        "social": {
+          "word": "SOCIAL",
+          "title": "The campus pulse",
+          "text": "Post, confess, run polls."
+        },
+        "transport": {
+          "word": "TRANSIT",
+          "title": "Shuttle, minibus, bus",
+          "text": "Next departure at a glance."
+        },
+        "food": {
+          "word": "FOOD",
+          "title": "What's on today?",
+          "text": "Cafeteria and dorm menus, daily."
+        },
+        "clubs": {
+          "word": "CLUBS",
+          "title": "60+ clubs",
+          "text": "Follow them, join their events."
+        },
+        "events": {
+          "word": "EVENTS",
+          "title": "QR check-in",
+          "text": "Albums, memories, certificates."
+        }
+      }
+    },
+    "stream": [
+      "FOOD",
+      "SHUTTLE",
+      "MINIBUS",
+      "CLUBS",
+      "EVENTS",
+      "CONFESSIONS",
+      "CHAT",
+      "BADGES",
+      "DORM",
+      "CARPOOL"
+    ],
+    "moments": {
+      "eyebrow": "Life on campus",
+      "title": "Something is always happening at IZTECH."
+    },
+    "clubs": {
+      "eyebrow": "Clubs",
+      "clubs": "clubs",
+      "members": "members",
+      "all": "All",
+      "seeAll": "See all clubs",
+      "upcoming": "Upcoming events",
+      "categories": {
+        "SPORTS": "Sports",
+        "ART": "Art",
+        "TECHNOLOGY": "Technology",
+        "ARCHITECTURE": "Architecture",
+        "TRAVEL": "Travel",
+        "MUSIC": "Music",
+        "ACADEMIC": "Academic",
+        "SOCIAL": "Social",
+        "OTHER": "Other"
+      }
+    },
+    "finale": {
+      "top": "Campus",
+      "bottom": "in your pocket.",
+      "text": "Free. On Android and iPhone."
+    }
   }
 }

@@ -1,15 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 
 const SEEN_KEY = 'iyte-intro-seen';
-const INTRO_MS = 1900;
+const INTRO_MS = 2300;
+const EASE = [0.76, 0, 0.24, 1] as const;
 
 export function IntroOverlay() {
-  const t = useTranslations('intro');
+  const t = useTranslations('home.intro');
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
 
@@ -29,40 +29,43 @@ export function IntroOverlay() {
       {visible && (
         <motion.div
           key="intro"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
-          exit={{ y: '-100%' }}
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-background"
+          exit={{ clipPath: 'inset(0 0 100% 0)' }}
+          transition={{ duration: 0.9, ease: EASE }}
         >
           <motion.div
-            className="absolute h-[60vmax] w-[60vmax] rounded-full bg-primary/20 blur-[120px]"
-            initial={{ scale: 0.2, opacity: 0 }}
+            className="absolute h-[70vmax] w-[70vmax] rounded-full bg-primary/25 blur-[140px]"
+            initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.4, ease: 'easeOut' }}
+            transition={{ duration: 1.6, ease: 'easeOut' }}
           />
-          <div className="relative flex flex-col items-center gap-5">
-            <motion.div
-              initial={{ scale: 0.6, opacity: 0, rotate: -8 }}
-              animate={{ scale: 1, opacity: 1, rotate: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          <svg viewBox="0 0 1000 320" className="relative w-[86vw] max-w-[1100px]" aria-label="İYTE">
+            <motion.text
+              x="50%"
+              y="250"
+              textAnchor="middle"
+              className="font-sans"
+              style={{ fontSize: 300, fontWeight: 900, letterSpacing: '-0.04em' }}
+              fill="#fafafa"
+              stroke="#E63946"
+              strokeWidth={3}
+              strokeDasharray={1400}
+              initial={{ strokeDashoffset: 1400, fillOpacity: 0 }}
+              animate={{ strokeDashoffset: 0, fillOpacity: 1 }}
+              transition={{ strokeDashoffset: { duration: 1.2, ease: 'easeInOut' }, fillOpacity: { delay: 1, duration: 0.5 } }}
             >
-              <Image src="/images/logo.png" alt="İYTE Mobil" width={96} height={96} priority className="rounded-3xl" />
-            </motion.div>
-            <div className="overflow-hidden">
-              <motion.p
-                className="text-3xl font-bold tracking-tight md:text-4xl"
-                initial={{ y: '110%' }}
-                animate={{ y: 0 }}
-                transition={{ delay: 0.45, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              >
-                İYTE <span className="text-primary">Mobil</span>
-              </motion.p>
-            </div>
-            <motion.div
-              className="h-px w-40 origin-left bg-gradient-to-r from-transparent via-primary to-transparent"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.8, duration: 0.7, ease: 'easeInOut' }}
-            />
+              İYTE
+            </motion.text>
+          </svg>
+          <div className="relative mt-2 overflow-hidden">
+            <motion.p
+              className="text-xl font-semibold tracking-[0.6em] text-primary md:text-2xl"
+              initial={{ y: '120%' }}
+              animate={{ y: 0 }}
+              transition={{ delay: 1.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              MOBİL
+            </motion.p>
           </div>
           <button
             onClick={() => setVisible(false)}

@@ -108,7 +108,7 @@ export const SCREENSHOTS: Screenshot[] = [
 
 export const NAV_LINKS: NavLink[] = [
   { href: '#tour', labelKey: 'nav.features' },
-  { href: '#faq', labelKey: 'nav.faq' },
+  { href: '#download', labelKey: 'nav.download' },
 ];
 
 export const NAV_PAGE_LINKS = [

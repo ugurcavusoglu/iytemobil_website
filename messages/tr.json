@@ -437,5 +437,88 @@
     "members": "üye",
     "upcoming": "Yaklaşan etkinlikler",
     "allClubs": "Tüm toplulukları gör"
+  },
+  "home": {
+    "intro": {
+      "skip": "Atla"
+    },
+    "hero": {
+      "eyebrow": "İzmir Yüksek Teknoloji Enstitüsü",
+      "scroll": "Kaydır",
+      "titleTop": "Kampüs hayatın,",
+      "titleBottom": "tek uygulamada.",
+      "googlePlay": "Google Play",
+      "appStore": "App Store"
+    },
+    "rail": {
+      "eyebrow": "İçinde neler var",
+      "items": {
+        "social": {
+          "word": "SOSYAL",
+          "title": "Kampüsün nabzı",
+          "text": "Paylaş, itiraf et, anket aç."
+        },
+        "transport": {
+          "word": "ULAŞIM",
+          "title": "Ring, dolmuş, otobüs",
+          "text": "Sıradaki sefer bir bakışta."
+        },
+        "food": {
+          "word": "YEMEK",
+          "title": "Bugün ne var?",
+          "text": "Yemekhane ve KYK menüsü her gün."
+        },
+        "clubs": {
+          "word": "TOPLULUK",
+          "title": "60+ topluluk",
+          "text": "Takip et, etkinliklere katıl."
+        },
+        "events": {
+          "word": "ETKİNLİK",
+          "title": "QR ile yoklama",
+          "text": "Albümler, anılar, sertifikalar."
+        }
+      }
+    },
+    "stream": [
+      "YEMEK",
+      "RİNG",
+      "DOLMUŞ",
+      "TOPLULUK",
+      "ETKİNLİK",
+      "İTİRAF",
+      "MESAJ",
+      "ROZET",
+      "KYK",
+      "OTOSTOP"
+    ],
+    "moments": {
+      "eyebrow": "Kampüste hayat",
+      "title": "İYTE'de her gün bir şey oluyor."
+    },
+    "clubs": {
+      "eyebrow": "Topluluklar",
+      "clubs": "topluluk",
+      "members": "üye",
+      "all": "Tümü",
+      "seeAll": "Tüm toplulukları gör",
+      "upcoming": "Yaklaşan etkinlikler",
+      "categories": {
+        "SPORTS": "Spor",
+        "ART": "Sanat",
+        "TECHNOLOGY": "Teknoloji",
+        "ARCHITECTURE": "Mimarlık",
+        "TRAVEL": "Gezi",
+        "MUSIC": "Müzik",
+        "ACADEMIC": "Akademik",
+        "SOCIAL": "Sosyal",
+        "OTHER": "Diğer"
+      }
+    },
+    "finale": {
+      "top": "Kampüs",
+      "bottom": "cebinde.",
+      "text": "Ücretsiz. Android ve iPhone'da."
+    }
   }
 }
