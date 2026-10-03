@@ -100,9 +100,9 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
   const hasSomeMenu = menus.length > 0;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#09090b] text-white">
       {/* Top nav bar */}
-      <div className="border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-10">
+      <div className="border-b border-white/5 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link
             href="/"
@@ -130,7 +130,7 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
               onClick={() => setActiveTab(loc)}
               className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
                 activeTab === loc
-                  ? 'bg-red-600 text-white shadow-lg shadow-red-600/20'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/20'
                   : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/8'
               }`}
             >
@@ -252,7 +252,7 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
         )}
 
         {/* Download CTA */}
-        <div className="mt-10 p-5 rounded-2xl bg-gradient-to-br from-red-600/15 to-red-900/10 border border-red-600/20 text-center">
+        <div className="mt-10 p-5 rounded-2xl bg-gradient-to-br from-primary/15 to-red-900/10 border border-primary/20 text-center">
           <Utensils className="w-8 h-8 mx-auto mb-2 text-red-500 opacity-70" />
           <p className="text-sm text-zinc-300 mb-4 leading-relaxed">
             {locale === 'tr'
@@ -261,7 +261,7 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
           </p>
           <a
             href={`/${locale}/indir`}
-            className="inline-block bg-red-600 hover:bg-red-500 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors shadow-lg shadow-red-600/20"
+            className="inline-block bg-primary hover:bg-red-500 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors shadow-lg shadow-primary/20"
           >
             {locale === 'tr' ? 'Uygulamayı İndir' : 'Download App'}
           </a>

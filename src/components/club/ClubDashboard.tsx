@@ -59,7 +59,7 @@ interface Props {
 }
 
 const PRESET_COLORS = [
-  '#dc2626', '#ea580c', '#d97706', '#16a34a',
+  '#E63946', '#ea580c', '#d97706', '#16a34a',
   '#0891b2', '#2563eb', '#7c3aed', '#db2777',
 ];
 
@@ -82,7 +82,7 @@ export function ClubDashboard({ club, slug }: Props) {
     slug: club.slug || '',
     bannerUrl: club.bannerUrl || '',
     logoUrl: club.logoUrl || '',
-    themeColor: club.themeColor || '#dc2626',
+    themeColor: club.themeColor || '#E63946',
     websitePublished: club.websitePublished ?? false,
     socialLinks: {
       instagram: club.socialLinks?.instagram || '',

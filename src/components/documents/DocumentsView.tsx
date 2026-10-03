@@ -95,7 +95,7 @@ function LoginRequiredModal({ onClose, onLogin }: { onClose: () => void; onLogin
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[#111] p-6 shadow-2xl">
+      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[#18181b] p-6 shadow-2xl">
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-yellow-500/10 mx-auto">
           <Lock className="h-6 w-6 text-yellow-400" />
         </div>

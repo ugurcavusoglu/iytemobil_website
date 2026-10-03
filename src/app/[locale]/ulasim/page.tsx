@@ -110,7 +110,12 @@ const BUS_COLORS: Record<string, { bg: string; border: string; text: string; bad
   'DOLMUS': { bg: 'rgba(236,72,153,0.08)', border: 'rgba(236,72,153,0.25)', text: '#ec4899', badge: 'rgba(236,72,153,0.15)' },
 };
 
-const DEFAULT_COLOR = { bg: 'rgba(220,38,38,0.08)', border: 'rgba(220,38,38,0.25)', text: '#dc2626', badge: 'rgba(220,38,38,0.15)' };
+const LINE_LABELS: Record<string, { tr: string; en: string; badge: string }> = {
+  DOLMUS: { tr: 'Gülbahçe – İYTE – İzmir / Urla dolmuşları', en: 'Gülbahçe – IZTECH – İzmir / Urla minibuses', badge: 'DOLMUŞ' },
+  RING: { tr: 'Ring servisi', en: 'Campus shuttle', badge: 'RING' },
+};
+
+const DEFAULT_COLOR = { bg: 'rgba(220,38,38,0.08)', border: 'rgba(220,38,38,0.25)', text: '#E63946', badge: 'rgba(220,38,38,0.15)' };
 
 export default function UlasimPage() {
   const [schedules, setSchedules] = useState<BusSchedule[]>([]);
@@ -175,7 +180,7 @@ export default function UlasimPage() {
                 onClick={() => setSelectedDay(day)}
                 className="flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all"
                 style={{
-                  backgroundColor: isActive ? '#dc2626' : 'rgba(255,255,255,0.05)',
+                  backgroundColor: isActive ? '#E63946' : 'rgba(255,255,255,0.05)',
                   color: isActive ? '#fff' : '#9ca3af',
                   border: isToday && !isActive ? '1px solid rgba(220,38,38,0.4)' : '1px solid transparent',
                 }}
@@ -213,12 +218,12 @@ export default function UlasimPage() {
                   {/* Bus code badge */}
                   <div className="mb-4 flex items-center gap-3">
                     <div
-                      className="flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold"
+                      className="flex h-10 min-w-10 items-center justify-center rounded-xl px-2 text-sm font-bold"
                       style={{ backgroundColor: color.badge, color: color.text }}
                     >
-                      {busCode}
+                      {LINE_LABELS[busCode]?.badge ?? busCode}
                     </div>
-                    <p className="font-semibold text-white">{busData.busName}</p>
+                    <p className="font-semibold text-white">{LINE_LABELS[busCode]?.[locale === 'en' ? 'en' : 'tr'] ?? busData.busName}</p>
                   </div>
 
                   {/* Directions */}

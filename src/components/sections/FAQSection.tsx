@@ -6,13 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
-const FAQ_KEYS = [
-  'whatIsIyte',
-  'isPaid',
-  'platforms',
-  'activities',
-  'clubs',
-] as const;
+const FAQ_KEYS = ['whatIsIyte', 'platforms', 'isPaid', 'foodMenu', 'ringService', 'clubApplication'] as const;
 
 export function FAQSection() {
   const t = useTranslations('faq');

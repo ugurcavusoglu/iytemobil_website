@@ -12,8 +12,8 @@ export const FEATURES: Feature[] = [
     icon: 'MessageSquare',
     titleKey: 'features.socialFeed.title',
     descriptionKey: 'features.socialFeed.description',
-    color: '#dc2626',
-    gradient: 'from-red-600/20 to-transparent',
+    color: '#E63946',
+    gradient: 'from-primary/20 to-transparent',
   },
   {
     id: 'chat',
@@ -107,10 +107,8 @@ export const SCREENSHOTS: Screenshot[] = [
 ];
 
 export const NAV_LINKS: NavLink[] = [
-  { href: '#features', labelKey: 'nav.features' },
-  { href: '#team', labelKey: 'nav.team' },
-  { href: '#download', labelKey: 'nav.download' },
-  { href: '#contact', labelKey: 'nav.contact' },
+  { href: '#tour', labelKey: 'nav.features' },
+  { href: '#faq', labelKey: 'nav.faq' },
 ];
 
 export const NAV_PAGE_LINKS = [

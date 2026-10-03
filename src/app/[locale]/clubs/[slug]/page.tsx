@@ -148,7 +148,7 @@ export default async function ClubPublicPage({ params }: Props) {
   const cookieStore = await cookies();
   const isLoggedIn = !!cookieStore.get('club_token')?.value;
 
-  const theme = club.themeColor || '#dc2626';
+  const theme = club.themeColor || '#E63946';
   const socialLinks = club.socialLinks as SocialLinks | undefined;
 
   return (

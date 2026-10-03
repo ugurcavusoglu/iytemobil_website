@@ -23,7 +23,7 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.95]);
   const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.1]);
-  const backgroundColor = useTransform(bgOpacity, (v) => `rgba(10, 10, 10, ${v})`);
+  const backgroundColor = useTransform(bgOpacity, (v) => `rgba(9, 9, 11, ${v})`);
   const borderBottomColor = useTransform(borderOpacity, (v) => `rgba(255, 255, 255, ${v})`);
 
   useEffect(() => {

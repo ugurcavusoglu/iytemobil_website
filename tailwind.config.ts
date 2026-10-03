@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 
+// Same palette as the mobile app (campus-connect-mobile/DESIGN.md): zinc surfaces, warm red primary.
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,52 +10,64 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#0a0a0a',
-        surface: '#1a1a1a',
-        'surface-light': '#2a2a2a',
+        background: '#09090b',
+        surface: '#18181b',
+        'surface-light': '#27272a',
+        'surface-container': '#1c1c1f',
         primary: {
-          DEFAULT: '#dc2626',
-          dark: '#b91c1c',
-          light: 'rgba(220, 38, 38, 0.15)',
+          DEFAULT: '#E63946',
+          dark: '#c92a37',
+          light: 'rgba(230, 57, 70, 0.14)',
         },
-        'text-primary': '#ffffff',
-        'text-secondary': '#888888',
-        'text-muted': '#666666',
+        'text-primary': '#fafafa',
+        'text-secondary': '#a1a1aa',
+        'text-muted': '#71717a',
+        'text-disabled': '#52525b',
         accent: {
-          purple: '#9333EA',
-          orange: '#F97316',
-          gold: '#EAB308',
-          blue: '#3B82F6',
-          green: '#22C55E',
+          purple: '#8b5cf6',
+          orange: '#f97316',
+          gold: '#eab308',
+          blue: '#3b82f6',
+          green: '#22c55e',
         },
-        border: '#1a1a1a',
-        'border-light': '#2a2a2a',
+        border: 'rgba(255, 255, 255, 0.06)',
+        'border-light': 'rgba(255, 255, 255, 0.1)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
-        'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+        'glow-pulse': 'glow-pulse 2.4s ease-in-out infinite',
         'fade-in-up': 'fade-in-up 0.6s ease-out',
+        'marquee': 'marquee 40s linear infinite',
+        'aurora': 'aurora 18s ease-in-out infinite alternate',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '50%': { transform: 'translateY(-16px)' },
         },
         'glow-pulse': {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(220, 38, 38, 0.3)' },
-          '50%': { boxShadow: '0 0 40px rgba(220, 38, 38, 0.6)' },
+          '0%, 100%': { boxShadow: '0 0 24px rgba(230, 57, 70, 0.25)' },
+          '50%': { boxShadow: '0 0 48px rgba(230, 57, 70, 0.5)' },
         },
         'fade-in-up': {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        aurora: {
+          '0%': { transform: 'translate3d(-10%, -6%, 0) scale(1)' },
+          '100%': { transform: 'translate3d(10%, 6%, 0) scale(1.15)' },
+        },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-gradient': 'radial-gradient(ellipse at 50% 0%, rgba(220, 38, 38, 0.08) 0%, #0a0a0a 70%)',
+        'hero-gradient': 'radial-gradient(ellipse at 50% 0%, rgba(230, 57, 70, 0.12) 0%, #09090b 70%)',
       },
     },
   },

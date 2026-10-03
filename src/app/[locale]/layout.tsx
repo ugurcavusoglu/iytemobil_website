@@ -6,7 +6,10 @@ import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { Inter } from 'next/font/google';
 import '../globals.css';
+
+const inter = Inter({ subsets: ['latin', 'latin-ext'], variable: '--font-inter', display: 'swap' });
 
 type Props = {
   children: React.ReactNode;
@@ -72,8 +75,8 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="scroll-smooth">
-      <body className="bg-background text-white antialiased font-sans">
+    <html lang={locale} className={`scroll-smooth ${inter.variable}`}>
+      <body className="bg-background text-text-primary antialiased font-sans">
         <NextIntlClientProvider messages={messages} locale={locale}>
           <AuthProvider>
             <Navbar />

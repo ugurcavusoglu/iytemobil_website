@@ -22,11 +22,15 @@
     "logout": "Çıkış Yap"
   },
   "hero": {
-    "title": "Kampüs Hayatını",
-    "titleAccent": "Kolaylaştır",
-    "subtitle": "İYTE öğrencileri için tasarlanmış, tek uygulamada tüm kampüs yaşamı. Sosyal akış, yemek menüleri, otobüs saatleri, mesajlaşma ve çok daha fazlası.",
+    "title": "Kampüs hayatın tek uygulamada,",
+    "titleAccent": "cebinde.",
+    "subtitle": "Yemekhane ve KYK menüleri, ring ve otobüs saatleri, 60+ topluluğun etkinlikleri, sosyal akış ve mesajlaşma. İYTE öğrencileri için, İYTE öğrencilerinden.",
     "cta": "Uygulamayı İndir",
-    "learnMore": "Daha Fazla Bilgi"
+    "learnMore": "Neler var?",
+    "badge": "İzmir Yüksek Teknoloji Enstitüsü",
+    "googlePlay": "Google Play'den İndir",
+    "screenAlt": "İYTE Mobil uygulama ekranı",
+    "appStore": "App Store'dan İndir"
   },
   "features": {
     "sectionTitle": "Özellikler",
@@ -216,7 +220,7 @@
     },
     "platforms": {
       "q": "İYTE Mobil hangi platformlarda kullanılabilir?",
-      "a": "İYTE Mobil şu anda Android cihazlarda Google Play Store üzerinden ücretsiz olarak indirilebilir. iOS versiyonu yakında App Store'da yayınlanacaktır."
+      "a": "İYTE Mobil Android'de Google Play'den, iPhone'da App Store'dan ücretsiz olarak indirilebilir."
     },
     "foodMenu": {
       "q": "İYTE yemek menüsünü uygulamadan görebilir miyim?",
@@ -224,11 +228,11 @@
     },
     "ringService": {
       "q": "İYTE ring servisi saatlerine uygulamadan ulaşabilir miyim?",
-      "a": "Evet, İYTE Mobil üzerinden İYTE ring servis saatlerini, ESHOT bağlantı saatlerini hafta içi ve hafta sonu programları ayrı ayrı görüntüleyebilirsiniz."
+      "a": "Evet. Ring servisi, ESHOT otobüsleri ve Gülbahçe–İYTE–İzmir dolmuşlarının saatlerini hafta içi ve hafta sonu ayrı ayrı görebilir, sıradaki seferi anında takip edebilirsin."
     },
     "isPaid": {
       "q": "İYTE Mobil ücretli mi?",
-      "a": "Hayır, İYTE Mobil tamamen ücretsizdir. Google Play Store'dan ücretsiz olarak indirebilirsiniz."
+      "a": "Hayır, İYTE Mobil tamamen ücretsizdir. Google Play ve App Store'dan ücretsiz indirebilirsin."
     },
     "clubApplication": {
       "q": "Topluluğumu İYTE Mobil'e nasıl eklerim?",
@@ -387,5 +391,51 @@
       "password": "Şifre en az 8 karakter olmalı; büyük harf, küçük harf ve rakam içermeli.",
       "mismatch": "Şifreler eşleşmiyor."
     }
+  },
+  "intro": {
+    "skip": "Atla"
+  },
+  "tour": {
+    "eyebrow": "Neler var?",
+    "title": "Kampüste ihtiyacın olan her şey",
+    "social": {
+      "title": "Sosyal akış ve itiraflar",
+      "description": "Kampüste neler olup bittiğini gör, paylaş, yorum yap. İstersen anonim itiraf et, anket aç, fotoğraf paylaş.",
+      "tags": "Anonim itiraf|Anket|Fotoğraf|Bildirimler"
+    },
+    "transport": {
+      "title": "Ring, otobüs, dolmuş",
+      "description": "Sıradaki ring ve ESHOT seferi ne zaman? Hafta içi ve hafta sonu saatleri, yönlere göre ayrılmış. Araç paylaşımıyla yolculuğunu da paylaş.",
+      "tags": "Ring servisi|ESHOT|Dolmuş|Araç paylaşımı"
+    },
+    "food": {
+      "title": "Bugün ne yiyoruz?",
+      "description": "Merkezi yemekhane ve KYK yurt menüleri her gün güncel. Kampüs çevresindeki restoranları keşfet, puanla.",
+      "tags": "Yemekhane|KYK menüsü|Kalori|Restoranlar"
+    },
+    "clubs": {
+      "title": "Topluluklar ve etkinlikler",
+      "description": "60+ İYTE topluluğunu takip et, etkinliklere katıl. Etkinlikte QR ile yoklama ver, fotoğraf albümüne katkı yap.",
+      "tags": "60+ topluluk|QR yoklama|Foto albüm|Ortak etkinlik"
+    },
+    "chat": {
+      "title": "Anlık mesajlaşma",
+      "description": "Arkadaşlarınla birebir ya da grup halinde yazış. Mesajlar anında, bildirimler cebinde.",
+      "tags": "Birebir|Grup|Anlık bildirim"
+    },
+    "points": {
+      "title": "Puan, rozet, liderlik",
+      "description": "Kampüste aktif oldukça puan kazan, rozetleri topla, liderlik tablosunda yüksel.",
+      "tags": "Puanlar|Rozetler|Liderlik tablosu"
+    }
+  },
+  "pulse": {
+    "eyebrow": "Kampüs canlı",
+    "title": "İYTE toplulukları burada",
+    "clubCount": "topluluk",
+    "memberCount": "topluluk üyesi",
+    "members": "üye",
+    "upcoming": "Yaklaşan etkinlikler",
+    "allClubs": "Tüm toplulukları gör"
   }
 }

@@ -22,11 +22,15 @@
     "logout": "Logout"
   },
   "hero": {
-    "title": "Simplify Your",
-    "titleAccent": "Campus Life",
-    "subtitle": "Designed for IYTE students, all campus life in one app. Social feed, food menus, bus schedules, messaging and much more.",
+    "title": "Your whole campus life, in",
+    "titleAccent": "one app.",
+    "subtitle": "Cafeteria and dorm menus, shuttle and bus times, events from 60+ clubs, a social feed and messaging. Built for IZTECH students, by IZTECH students.",
     "cta": "Download App",
-    "learnMore": "Learn More"
+    "learnMore": "What's inside?",
+    "badge": "Izmir Institute of Technology",
+    "googlePlay": "Get it on Google Play",
+    "screenAlt": "IYTE Mobil app screen",
+    "appStore": "Download on the App Store"
   },
   "features": {
     "sectionTitle": "Features",
@@ -216,7 +220,7 @@
     },
     "platforms": {
       "q": "Which platforms is IYTE Mobile available on?",
-      "a": "IYTE Mobile is currently available for free on Android devices via Google Play Store. The iOS version will be published on the App Store soon."
+      "a": "IYTE Mobil is free on Google Play for Android and on the App Store for iPhone."
     },
     "foodMenu": {
       "q": "Can I view the IYTE food menu from the app?",
@@ -224,11 +228,11 @@
     },
     "ringService": {
       "q": "Can I access IYTE ring bus schedules from the app?",
-      "a": "Yes, you can view IYTE ring service times, ESHOT connection times, and weekday and weekend schedules separately on IYTE Mobile."
+      "a": "Yes. See campus shuttle, ESHOT bus and Gülbahçe–IZTECH–İzmir minibus times for weekdays and weekends, and follow the next departure at a glance."
     },
     "isPaid": {
       "q": "Is IYTE Mobile free?",
-      "a": "Yes, IYTE Mobile is completely free. You can download it for free from the Google Play Store."
+      "a": "No, IYTE Mobil is completely free on Google Play and the App Store."
     },
     "clubApplication": {
       "q": "How do I add my club to İYTE Mobil?",
@@ -387,5 +391,51 @@
       "password": "Password must be at least 8 characters with an uppercase letter, a lowercase letter and a number.",
       "mismatch": "Passwords do not match."
     }
+  },
+  "intro": {
+    "skip": "Skip"
+  },
+  "tour": {
+    "eyebrow": "What's inside",
+    "title": "Everything you need on campus",
+    "social": {
+      "title": "Social feed and confessions",
+      "description": "See what is happening on campus, post and comment. Confess anonymously, run polls, share photos.",
+      "tags": "Anonymous confessions|Polls|Photos|Notifications"
+    },
+    "transport": {
+      "title": "Shuttle, bus, minibus",
+      "description": "When is the next shuttle or ESHOT bus? Weekday and weekend times, split by direction. Share rides with carpooling.",
+      "tags": "Campus shuttle|ESHOT|Minibus|Carpool"
+    },
+    "food": {
+      "title": "What's for lunch?",
+      "description": "Central cafeteria and KYK dorm menus, updated every day. Discover and rate restaurants around campus.",
+      "tags": "Cafeteria|Dorm menu|Calories|Restaurants"
+    },
+    "clubs": {
+      "title": "Clubs and events",
+      "description": "Follow 60+ IZTECH clubs and join their events. Check in with a QR code and add to the photo album.",
+      "tags": "60+ clubs|QR check-in|Photo album|Co-hosted events"
+    },
+    "chat": {
+      "title": "Instant messaging",
+      "description": "Chat one-on-one or in groups. Messages arrive instantly, notifications in your pocket.",
+      "tags": "Direct|Groups|Push notifications"
+    },
+    "points": {
+      "title": "Points, badges, leaderboard",
+      "description": "Earn points for being active on campus, collect badges, climb the leaderboard.",
+      "tags": "Points|Badges|Leaderboard"
+    }
+  },
+  "pulse": {
+    "eyebrow": "Campus, live",
+    "title": "IZTECH clubs are here",
+    "clubCount": "clubs",
+    "memberCount": "club members",
+    "members": "members",
+    "upcoming": "Upcoming events",
+    "allClubs": "See all clubs"
   }
 }

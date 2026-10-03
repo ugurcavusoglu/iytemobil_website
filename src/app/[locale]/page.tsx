@@ -1,6 +1,8 @@
+import { IntroOverlay } from '@/components/home/IntroOverlay';
 import { HeroSection } from '@/components/sections/HeroSection';
-import { FeaturesSection } from '@/components/sections/FeaturesSection';
-import { FeatureDetailSection } from '@/components/sections/FeatureDetailSection';
+import { FeatureTour } from '@/components/sections/FeatureTour';
+import { FAQSection } from '@/components/sections/FAQSection';
+import { CampusPulse } from '@/components/sections/CampusPulse';
 import { TeamSection } from '@/components/sections/TeamSection';
 import { DownloadSection } from '@/components/sections/DownloadSection';
 import { CTASection } from '@/components/sections/CTASection';
@@ -80,7 +82,7 @@ export default function HomePage() {
           price: '0',
           priceCurrency: 'TRY',
         },
-        installUrl: 'https://play.google.com/store/apps/details?id=com.iytemobil.app',
+        installUrl: ['https://play.google.com/store/apps/details?id=com.iytemobil.app', 'https://apps.apple.com/tr/app/i-yte-mobile/id6761460550'],
         screenshot: 'https://iytemobil.com/images/og-image.png',
         featureList: [
           'İYTE yemek menüsü',
@@ -110,7 +112,7 @@ export default function HomePage() {
             name: 'İYTE Mobil hangi platformlarda kullanılabilir?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'İYTE Mobil şu anda Android cihazlarda Google Play Store üzerinden ücretsiz olarak indirilebilir. iOS versiyonu yakında App Store\'da yayınlanacaktır.',
+              text: 'İYTE Mobil Android\'de Google Play\'den, iPhone\'da App Store\'dan ücretsiz olarak indirilebilir.',
             },
           },
           {
@@ -192,10 +194,12 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <IntroOverlay />
       <HeroSection />
-      <FeaturesSection />
-      <FeatureDetailSection />
-<TeamSection />
+      <FeatureTour />
+      <CampusPulse />
+      <TeamSection />
+      <FAQSection />
       <DownloadSection />
       <CTASection />
     </>
