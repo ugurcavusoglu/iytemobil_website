@@ -3,8 +3,8 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { EASE_IN_OUT, SCROLL_SPRING } from '@/lib/motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { EASE_IN_OUT } from '@/lib/motion';
 import { SectionHeader } from './SectionHeader';
 
 const COLUMNS = [
@@ -21,13 +21,14 @@ function Column({ images, shift, progress, className }: { images: string[]; shif
     <motion.div style={{ y }} className={`flex flex-col gap-4 will-change-transform ${className ?? ''}`}>
       {images.map((name, i) => (
         <motion.div key={name} initial="hidden" whileInView="shown" viewport={{ once: true, amount: 0.2 }} className={`relative ${i % 2 ? 'aspect-[4/5]' : 'aspect-[4/3]'}`}>
-        <motion.div
-          variants={{ hidden: { clipPath: 'inset(100% 0% 0% 0% round 24px)' }, shown: { clipPath: 'inset(0% 0% 0% 0% round 24px)', transition: { duration: 1, ease: EASE_IN_OUT, delay: i * 0.08 } } }}
-          className="group absolute inset-0 overflow-hidden rounded-3xl"
-        >
+        <div className="group absolute inset-0 overflow-hidden rounded-3xl">
           <Image src={`/images/iyte/sm/${name}.webp`} alt="" fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
           <div className="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-transparent" />
-        </motion.div>
+          <motion.div
+            variants={{ hidden: { scaleY: 1 }, shown: { scaleY: 0, transition: { duration: 1, ease: EASE_IN_OUT, delay: i * 0.08 } } }}
+            className="absolute inset-0 origin-top bg-background will-change-transform"
+          />
+        </div>
         </motion.div>
       ))}
     </motion.div>
@@ -37,8 +38,7 @@ function Column({ images, shift, progress, className }: { images: string[]; shif
 export function Moments() {
   const t = useTranslations('home.moments');
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
 
   return (
     <section ref={ref} className="relative overflow-hidden pb-12 pt-28 md:pt-40">

@@ -3,17 +3,15 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { motion, transform, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, transform, useScroll, useTransform } from 'framer-motion';
 import { Apple, ChevronDown, Play } from 'lucide-react';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 import { Magnetic } from '@/components/ui/Magnetic';
-import { SCROLL_SPRING } from '@/lib/motion';
 
 export function HeroIyte() {
   const t = useTranslations('home.hero');
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
 
   const maskScale = useTransform(scrollYProgress, [0, 0.42], [1, 40]);
   const maskOpacity = useTransform(scrollYProgress, (v) => transform(v, [0.26, 0.4], [1, 0]));
@@ -31,11 +29,16 @@ export function HeroIyte() {
           <Image src="/images/iyte/cam-bina.webp" alt="" fill priority sizes="100vw" className="object-cover" />
         </motion.div>
 
-        <motion.div
-          style={{ scale: maskScale, opacity: maskOpacity, transformOrigin: '59% 52%' }}
-          className="absolute inset-0 flex items-center justify-center bg-background mix-blend-multiply will-change-transform"
-        >
-          <span className="select-none text-[38vw] font-black leading-none tracking-[-0.06em] text-white md:text-[30vw]">İYTE</span>
+        <motion.div style={{ scale: maskScale, opacity: maskOpacity, transformOrigin: '59% 52%' }} className="absolute inset-0 will-change-transform">
+          <svg className="h-full w-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1600 900" aria-hidden>
+            <defs>
+              <mask id="iyte-mask">
+                <rect width="1600" height="900" fill="white" />
+                <text x="800" y="470" textAnchor="middle" dominantBaseline="middle" fontSize="470" fontWeight="900" letterSpacing="-28" fontFamily="Inter, system-ui, sans-serif" fill="black">İYTE</text>
+              </mask>
+            </defs>
+            <rect width="1600" height="900" fill="#09090b" mask="url(#iyte-mask)" />
+          </svg>
         </motion.div>
 
         <motion.div style={{ opacity: introFade }} className="pointer-events-none absolute inset-x-0 top-24 text-center">

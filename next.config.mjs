@@ -5,7 +5,11 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'api.iytemobil.com' },
+      { protocol: 'https', hostname: '*.iytemobil.com' },
+    ],
   },
   experimental: {
     serverActions: {

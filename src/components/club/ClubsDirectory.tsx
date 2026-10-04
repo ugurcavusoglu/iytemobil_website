@@ -72,7 +72,7 @@ export function ClubsDirectory({ clubs }: { clubs: DirectoryClub[] }) {
         })}
       </div>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3 [&>*]:min-w-0">
         {featured.map((club, i) => {
           const color = categoryColor(club.category);
           const hasPage = club.slug && club.websitePublished;
@@ -86,7 +86,7 @@ export function ClubsDirectory({ clubs }: { clubs: DirectoryClub[] }) {
               whileHover={{ y: -6 }}
             >
               <ClubCardShell club={club} className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-border bg-surface p-7 transition-colors hover:border-border-light">
-                <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-70" style={{ backgroundColor: color }} />
+                <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-80" style={{ background: `radial-gradient(circle, ${color}66, transparent 65%)` }} />
                 <span className="pointer-events-none absolute right-7 top-7 text-6xl font-black text-white/5">{String(i + 1).padStart(2, '0')}</span>
                 <ClubLogo name={club.name} logoUrl={club.logoUrl} color={color} size={72} />
                 <h3 className="relative mt-6 text-2xl font-bold leading-tight">{club.name}</h3>
@@ -106,7 +106,7 @@ export function ClubsDirectory({ clubs }: { clubs: DirectoryClub[] }) {
       </div>
 
       {rest.length > 0 && (
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 [&>*]:min-w-0">
           {rest.map((club, i) => {
             const color = categoryColor(club.category);
             const hasPage = club.slug && club.websitePublished;

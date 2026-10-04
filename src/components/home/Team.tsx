@@ -18,13 +18,14 @@ export function Team() {
 
         <div className="mt-14 grid items-stretch gap-4 lg:grid-cols-[1.3fr_1fr]">
           <motion.div initial="hidden" whileInView="shown" viewport={{ once: true, amount: 0.3 }} className="relative aspect-[16/10] lg:aspect-auto">
-            <motion.div
-              variants={{ hidden: { clipPath: 'inset(0% 100% 0% 0% round 32px)' }, shown: { clipPath: 'inset(0% 0% 0% 0% round 32px)', transition: { duration: 1.1, ease: EASE_IN_OUT } } }}
-              className="absolute inset-0 overflow-hidden rounded-[2rem]"
-            >
+            <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
               <Image src="/images/team/team.jpg" alt={t('photoAlt')} fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-            </motion.div>
+              <motion.div
+                variants={{ hidden: { scaleX: 1 }, shown: { scaleX: 0, transition: { duration: 1.1, ease: EASE_IN_OUT } } }}
+                className="absolute inset-0 origin-right bg-background will-change-transform"
+              />
+            </div>
           </motion.div>
 
           <motion.div

@@ -3,9 +3,8 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { PhoneFrame } from '@/components/ui/PhoneFrame';
-import { SCROLL_SPRING } from '@/lib/motion';
 import { SectionHeader } from './SectionHeader';
 
 const PANELS = [
@@ -19,7 +18,7 @@ const PANELS = [
 function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; index: number; progress: MotionValue<number> }) {
   const t = useTranslations('home.rail.items');
   const center = index / (PANELS.length - 1);
-  const wordX = useTransform(progress, [center - 0.3, center + 0.3], ['18%', '-18%']);
+  const wordX = useTransform(progress, [center - 0.3, center + 0.3], ['6%', '-6%']);
   const phoneY = useTransform(progress, [center - 0.25, center, center + 0.25], [80, 0, -80]);
   const phoneRotate = useTransform(progress, [center - 0.25, center, center + 0.25], [6, 0, -6]);
 
@@ -31,7 +30,7 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
 
       <motion.span
         style={{ x: wordX, WebkitTextStroke: `2px ${panel.color}` }}
-        className="pointer-events-none absolute select-none whitespace-nowrap text-[26vw] font-black leading-none tracking-tighter text-transparent opacity-40 will-change-transform md:text-[20vw]"
+        className="pointer-events-none absolute select-none whitespace-nowrap text-[17vw] font-black leading-none tracking-tighter text-transparent opacity-40 will-change-transform md:text-[13vw]"
       >
         {t(`${panel.key}.word`)}
       </motion.span>
@@ -57,8 +56,7 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
 export function FeatureRail() {
   const t = useTranslations('home.rail');
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
   const x = useTransform(scrollYProgress, [0, 1], ['0vw', `-${(PANELS.length - 1) * 100}vw`]);
   const bar = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 

@@ -11,6 +11,10 @@
     @apply bg-background text-text-primary antialiased;
   }
 
+  .grid > * {
+    min-width: 0;
+  }
+
   ::selection {
     background-color: rgba(230, 57, 70, 0.3);
     color: #fafafa;

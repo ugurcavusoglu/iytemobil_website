@@ -92,7 +92,7 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
   return (
     <section id="clubs" className="relative overflow-hidden py-28 md:py-40">
       <div className="absolute inset-x-0 top-0 h-[70vh]">
-        <Image src="/images/iyte/topluluk-stant.webp" alt="" fill sizes="100vw" className="object-cover opacity-30" />
+        <Image src="/images/iyte/sm/topluluk-stant.webp" alt="" fill sizes="100vw" className="object-cover opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
       </div>
 
@@ -140,7 +140,7 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
                   transition={{ duration: 0.45, delay: i * 0.06 }}
                 >
                   <div {...tiltHandlers()} className="group relative h-full overflow-hidden rounded-[2rem] border border-border bg-surface p-7 transition-transform duration-200 ease-out will-change-transform">
-                  <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-70" style={{ backgroundColor: color }} />
+                  <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-80" style={{ background: `radial-gradient(circle, ${color}66, transparent 65%)` }} />
                   <span className="absolute right-7 top-7 text-6xl font-black text-white/5">{String(i + 1).padStart(2, '0')}</span>
                   <ClubLogo club={club} size={72} />
                   <h3 className="mt-6 text-2xl font-bold leading-tight">{club.name}</h3>
@@ -167,11 +167,11 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.3) }}
-                className="flex items-center gap-3 rounded-2xl border border-border bg-surface/80 p-3 backdrop-blur transition-colors hover:border-border-light"
+                className="flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-border bg-surface p-3 transition-colors hover:border-border-light"
               >
                 <ClubLogo club={club} size={44} />
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold">{club.name}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="line-clamp-2 break-words text-sm font-semibold leading-tight">{club.name}</p>
                   {!!club.memberCount && <p className="text-xs text-text-muted">{club.memberCount.toLocaleString(locale)} {t('members')}</p>}
                 </div>
               </motion.div>

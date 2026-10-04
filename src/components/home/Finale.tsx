@@ -3,12 +3,11 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Apple, Play } from 'lucide-react';
 import { PhoneFrame } from '@/components/ui/PhoneFrame';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 import { Magnetic } from '@/components/ui/Magnetic';
-import { SCROLL_SPRING } from '@/lib/motion';
 
 function Letters({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
   return (
@@ -37,8 +36,7 @@ export function Finale() {
   const t = useTranslations('home.finale');
   const tHero = useTranslations('home.hero');
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
   const photoScale = useTransform(scrollYProgress, [0, 1], [1.3, 1]);
   const phoneY = useTransform(scrollYProgress, [0.3, 1], [160, 0]);
 

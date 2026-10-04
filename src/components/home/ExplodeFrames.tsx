@@ -6,8 +6,8 @@ import { motion, transform, useInView, useMotionValueEvent, useTransform, type M
 export const EXPLODE_VIDEO = {
   frameCount: 121,
   path: '/videos/explode/frame_',
-  width: 1600,
-  height: 900,
+  width: 1920,
+  height: 1080,
   slots: [
     { x: 71.6, y: 21.6, w: 13.6, h: 23.1 },
     { x: 71.7, y: 48.6, w: 13.7, h: 22.8 },
@@ -23,7 +23,7 @@ const frameUrl = (i: number) => `${EXPLODE_VIDEO.path}${String(i + 1).padStart(4
 export function ExplodeFrames({ progress, cards }: { progress: MotionValue<number>; cards: React.ReactNode[] }) {
   const boxRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const images = useRef<HTMLImageElement[]>([]);
+  const frames = useRef<(ImageBitmap | null)[]>([]);
   const shown = useRef(-1);
   const wanted = useRef(0);
   const near = useInView(boxRef, { once: true, margin: '1500px 0px' });
@@ -34,25 +34,34 @@ export function ExplodeFrames({ progress, cards }: { progress: MotionValue<numbe
   const draw = (i: number) => {
     wanted.current = i;
     let pick = i;
-    while (pick > 0 && !images.current[pick]?.complete) pick--;
-    const img = images.current[pick];
+    while (pick > 0 && !frames.current[pick]) pick--;
+    const bitmap = frames.current[pick];
     const canvas = canvasRef.current;
-    if (!canvas || !img?.complete || !img.naturalWidth || shown.current === pick) return;
-    canvas.getContext('2d')!.drawImage(img, 0, 0, canvas.width, canvas.height);
+    if (!canvas || !bitmap || shown.current === pick) return;
+    canvas.getContext('2d')!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     shown.current = pick;
   };
 
   useEffect(() => {
     if (!near) return;
-    images.current = Array.from({ length: EXPLODE_VIDEO.frameCount }, (_, i) => {
-      const img = new Image();
-      img.decoding = 'async';
-      img.onload = () => {
-        if (i <= wanted.current) draw(wanted.current);
-      };
-      img.src = frameUrl(i);
-      return img;
-    });
+    let cancelled = false;
+    frames.current = new Array(EXPLODE_VIDEO.frameCount).fill(null);
+    const load = async (i: number) => {
+      const blob = await fetch(frameUrl(i)).then((r) => r.blob());
+      if (cancelled) return;
+      frames.current[i] = await createImageBitmap(blob);
+      if (i <= wanted.current) draw(wanted.current);
+    };
+    (async () => {
+      await load(0);
+      for (let start = 1; start < EXPLODE_VIDEO.frameCount && !cancelled; start += 8) {
+        await Promise.all(Array.from({ length: Math.min(8, EXPLODE_VIDEO.frameCount - start) }, (_, k) => load(start + k)));
+      }
+    })();
+    return () => {
+      cancelled = true;
+      frames.current.forEach((b) => b?.close());
+    };
   }, [near]);
 
   useMotionValueEvent(frameIndex, 'change', (i) => requestAnimationFrame(() => draw(i)));
@@ -68,7 +77,7 @@ export function ExplodeFrames({ progress, cards }: { progress: MotionValue<numbe
             <motion.div
               key={i}
               style={{ left: `${slot.x - slot.w / 2}%`, top: `${slot.y - slot.h / 2}%`, width: `${slot.w}%`, height: `${slot.h}%`, opacity: cardsOpacity, scale: cardsScale }}
-              className="absolute flex flex-col justify-center overflow-hidden rounded-[1.1cqw] bg-black/60 p-[1.1cqw] backdrop-blur-[2px]"
+              className="absolute flex flex-col justify-center overflow-hidden rounded-[1.1cqw] bg-black/65 p-[1.1cqw]"
             >
               {card}
             </motion.div>

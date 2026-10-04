@@ -50,7 +50,7 @@ export function Navbar() {
       >
         <nav
           className={`mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full px-3 pl-4 transition-all duration-500 ${
-            scrolled || open ? 'border border-border-light bg-background/70 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl' : 'border border-transparent'
+            scrolled || open ? 'border border-border-light bg-background/90 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.8)]' : 'border border-transparent'
           }`}
         >
           <Link href="/" className="flex items-center gap-2">

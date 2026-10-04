@@ -2,9 +2,8 @@
 
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { motion, transform, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, transform, useScroll, useTransform } from 'framer-motion';
 import { Bus, CalendarDays, MessageCircle, UtensilsCrossed, type LucideIcon } from 'lucide-react';
-import { SCROLL_SPRING } from '@/lib/motion';
 import { SectionHeader } from './SectionHeader';
 import { ExplodeFrames } from './ExplodeFrames';
 
@@ -40,7 +39,7 @@ export function ExplodedPhone() {
   const t = useTranslations('home.explode');
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const progress = useSpring(scrollYProgress, SCROLL_SPRING);
+  const progress = scrollYProgress;
   const headerOpacity = useTransform(progress, (v) => transform(v, [0, 0.85, 1], [1, 1, 0]));
 
   const cards = FEATURES.map((f) => <SlotCard key={f.key} feature={f} title={t(`cards.${f.key}.title`)} text={t(`cards.${f.key}.text`)} />);
@@ -52,7 +51,7 @@ export function ExplodedPhone() {
           <SectionHeader index="01" eyebrow={t('eyebrow')} title={t('title')} subtitle={t('subtitle')} />
         </motion.div>
 
-        <div className="relative mx-auto mt-6 w-full max-w-[1500px] md:-mt-10">
+        <div className="relative mx-auto mt-6 w-full max-w-[1200px] md:-mt-6">
           <ExplodeFrames progress={progress} cards={cards} />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />

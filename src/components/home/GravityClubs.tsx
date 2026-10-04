@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 
 interface GravityClub {
@@ -18,7 +18,7 @@ export function GravityClubs({ clubs, hint }: { clubs: GravityClub[]; hint: stri
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const inView = useInView(boxRef, { once: true, amount: 0.4 });
   const [ready, setReady] = useState(false);
-  const items = clubs.slice(0, MAX_BODIES);
+  const items = useMemo(() => clubs.slice(0, MAX_BODIES), [clubs]);
 
   useEffect(() => {
     if (!inView) return;
@@ -27,13 +27,13 @@ export function GravityClubs({ clubs, hint }: { clubs: GravityClub[]; hint: stri
 
     import('matter-js').then((Matter) => {
       if (cancelled) return;
-      const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint, Body } = Matter;
+      const { Engine, Bodies, Composite, Mouse, MouseConstraint, Body } = Matter;
       const box = boxRef.current!;
       const width = box.clientWidth;
       const height = box.clientHeight;
       const size = width < 640 ? 52 : 76;
 
-      const engine = Engine.create({ gravity: { x: 0, y: 1.1 } });
+      const engine = Engine.create({ gravity: { x: 0, y: 1.1 }, enableSleeping: true });
       const walls = [
         Bodies.rectangle(width / 2, height + WALL / 2, width * 2, WALL, { isStatic: true }),
         Bodies.rectangle(-WALL / 2, height / 2, WALL, height * 4, { isStatic: true }),
@@ -58,28 +58,52 @@ export function GravityClubs({ clubs, hint }: { clubs: GravityClub[]; hint: stri
       const drag = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
       Composite.add(engine.world, drag);
 
-      const runner = Runner.create();
-      Runner.run(runner, engine);
+      itemRefs.current.forEach((el) => {
+        if (!el) return;
+        el.style.width = `${size}px`;
+        el.style.height = `${size}px`;
+      });
       setReady(true);
 
-      let frame = requestAnimationFrame(function sync() {
+      let visible = true;
+      let frame = 0;
+      let last = performance.now();
+      const tick = (now: number) => {
+        Engine.update(engine, Math.min(now - last, 32));
+        last = now;
         bodies.forEach((body, i) => {
           const el = itemRefs.current[i];
-          if (!el) return;
-          el.style.transform = `translate3d(${body.position.x - size / 2}px, ${body.position.y - size / 2}px, 0) rotate(${body.angle}rad)`;
-          el.style.width = `${size}px`;
-          el.style.height = `${size}px`;
+          if (el && !body.isSleeping) el.style.transform = `translate3d(${body.position.x - size / 2}px, ${body.position.y - size / 2}px, 0) rotate(${body.angle}rad)`;
         });
-        frame = requestAnimationFrame(sync);
+        const settled = bodies.every((b) => b.isSleeping) && !drag.body;
+        frame = visible && !settled ? requestAnimationFrame(tick) : 0;
+      };
+      const wake = () => {
+        if (frame || !visible) return;
+        last = performance.now();
+        frame = requestAnimationFrame(tick);
+      };
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) wake();
       });
+      observer.observe(box);
+      box.addEventListener('pointerdown', wake);
 
-      const shake = () => bodies.forEach((b) => Body.applyForce(b, b.position, { x: (Math.random() - 0.5) * 0.05, y: -0.08 * b.mass }));
+      const shake = () => {
+        bodies.forEach((b) => {
+          Matter.Sleeping.set(b, false);
+          Body.applyForce(b, b.position, { x: (Math.random() - 0.5) * 0.05, y: -0.08 * b.mass });
+        });
+        wake();
+      };
       box.addEventListener('dblclick', shake);
 
       cleanup = () => {
         cancelAnimationFrame(frame);
+        observer.disconnect();
+        box.removeEventListener('pointerdown', wake);
         box.removeEventListener('dblclick', shake);
-        Runner.stop(runner);
         Composite.clear(engine.world, false);
         Engine.clear(engine);
       };
@@ -99,7 +123,7 @@ export function GravityClubs({ clubs, hint }: { clubs: GravityClub[]; hint: stri
           key={club.id}
           ref={(el) => { itemRefs.current[i] = el; }}
           title={club.name}
-          className={`absolute left-0 top-0 overflow-hidden rounded-[28%] border border-border-light bg-surface-light shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] will-change-transform ${ready ? '' : 'opacity-0'}`}
+          className={`absolute left-0 top-0 overflow-hidden rounded-[28%] border border-border-light bg-surface-light will-change-transform ${ready ? '' : 'opacity-0'}`}
         >
           {club.logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
