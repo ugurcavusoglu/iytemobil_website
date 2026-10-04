@@ -472,7 +472,7 @@
       "appStore": "App Store"
     },
     "rail": {
-      "eyebrow": "What's inside",
+      "eyebrow": "Features",
       "items": {
         "social": {
           "word": "SOCIAL",
@@ -499,23 +499,13 @@
           "title": "QR check-in",
           "text": "Albums, memories, certificates."
         }
-      }
+      },
+      "title": "Everything you need on campus."
     },
-    "stream": [
-      "FOOD",
-      "SHUTTLE",
-      "MINIBUS",
-      "CLUBS",
-      "EVENTS",
-      "CONFESSIONS",
-      "CHAT",
-      "BADGES",
-      "DORM",
-      "CARPOOL"
-    ],
     "moments": {
-      "eyebrow": "Life on campus",
-      "title": "Something is always happening at IZTECH."
+      "eyebrow": "Campus",
+      "title": "Something is always happening at IZTECH.",
+      "subtitle": "Concerts, festivals, graduations, the seaside and the library. Never miss a thing."
     },
     "clubs": {
       "eyebrow": "Clubs",
@@ -536,7 +526,8 @@
         "OTHER": "Other"
       },
       "students": "students",
-      "gravityHint": "Grab and throw the logos. Double-click to shake."
+      "gravityHint": "Grab and throw the logos. Double-click to shake.",
+      "title": "Every club on campus, in one place."
     },
     "finale": {
       "top": "Campus",
@@ -551,11 +542,27 @@
       "event": "Opening Ceremony Show",
       "chatIn": "When is the next shuttle?",
       "chatOut": "08:25, it is in the app",
-      "badge": "Social Butterfly"
+      "badge": "Social Butterfly",
+      "eyebrow": "The app"
     },
     "particles": {
       "eyebrow": "Campus, piece by piece",
       "title": "Thousands of students, one IZTECH."
+    },
+    "team": {
+      "eyebrow": "Team",
+      "title": "From campus, for campus.",
+      "subtitle": "IYTE Mobil is a community project built by IZTECH students.",
+      "photoAlt": "IYTE Mobil team"
+    },
+    "sections": {
+      "top": "IYTE",
+      "app": "App",
+      "features": "Features",
+      "campus": "Campus",
+      "clubs": "Clubs",
+      "team": "Team",
+      "download": "Download"
     }
   }
 }

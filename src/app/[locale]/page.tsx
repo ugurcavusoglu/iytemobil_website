@@ -3,12 +3,12 @@ import { IntroOverlay } from '@/components/home/IntroOverlay';
 import { HeroIyte } from '@/components/home/HeroIyte';
 import { ExplodedPhone } from '@/components/home/ExplodedPhone';
 import { FeatureRail } from '@/components/home/FeatureRail';
-import { WordStream } from '@/components/home/WordStream';
 import { Moments } from '@/components/home/Moments';
 import { ParticleWordmark } from '@/components/home/ParticleWordmark';
 import { ClubsSection } from '@/components/home/ClubsSection';
 import { Finale } from '@/components/home/Finale';
-import { TeamSection } from '@/components/sections/TeamSection';
+import { Team } from '@/components/home/Team';
+import { SectionRail } from '@/components/home/SectionRail';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 
@@ -40,7 +40,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const ts = await getTranslations('home.sections');
+  const sections = ['top', 'app', 'features', 'campus', 'clubs', 'team', 'download'].map((id) => ({ id, label: ts(id) }));
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -199,14 +201,16 @@ export default function HomePage() {
       />
       <SmoothScroll />
       <IntroOverlay />
+      <SectionRail sections={sections} />
       <HeroIyte />
       <ExplodedPhone />
       <FeatureRail />
-      <WordStream />
-      <Moments />
-      <ParticleWordmark />
+      <div id="campus">
+        <Moments />
+        <ParticleWordmark />
+      </div>
       <ClubsSection />
-      <TeamSection />
+      <Team />
       <Finale />
     </>
   );

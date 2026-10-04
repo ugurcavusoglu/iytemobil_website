@@ -5,8 +5,10 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { motion, transform, useMotionTemplate, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
 import { Award, Bus, CalendarDays, Heart, MessageCircle, UtensilsCrossed } from 'lucide-react';
+import { SCROLL_SPRING } from '@/lib/motion';
+import { SectionHeader } from './SectionHeader';
+import { EXPLODE_VIDEO, ExplodeFrames } from './ExplodeFrames';
 
-const SPRING = { stiffness: 120, damping: 30, mass: 0.4 };
 const OPEN: [number, number, number, number] = [0.12, 0.38, 0.72, 0.9];
 
 interface Piece {
@@ -50,7 +52,7 @@ export function ExplodedPhone() {
   const t = useTranslations('home.explode');
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const progress = useSpring(scrollYProgress, SPRING);
+  const progress = useSpring(scrollYProgress, SCROLL_SPRING);
 
   const tiltX = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
   const tiltY = useSpring(useMotionValue(0), { stiffness: 60, damping: 20 });
@@ -68,8 +70,6 @@ export function ExplodedPhone() {
   const frameTransform = useMotionTemplate`translateZ(${frameZ}px)`;
   const screenTransform = useMotionTemplate`translateZ(${screenZ}px) scale(${useTransform(screenScale, (v) => 1 + v)})`;
 
-  const titleOpacity = useTransform(progress, (v) => transform(v, [0.3, 0.42, 0.7, 0.8], [0, 1, 1, 0]));
-  const titleY = useTransform(progress, [0.3, 0.45], [40, 0]);
 
   const onMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -125,7 +125,7 @@ export function ExplodedPhone() {
       ),
     },
     {
-      key: 'badge', x: -220, y: -330, z: 260, rotate: -4, float: 20,
+      key: 'badge', x: -230, y: -250, z: 260, rotate: -4, float: 20,
       content: (
         <Card className="flex items-center gap-3 py-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400"><Award className="h-5 w-5" /></span>
@@ -137,7 +137,7 @@ export function ExplodedPhone() {
       ),
     },
     {
-      key: 'like', x: 240, y: -320, z: 240, rotate: 12, float: 22,
+      key: 'like', x: 250, y: -240, z: 240, rotate: 12, float: 22,
       content: (
         <div className="flex items-center gap-2 rounded-full border border-border-light bg-surface/90 px-4 py-2 shadow-xl backdrop-blur-xl">
           <Heart className="h-4 w-4 fill-primary text-primary" />
@@ -150,16 +150,20 @@ export function ExplodedPhone() {
   ];
 
   return (
-    <section ref={ref} className="relative h-[300vh]">
-      <div onMouseMove={onMove} className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden [perspective:1600px]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(230,57,70,0.18),transparent_60%)]" />
+    <section id="app" ref={ref} className="relative h-[300vh]">
+      <div onMouseMove={onMove} className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden [perspective:1600px]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(230,57,70,0.16),transparent_60%)]" />
 
-        <motion.div style={{ opacity: titleOpacity, y: titleY }} className="pointer-events-none absolute inset-x-0 bottom-[6vh] z-20 px-6 text-center">
-          <h2 className="text-4xl font-black tracking-tighter md:text-7xl">{t('title')}</h2>
-          <p className="mt-3 text-text-secondary md:text-lg">{t('subtitle')}</p>
-        </motion.div>
+        <div className="absolute inset-x-0 top-24 z-20 px-6 md:top-28 md:px-16">
+          <SectionHeader index="01" eyebrow={t('eyebrow')} title={t('title')} subtitle={t('subtitle')} />
+        </div>
 
-        <motion.div style={{ rotateX, rotateY }} className="relative -mt-[8vh] h-[560px] w-[280px] scale-[0.5] [transform-style:preserve-3d] sm:scale-75 lg:scale-100">
+        {EXPLODE_VIDEO.frameCount > 0 ? (
+          <div className="mt-[18vh] w-full px-4 md:mt-[10vh]">
+            <ExplodeFrames progress={progress} cards={pieces.filter((p) => p.key !== 'like').map((p) => p.content)} />
+          </div>
+        ) : (
+        <motion.div style={{ rotateX, rotateY }} className="relative mt-[40vh] h-[560px] w-[280px] scale-[0.5] [transform-style:preserve-3d] sm:mt-[30vh] sm:scale-[0.65] lg:mt-[24vh] lg:scale-[0.75]">
           <motion.div style={{ transform: backTransform }} className="absolute inset-0 flex items-center justify-center rounded-[2.8rem] border border-border-light bg-gradient-to-br from-zinc-800 to-zinc-950 shadow-2xl">
             <Image src="/images/logo.png" alt="" width={72} height={72} className="rounded-2xl opacity-80" />
           </motion.div>
@@ -171,6 +175,7 @@ export function ExplodedPhone() {
             <FloatingPiece key={piece.key} piece={piece} progress={progress} tiltX={tiltX} tiltY={tiltY} />
           ))}
         </motion.div>
+        )}
       </div>
     </section>
   );

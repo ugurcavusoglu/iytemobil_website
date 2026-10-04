@@ -8,6 +8,7 @@ import { Apple, Play } from 'lucide-react';
 import { PhoneFrame } from '@/components/ui/PhoneFrame';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 import { Magnetic } from '@/components/ui/Magnetic';
+import { SCROLL_SPRING } from '@/lib/motion';
 
 function Letters({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
   return (
@@ -37,7 +38,7 @@ export function Finale() {
   const tHero = useTranslations('home.hero');
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start end', 'end end'] });
-  const scrollYProgress = useSpring(rawProgress, { stiffness: 140, damping: 32, mass: 0.35 });
+  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
   const photoScale = useTransform(scrollYProgress, [0, 1], [1.3, 1]);
   const phoneY = useTransform(scrollYProgress, [0.3, 1], [160, 0]);
 
@@ -47,6 +48,7 @@ export function Finale() {
         <Image src="/images/iyte/mezuniyet-kep.webp" alt="" fill sizes="100vw" className="object-cover" />
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background to-transparent" />
 
       <div className="relative mx-auto grid min-h-[100svh] max-w-7xl items-center gap-12 px-6 py-28 md:grid-cols-[1.3fr_1fr] md:px-12">
         <div>

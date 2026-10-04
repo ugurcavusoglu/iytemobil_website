@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { motion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
 import { PhoneFrame } from '@/components/ui/PhoneFrame';
+import { SCROLL_SPRING } from '@/lib/motion';
+import { SectionHeader } from './SectionHeader';
 
 const PANELS = [
   { key: 'social', screen: '/images/screens/feed.webp', photo: '/images/iyte/sm/konser-kalabalik.webp', color: '#E63946' },
@@ -29,14 +31,14 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
 
       <motion.span
         style={{ x: wordX, WebkitTextStroke: `2px ${panel.color}` }}
-        className="pointer-events-none absolute select-none whitespace-nowrap will-change-transform text-[26vw] font-black leading-none tracking-tighter text-transparent md:text-[20vw]"
+        className="pointer-events-none absolute select-none whitespace-nowrap text-[26vw] font-black leading-none tracking-tighter text-transparent opacity-40 will-change-transform md:text-[20vw]"
       >
         {t(`${panel.key}.word`)}
       </motion.span>
 
-      <div className="relative grid w-full max-w-6xl items-center gap-10 px-6 md:grid-cols-2 md:px-12">
+      <div className="relative mt-[30vh] grid w-full max-w-6xl items-center gap-6 px-6 md:mt-[22vh] md:grid-cols-2 md:gap-10 md:px-12">
         <motion.div style={{ y: phoneY, rotate: phoneRotate }} className="mx-auto">
-          <PhoneFrame className="w-[220px] md:w-[290px]">
+          <PhoneFrame className="w-[150px] sm:w-[200px] md:w-[240px]">
             <Image src={panel.screen} alt={t(`${panel.key}.title`)} fill sizes="290px" className="object-cover object-top" />
           </PhoneFrame>
         </motion.div>
@@ -56,14 +58,16 @@ export function FeatureRail() {
   const t = useTranslations('home.rail');
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const scrollYProgress = useSpring(rawProgress, { stiffness: 140, damping: 32, mass: 0.35 });
+  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
   const x = useTransform(scrollYProgress, [0, 1], ['0vw', `-${(PANELS.length - 1) * 100}vw`]);
   const bar = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <section id="tour" ref={ref} style={{ height: `${PANELS.length * 100}vh` }} className="relative">
+    <section id="features" ref={ref} style={{ height: `${PANELS.length * 100}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
-        <p className="absolute left-6 top-24 z-10 text-xs font-semibold uppercase tracking-[0.35em] text-text-muted md:left-12">{t('eyebrow')}</p>
+        <div className="absolute inset-x-0 top-24 z-10 px-6 md:top-28 md:px-16">
+          <SectionHeader index="02" eyebrow={t('eyebrow')} title={t('title')} />
+        </div>
         <motion.div style={{ x }} className="flex h-full will-change-transform">
           {PANELS.map((panel, i) => (
             <Panel key={panel.key} panel={panel} index={i} progress={scrollYProgress} />

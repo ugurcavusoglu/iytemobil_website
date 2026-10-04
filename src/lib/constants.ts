@@ -60,7 +60,7 @@ export const FEATURES: Feature[] = [
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: '1',
-    name: 'Ugur Mert Cavusoglu',
+    name: 'Uğur Mert Çavuşoğlu',
     role: 'Founder',
     image: '/images/team/team.jpg',
     linkedin: 'https://linkedin.com/in/ugurmertcavusoglu',
@@ -68,7 +68,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: '2',
-    name: 'Mert Celik',
+    name: 'Mert Çelik',
     role: 'DevSecOps',
     image: '/images/team/team.jpg',
     linkedin: 'https://linkedin.com/in/mert-çelik-b31b961b3',
@@ -84,7 +84,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: '4',
-    name: 'Samet Buldanlioglu',
+    name: 'Samet Buldanlıoğlu',
     role: 'Full-Stack Developer',
     image: '/images/team/team.jpg',
     linkedin: 'https://linkedin.com/in/samet-buldanlıoğlu-06b1613a5',

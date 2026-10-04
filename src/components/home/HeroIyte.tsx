@@ -7,12 +7,13 @@ import { motion, transform, useScroll, useSpring, useTransform } from 'framer-mo
 import { Apple, ChevronDown, Play } from 'lucide-react';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/constants';
 import { Magnetic } from '@/components/ui/Magnetic';
+import { SCROLL_SPRING } from '@/lib/motion';
 
 export function HeroIyte() {
   const t = useTranslations('home.hero');
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress: rawProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  const scrollYProgress = useSpring(rawProgress, { stiffness: 140, damping: 32, mass: 0.35 });
+  const scrollYProgress = useSpring(rawProgress, SCROLL_SPRING);
 
   const maskScale = useTransform(scrollYProgress, [0, 0.42], [1, 40]);
   const maskOpacity = useTransform(scrollYProgress, (v) => transform(v, [0.26, 0.4], [1, 0]));
@@ -20,10 +21,11 @@ export function HeroIyte() {
   const introFade = useTransform(scrollYProgress, (v) => transform(v, [0, 0.12], [1, 0]));
   const contentOpacity = useTransform(scrollYProgress, (v) => transform(v, [0.58, 0.75], [0, 1]));
   const contentY = useTransform(scrollYProgress, [0.58, 0.8], [60, 0]);
+  const exitFade = useTransform(scrollYProgress, (v) => transform(v, [0.88, 1], [0, 1]));
   const shade = useTransform(scrollYProgress, (v) => transform(v, [0.5, 0.75], [0, 0.65]));
 
   return (
-    <section ref={ref} className="relative h-[320vh]">
+    <section id="top" ref={ref} className="relative h-[340vh]">
       <div className="sticky top-0 isolate h-[100svh] overflow-hidden">
         <motion.div style={{ scale: photoScale }} className="absolute inset-0 will-change-transform">
           <Image src="/images/iyte/cam-bina.webp" alt="" fill priority sizes="100vw" className="object-cover" />
@@ -72,6 +74,7 @@ export function HeroIyte() {
             </Magnetic>
           </div>
         </motion.div>
+        <motion.div style={{ opacity: exitFade }} className="pointer-events-none absolute inset-0 bg-background" />
       </div>
     </section>
   );

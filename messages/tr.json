@@ -472,7 +472,7 @@
       "appStore": "App Store"
     },
     "rail": {
-      "eyebrow": "İçinde neler var",
+      "eyebrow": "Özellikler",
       "items": {
         "social": {
           "word": "SOSYAL",
@@ -499,23 +499,13 @@
           "title": "QR ile yoklama",
           "text": "Albümler, anılar, sertifikalar."
         }
-      }
+      },
+      "title": "Kampüste ihtiyacın olan her şey."
     },
-    "stream": [
-      "YEMEK",
-      "RİNG",
-      "DOLMUŞ",
-      "TOPLULUK",
-      "ETKİNLİK",
-      "İTİRAF",
-      "MESAJ",
-      "ROZET",
-      "KYK",
-      "OTOSTOP"
-    ],
     "moments": {
-      "eyebrow": "Kampüste hayat",
-      "title": "İYTE'de her gün bir şey oluyor."
+      "eyebrow": "Kampüs",
+      "title": "İYTE'de her gün bir şey oluyor.",
+      "subtitle": "Konserler, şenlikler, mezuniyetler, sahil ve kütüphane. Hepsini kaçırmadan takip et."
     },
     "clubs": {
       "eyebrow": "Topluluklar",
@@ -536,7 +526,8 @@
         "OTHER": "Diğer"
       },
       "students": "öğrenci",
-      "gravityHint": "Logoları tut, fırlat. Çift tıkla, sars."
+      "gravityHint": "Logoları tut, fırlat. Çift tıkla, sars.",
+      "title": "Kampüsün bütün toplulukları burada."
     },
     "finale": {
       "top": "Kampüs",
@@ -551,11 +542,27 @@
       "event": "Akademik Açılış Gösterisi",
       "chatIn": "Ring kaçta geliyordu?",
       "chatOut": "08:25, uygulamada yazıyor",
-      "badge": "Sosyal Kelebek"
+      "badge": "Sosyal Kelebek",
+      "eyebrow": "Uygulama"
     },
     "particles": {
       "eyebrow": "Kampüs, parça parça",
       "title": "Binlerce öğrenci, tek bir İYTE."
+    },
+    "team": {
+      "eyebrow": "Ekip",
+      "title": "Kampüsten, kampüs için.",
+      "subtitle": "İYTE Mobil, İYTE öğrencilerinin kurduğu ve geliştirdiği bir topluluk projesi.",
+      "photoAlt": "İYTE Mobil ekibi"
+    },
+    "sections": {
+      "top": "İYTE",
+      "app": "Uygulama",
+      "features": "Özellikler",
+      "campus": "Kampüs",
+      "clubs": "Topluluklar",
+      "team": "Ekip",
+      "download": "İndir"
     }
   }
 }

@@ -7,6 +7,7 @@ import { AnimatePresence, animate, motion, useInView } from 'framer-motion';
 import { ArrowRight, CalendarDays, MapPin, Users } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { GravityClubs } from './GravityClubs';
+import { SectionHeader } from './SectionHeader';
 
 function tiltHandlers(strength = 10) {
   return {
@@ -89,15 +90,15 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
   const dateFormat = new Intl.DateTimeFormat(locale === 'tr' ? 'tr-TR' : 'en-US', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Istanbul' });
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-36">
+    <section id="clubs" className="relative overflow-hidden py-28 md:py-40">
       <div className="absolute inset-x-0 top-0 h-[70vh]">
         <Image src="/images/iyte/topluluk-stant.webp" alt="" fill sizes="100vw" className="object-cover opacity-30" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 md:px-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-primary">{t('eyebrow')}</p>
-        <div ref={countersRef} className="mt-6 flex flex-wrap items-end gap-x-14 gap-y-4">
+      <div className="relative mx-auto max-w-7xl px-6 md:px-16">
+        <SectionHeader index="04" eyebrow={t('eyebrow')} title={t('title')} />
+        <div ref={countersRef} className="mt-12 flex flex-wrap items-end gap-x-14 gap-y-4">
           <div>
             <p className="text-7xl font-black leading-none tracking-tighter md:text-9xl"><CountUp value={clubs.length} locale={locale} start={countersInView} /></p>
             <p className="mt-2 text-text-secondary">{t('clubs')}</p>
