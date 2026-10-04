@@ -460,9 +460,6 @@
     "allClubs": "See all clubs"
   },
   "home": {
-    "intro": {
-      "skip": "Skip"
-    },
     "hero": {
       "eyebrow": "Izmir Institute of Technology",
       "scroll": "Scroll",
@@ -556,10 +553,6 @@
           "text": "Clubs, friends and groups in one place."
         }
       }
-    },
-    "particles": {
-      "eyebrow": "Campus, piece by piece",
-      "title": "Thousands of students, one IZTECH."
     },
     "team": {
       "eyebrow": "Team",

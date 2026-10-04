@@ -10,7 +10,7 @@ import { SectionHeader } from './SectionHeader';
 const COLUMNS = [
   ['mezuniyet-kep', 'kutuphane', 'bahar-kostum'],
   ['konser-gece', 'kampus-panorama', 'hdt-dans', 'gun-batimi'],
-  ['bahar-halay', 'amfi', 'cam-bina-havadan'],
+  ['bahar-halay', 'yemekhane', 'cam-bina-havadan'],
   ['hdt-salon', 'bahar-konser', 'sahil', 'topluluk-stant'],
 ];
 const SHIFTS: [number, number][] = [[80, -180], [200, -120], [120, -240], [240, -100]];

@@ -159,7 +159,7 @@ export default function YemekPage({ params }: { params: Promise<{ locale: string
 
   return (
     <>
-      <PageHero eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} image="amfi" compact />
+      <PageHero eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} image="yemekhane" compact />
 
       <section className="pb-24 pt-4">
         <div className="mx-auto max-w-5xl px-6 md:px-12">

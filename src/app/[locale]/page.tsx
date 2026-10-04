@@ -1,10 +1,8 @@
 import { SmoothScroll } from '@/components/home/SmoothScroll';
-import { IntroOverlay } from '@/components/home/IntroOverlay';
 import { HeroIyte } from '@/components/home/HeroIyte';
 import { ExplodedPhone } from '@/components/home/ExplodedPhone';
 import { FeatureRail } from '@/components/home/FeatureRail';
 import { Moments } from '@/components/home/Moments';
-import { ParticleWordmark } from '@/components/home/ParticleWordmark';
 import { ClubsSection } from '@/components/home/ClubsSection';
 import { Finale } from '@/components/home/Finale';
 import { Team } from '@/components/home/Team';
@@ -200,14 +198,12 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SmoothScroll />
-      <IntroOverlay />
       <SectionRail sections={sections} />
       <HeroIyte />
       <ExplodedPhone />
       <FeatureRail />
       <div id="campus">
         <Moments />
-        <ParticleWordmark />
       </div>
       <ClubsSection />
       <Team />

@@ -460,9 +460,6 @@
     "allClubs": "Tüm toplulukları gör"
   },
   "home": {
-    "intro": {
-      "skip": "Atla"
-    },
     "hero": {
       "eyebrow": "İzmir Yüksek Teknoloji Enstitüsü",
       "scroll": "Kaydır",
@@ -556,10 +553,6 @@
           "text": "Topluluklar, arkadaşlar ve gruplar tek yerde."
         }
       }
-    },
-    "particles": {
-      "eyebrow": "Kampüs, parça parça",
-      "title": "Binlerce öğrenci, tek bir İYTE."
     },
     "team": {
       "eyebrow": "Ekip",
