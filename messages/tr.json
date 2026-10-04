@@ -537,13 +537,25 @@
     "explode": {
       "title": "Hepsi tek uygulamada.",
       "subtitle": "Ring, yemek, etkinlik, sohbet ve rozetler. Kampüsün her parçası cebinde.",
-      "nextTrip": "SONRAKİ SEFER",
-      "menu": "Bugünün menüsü",
-      "event": "Akademik Açılış Gösterisi",
-      "chatIn": "Ring kaçta geliyordu?",
-      "chatOut": "08:25, uygulamada yazıyor",
-      "badge": "Sosyal Kelebek",
-      "eyebrow": "Uygulama"
+      "eyebrow": "Uygulama",
+      "cards": {
+        "bus": {
+          "title": "Sıradaki sefer",
+          "text": "Gülbahçe → İYTE → İzmir"
+        },
+        "menu": {
+          "title": "Bugünün menüsü",
+          "text": "Mercimek çorbası, tavuk sote, pilav"
+        },
+        "event": {
+          "title": "Etkinlik",
+          "text": "10:30 · Akademik Yılı Açılış Töreni"
+        },
+        "chat": {
+          "title": "Mesajlar",
+          "text": "Topluluklar, arkadaşlar ve gruplar tek yerde."
+        }
+      }
     },
     "particles": {
       "eyebrow": "Kampüs, parça parça",

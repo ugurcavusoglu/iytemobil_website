@@ -537,13 +537,25 @@
     "explode": {
       "title": "All in one app.",
       "subtitle": "Shuttle, food, events, chat and badges. Every piece of campus in your pocket.",
-      "nextTrip": "NEXT TRIP",
-      "menu": "Today's menu",
-      "event": "Opening Ceremony Show",
-      "chatIn": "When is the next shuttle?",
-      "chatOut": "08:25, it is in the app",
-      "badge": "Social Butterfly",
-      "eyebrow": "The app"
+      "eyebrow": "The app",
+      "cards": {
+        "bus": {
+          "title": "Next trip",
+          "text": "Gülbahçe → IZTECH → İzmir"
+        },
+        "menu": {
+          "title": "Today's menu",
+          "text": "Lentil soup, chicken sauté, rice"
+        },
+        "event": {
+          "title": "Event",
+          "text": "10:30 · Academic Year Opening Ceremony"
+        },
+        "chat": {
+          "title": "Messages",
+          "text": "Clubs, friends and groups in one place."
+        }
+      }
     },
     "particles": {
       "eyebrow": "Campus, piece by piece",
