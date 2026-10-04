@@ -523,8 +523,13 @@
         "OTHER": "Other"
       },
       "students": "students",
-      "gravityHint": "Grab and throw the logos. Double-click to shake.",
-      "title": "Every club on campus, in one place."
+      "title": "Every club on campus, in one place.",
+      "reelEyebrow": "Can't decide?",
+      "reelTitle": "Let us pick a club for you",
+      "reelEmpty": "Hit spin and one of {count} clubs will find you.",
+      "reelSpin": "Spin",
+      "reelAgain": "Spin again",
+      "reelVisit": "Visit page"
     },
     "finale": {
       "top": "Campus",

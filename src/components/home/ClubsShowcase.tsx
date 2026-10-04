@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, animate, motion, useInView } from 'framer-motion';
 import { ArrowRight, CalendarDays, MapPin, Users } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { GravityClubs } from './GravityClubs';
+import { ClubReel } from './ClubReel';
 import { SectionHeader } from './SectionHeader';
 
 function tiltHandlers(strength = 10) {
@@ -30,6 +30,9 @@ export interface ShowcaseClub {
   logoUrl?: string;
   category: string;
   memberCount?: number;
+  description?: string;
+  slug?: string;
+  websitePublished?: boolean;
 }
 
 export interface ShowcaseEvent {
@@ -179,7 +182,7 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
           </AnimatePresence>
         </motion.div>
 
-        <GravityClubs clubs={clubs.map((c) => ({ ...c, color: CATEGORY_COLORS[c.category] ?? CATEGORY_COLORS.OTHER }))} hint={t('gravityHint')} />
+        <ClubReel clubs={clubs} />
 
         <Link href="/clubs" className="group mt-10 inline-flex items-center gap-2 rounded-full border border-border-light px-6 py-3 font-semibold transition-colors hover:border-primary hover:text-primary">
           {t('seeAll')}

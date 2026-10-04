@@ -523,8 +523,13 @@
         "OTHER": "Diğer"
       },
       "students": "öğrenci",
-      "gravityHint": "Logoları tut, fırlat. Çift tıkla, sars.",
-      "title": "Kampüsün bütün toplulukları burada."
+      "title": "Kampüsün bütün toplulukları burada.",
+      "reelEyebrow": "Kararsız mısın?",
+      "reelTitle": "Sana bir topluluk seçelim",
+      "reelEmpty": "Çevir tuşuna bas, {count} topluluktan biri seni bulsun.",
+      "reelSpin": "Çevir",
+      "reelAgain": "Tekrar çevir",
+      "reelVisit": "Sayfasına git"
     },
     "finale": {
       "top": "Kampüs",
