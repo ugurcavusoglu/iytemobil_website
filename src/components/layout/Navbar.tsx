@@ -97,22 +97,22 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col bg-background/95 px-6 pb-10 pt-28 backdrop-blur-2xl lg:hidden"
-            initial={{ clipPath: 'circle(0% at 100% 0%)' }}
-            animate={{ clipPath: 'circle(150% at 100% 0%)' }}
-            exit={{ clipPath: 'circle(0% at 100% 0%)' }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-40 flex flex-col bg-background px-6 pb-10 pt-28 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
           >
             <div className="flex flex-col gap-2">
               {[{ href: '/', key: 'home' as const }, ...LINKS, { href: '/club-application', key: 'clubApplication' as const }].map((link, i) => (
-                <motion.div key={link.href} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.05 }}>
+                <motion.div key={link.href} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + i * 0.03, duration: 0.3 }}>
                   <Link href={link.href} className={`block py-2 text-4xl font-black tracking-tight ${isActive(link.href) ? 'text-primary' : 'text-text-primary'}`}>
                     {link.key === 'home' ? 'İYTE Mobil' : t(link.key)}
                   </Link>
                 </motion.div>
               ))}
             </div>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-auto flex flex-col gap-3">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mt-auto flex flex-col gap-3">
               {!isLoading && (
                 user ? (
                   <button onClick={() => logout()} className="flex items-center gap-2 text-text-secondary"><LogOut className="h-4 w-4" />{t('logout')}</button>
