@@ -45,7 +45,7 @@ export function ExplodedPhone() {
   const cards = FEATURES.map((f) => <SlotCard key={f.key} feature={f} title={t(`cards.${f.key}.title`)} text={t(`cards.${f.key}.text`)} />);
 
   return (
-    <section id="app" ref={ref} className="relative h-[320vh]">
+    <section id="app" ref={ref} data-snap-stops="0,0.78" className="relative h-[320vh]">
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
         <motion.div style={{ opacity: headerOpacity }} className="relative z-10 px-6 pt-20 md:px-16 md:pt-24">
           <SectionHeader index="01" eyebrow={t('eyebrow')} title={t('title')} subtitle={t('subtitle')} />

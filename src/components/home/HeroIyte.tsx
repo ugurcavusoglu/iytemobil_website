@@ -22,7 +22,7 @@ export function HeroIyte() {
   const shade = useTransform(scrollYProgress, (v) => transform(v, [0.5, 0.75], [0, 0.65]));
 
   return (
-    <section id="top" ref={ref} className="relative h-[340vh]">
+    <section id="top" ref={ref} data-snap-stops="0,0.8" className="relative h-[340vh]">
       <div className="sticky top-0 isolate h-[100svh] overflow-hidden">
         <motion.div style={{ scale: photoScale }} className="absolute inset-0 will-change-transform">
           <Image src="/images/iyte/cam-bina.webp" alt="" fill priority sizes="100vw" className="object-cover" />

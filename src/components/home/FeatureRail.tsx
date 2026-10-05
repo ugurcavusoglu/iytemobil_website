@@ -61,7 +61,7 @@ export function FeatureRail() {
   const bar = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <section id="features" ref={ref} style={{ height: `${PANELS.length * 100}vh` }} className="relative">
+    <section id="features" ref={ref} data-snap-stops={PANELS.map((_, i) => i / (PANELS.length - 1)).join(',')} style={{ height: `${PANELS.length * 100}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <div className="absolute inset-x-0 top-24 z-10 px-6 md:top-28 md:px-16">
           <SectionHeader index="02" eyebrow={t('eyebrow')} title={t('title')} />
