@@ -72,12 +72,14 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             {!isLoading && (
               user ? (
-                <button onClick={() => logout()} aria-label={t('logout')} className="hidden h-9 w-9 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary md:flex">
+                <button onClick={() => logout()} className="hidden h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary md:flex">
                   <LogOut className="h-4 w-4" />
+                  {t('logout')}
                 </button>
               ) : (
-                <Link href="/login" aria-label={t('login')} className="hidden h-9 w-9 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary md:flex">
+                <Link href="/login" className="hidden h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary md:flex">
                   <LogIn className="h-4 w-4" />
+                  {t('login')}
                 </Link>
               )
             )}
