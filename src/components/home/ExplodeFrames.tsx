@@ -21,10 +21,10 @@ const CARDS_IN: [number, number] = [0.6, 0.75];
 const COARSE_STEP = 8;
 const frameUrl = (i: number) => `${EXPLODE_VIDEO.path}${String(i + 1).padStart(4, '0')}.webp`;
 
-function loadOrder() {
-  const coarse = Array.from({ length: Math.ceil(EXPLODE_VIDEO.frameCount / COARSE_STEP) }, (_, i) => i * COARSE_STEP);
-  const rest = Array.from({ length: EXPLODE_VIDEO.frameCount }, (_, i) => i).filter((i) => i % COARSE_STEP !== 0);
-  return [...coarse, EXPLODE_VIDEO.frameCount - 1, ...rest];
+function loadOrder(step: number) {
+  const all = Array.from({ length: EXPLODE_VIDEO.frameCount }, (_, i) => i).filter((i) => i % step === 0 || i === EXPLODE_VIDEO.frameCount - 1);
+  const coarse = all.filter((i) => i % COARSE_STEP === 0);
+  return [...coarse, EXPLODE_VIDEO.frameCount - 1, ...all.filter((i) => i % COARSE_STEP !== 0 && i !== EXPLODE_VIDEO.frameCount - 1)];
 }
 
 export function ExplodeFrames({ progress, cards }: { progress: MotionValue<number>; cards: React.ReactNode[] }) {
@@ -51,7 +51,8 @@ export function ExplodeFrames({ progress, cards }: { progress: MotionValue<numbe
   useEffect(() => {
     let cancelled = false;
     const canvas = canvasRef.current!;
-    canvas.width = Math.min(EXPLODE_VIDEO.width, Math.round(canvas.clientWidth * Math.min(window.devicePixelRatio, 2)));
+    const mobile = window.innerWidth < 768;
+    canvas.width = Math.min(EXPLODE_VIDEO.width, Math.round(canvas.clientWidth * Math.min(window.devicePixelRatio, mobile ? 2.5 : 2)));
     canvas.height = Math.round((canvas.width * EXPLODE_VIDEO.height) / EXPLODE_VIDEO.width);
     frames.current = new Array(EXPLODE_VIDEO.frameCount).fill(null);
     const load = async (i: number) => {
@@ -63,7 +64,7 @@ export function ExplodeFrames({ progress, cards }: { progress: MotionValue<numbe
         draw(wanted.current);
       }
     };
-    const order = loadOrder();
+    const order = loadOrder(mobile ? 2 : 1);
     (async () => {
       for (let start = 0; start < order.length && !cancelled; start += 6) {
         await Promise.all(order.slice(start, start + 6).map(load));

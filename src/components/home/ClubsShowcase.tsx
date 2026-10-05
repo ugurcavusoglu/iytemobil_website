@@ -103,7 +103,7 @@ export function ClubsShowcase({ clubs, events }: { clubs: ShowcaseClub[]; events
         <SectionHeader index="04" eyebrow={t('eyebrow')} title={t('title')} />
         <div ref={countersRef} className="mt-12 flex flex-wrap items-end gap-x-14 gap-y-4">
           <div>
-            <p className="text-7xl font-black leading-none tracking-tighter md:text-9xl"><CountUp value={clubs.length} locale={locale} start={countersInView} /></p>
+            <p className="text-7xl font-black leading-none tracking-tighter md:text-9xl"><CountUp value={Math.floor(clubs.length / 10) * 10} locale={locale} start={countersInView} />+</p>
             <p className="mt-2 text-text-secondary">{t('clubs')}</p>
           </div>
           <div>

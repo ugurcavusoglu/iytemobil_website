@@ -40,7 +40,7 @@ export default async function ClubsPage({ params }: Props) {
         {clubs.length > 0 && (
           <div className="flex flex-wrap items-end gap-x-10 gap-y-3">
             <div>
-              <p className="text-4xl font-black leading-none tracking-tighter md:text-5xl">{clubs.length.toLocaleString(locale)}</p>
+              <p className="text-4xl font-black leading-none tracking-tighter md:text-5xl">{Math.floor(clubs.length / 10) * 10}+</p>
               <p className="mt-1 text-sm text-text-secondary">{tHome('clubs')}</p>
             </div>
             <div>

@@ -125,7 +125,7 @@ export function ClubReel({ clubs }: { clubs: ShowcaseClub[] }) {
           ) : (
             <motion.div key="empty" exit={{ opacity: 0, y: -12 }} className="relative mt-6">
               <h3 className="text-3xl font-black leading-tight tracking-tight md:text-4xl">{t('reelTitle')}</h3>
-              <p className="mt-4 max-w-md leading-relaxed text-text-secondary">{t('reelEmpty', { count: clubs.length })}</p>
+              <p className="mt-4 max-w-md leading-relaxed text-text-secondary">{t('reelEmpty', { count: `${Math.floor(clubs.length / 10) * 10}+` })}</p>
             </motion.div>
           )}
         </AnimatePresence>

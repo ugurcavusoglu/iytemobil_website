@@ -10,7 +10,8 @@ const STEM_ROW = 560;
 const WORD_W = 1020;
 const MOUSE_RADIUS = 90;
 const SETTLED_ALPHA = 0.4;
-const FORM_MS = 1500;
+const FORM_MS = 1800;
+const START_DELAY_MS = 800;
 
 function drawWord(ctx: CanvasRenderingContext2D, font: string) {
   ctx.font = font;
@@ -109,7 +110,7 @@ export function HeroWordmark({ progress }: { progress: MotionValue<number> }) {
 
       let letters = reduceMotion ? 1 : 0;
       if (!reduceMotion) {
-        const controls = animate(0, 1, { delay: (FORM_MS * 0.8) / 1000, duration: 0.9, ease: 'easeInOut', onUpdate: (v) => { letters = v; } });
+        const controls = animate(0, 1, { delay: (START_DELAY_MS + FORM_MS * 0.8) / 1000, duration: 0.9, ease: 'easeInOut', onUpdate: (v) => { letters = v; } });
         stopLetters = () => controls.stop();
       }
 
@@ -164,7 +165,7 @@ export function HeroWordmark({ progress }: { progress: MotionValue<number> }) {
         }
       };
 
-      const start = performance.now();
+      const start = performance.now() + START_DELAY_MS;
       let idle = false;
       const tick = (now: number) => {
         frame = requestAnimationFrame(tick);
