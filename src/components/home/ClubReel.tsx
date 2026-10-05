@@ -14,8 +14,13 @@ const CENTER = Math.floor(VISIBLE / 2);
 const SPIN_ROWS = 32;
 const SPIN_SECONDS = 2.8;
 
-function randomClub(clubs: ShowcaseClub[]) {
-  return clubs[Math.floor(Math.random() * clubs.length)];
+function shuffled<T>(items: T[]) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 }
 
 export function ClubReel({ clubs }: { clubs: ShowcaseClub[] }) {
@@ -32,16 +37,16 @@ export function ClubReel({ clubs }: { clubs: ShowcaseClub[] }) {
     const centerIndex = Math.round(-y.get() / ROW_H) + CENTER;
     const visible = strip.slice(centerIndex - CENTER, centerIndex + CENTER + 1);
     const current = strip[centerIndex];
-    let target = randomClub(clubs);
-    while (target.id === current.id) target = randomClub(clubs);
-    const filler = Array.from({ length: SPIN_ROWS }, () => randomClub(clubs));
-    const tail = Array.from({ length: CENTER }, () => randomClub(clubs));
+    const [target] = shuffled(clubs.filter((c) => c.id !== current.id));
+    const others = shuffled(clubs.filter((c) => c.id !== target.id));
+    const filler = others.slice(0, SPIN_ROWS);
+    const tail = others.slice(SPIN_ROWS, SPIN_ROWS + CENTER);
     const next = [...visible, ...filler, target, ...tail];
 
     setStrip(next);
     setSpinning(true);
     y.set(0);
-    animate(y, -(VISIBLE + SPIN_ROWS - CENTER) * ROW_H, {
+    animate(y, -(visible.length + filler.length - CENTER) * ROW_H, {
       duration: SPIN_SECONDS,
       ease: [0.15, 0.85, 0.25, 1],
       onComplete: () => {

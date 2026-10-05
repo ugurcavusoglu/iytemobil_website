@@ -512,6 +512,7 @@
       "seeAll": "See all clubs",
       "upcoming": "Upcoming events",
       "categories": {
+        "FOUNDER": "Founder",
         "SPORTS": "Sports",
         "ART": "Art",
         "TECHNOLOGY": "Technology",

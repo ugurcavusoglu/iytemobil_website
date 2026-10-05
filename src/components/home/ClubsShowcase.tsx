@@ -45,7 +45,7 @@ export interface ShowcaseEvent {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  SPORTS: '#f97316', ART: '#a855f7', TECHNOLOGY: '#3b82f6', ARCHITECTURE: '#14b8a6', TRAVEL: '#22c55e',
+  FOUNDER: '#E63946', SPORTS: '#f97316', ART: '#a855f7', TECHNOLOGY: '#3b82f6', ARCHITECTURE: '#14b8a6', TRAVEL: '#22c55e',
   MUSIC: '#ec4899', ACADEMIC: '#f59e0b', SOCIAL: '#06b6d4', OTHER: '#a1a1aa',
 };
 const FEATURED_COUNT = 3;
