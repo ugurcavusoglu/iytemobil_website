@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const APP_STORE_URL = 'https://apps.apple.com/tr/app/i-yte-mobile/id6761460550?l=tr';
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.iytemobil.app';
-const FALLBACK_URL = 'https://iytemobil.com';
+const FALLBACK_URL = 'https://iytemobil.com/tr#download';
 
 export function GET(request: NextRequest) {
   const ua = request.headers.get('user-agent') || '';
