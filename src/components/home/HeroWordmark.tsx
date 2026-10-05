@@ -68,8 +68,9 @@ export function HeroWordmark({ progress }: { progress: MotionValue<number> }) {
     let stopLetters = () => {};
     let removeResize = () => {};
 
-    const font = `900 470px ${getComputedStyle(document.body).fontFamily}`;
-    document.fonts.load(font, 'İYTE').then(() => {
+    const family = getComputedStyle(document.body).fontFamily.split(',')[0].trim();
+    const font = `900 470px ${family}, system-ui, sans-serif`;
+    document.fonts.load(`900 470px ${family}`, 'İYTE').catch(() => undefined).then(() => {
       if (cancelled) return;
       const { points, focus } = rasterizeWord(font);
       const count = points.length / 2;
@@ -89,7 +90,7 @@ export function HeroWordmark({ progress }: { progress: MotionValue<number> }) {
         canvas.width = width * dpr;
         canvas.height = height * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        scale = Math.max(width / VIEW_W, Math.min(height / VIEW_H, (width * 0.9) / WORD_W));
+        scale = Math.max(width / VIEW_W, Math.min(height / VIEW_H, (width * 0.84) / WORD_W));
         offsetX = (width - VIEW_W * scale) / 2;
         offsetY = (height - VIEW_H * scale) / 2;
       };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { motion, transform, useInView, useMotionValueEvent, useTransform, type MotionValue } from 'framer-motion';
+import { motion, transform, useMotionValueEvent, useTransform, type MotionValue } from 'framer-motion';
 
 export const EXPLODE_VIDEO = {
   frameCount: 121,
@@ -18,7 +18,14 @@ export const EXPLODE_VIDEO = {
 
 const SCRUB: [number, number] = [0.04, 0.72];
 const CARDS_IN: [number, number] = [0.6, 0.75];
+const COARSE_STEP = 8;
 const frameUrl = (i: number) => `${EXPLODE_VIDEO.path}${String(i + 1).padStart(4, '0')}.webp`;
+
+function loadOrder() {
+  const coarse = Array.from({ length: Math.ceil(EXPLODE_VIDEO.frameCount / COARSE_STEP) }, (_, i) => i * COARSE_STEP);
+  const rest = Array.from({ length: EXPLODE_VIDEO.frameCount }, (_, i) => i).filter((i) => i % COARSE_STEP !== 0);
+  return [...coarse, EXPLODE_VIDEO.frameCount - 1, ...rest];
+}
 
 export function ExplodeFrames({ progress, cards }: { progress: MotionValue<number>; cards: React.ReactNode[] }) {
   const boxRef = useRef<HTMLDivElement>(null);
@@ -26,7 +33,6 @@ export function ExplodeFrames({ progress, cards }: { progress: MotionValue<numbe
   const frames = useRef<(ImageBitmap | null)[]>([]);
   const shown = useRef(-1);
   const wanted = useRef(0);
-  const near = useInView(boxRef, { once: true, margin: '1500px 0px' });
   const frameIndex = useTransform(progress, (v) => Math.round(transform(v, SCRUB, [0, EXPLODE_VIDEO.frameCount - 1])));
   const cardsOpacity = useTransform(progress, (v) => transform(v, CARDS_IN, [0, 1]));
   const cardsScale = useTransform(progress, (v) => transform(v, CARDS_IN, [0.92, 1]));
@@ -43,33 +49,38 @@ export function ExplodeFrames({ progress, cards }: { progress: MotionValue<numbe
   };
 
   useEffect(() => {
-    if (!near) return;
     let cancelled = false;
+    const canvas = canvasRef.current!;
+    canvas.width = Math.min(EXPLODE_VIDEO.width, Math.round(canvas.clientWidth * Math.min(window.devicePixelRatio, 2)));
+    canvas.height = Math.round((canvas.width * EXPLODE_VIDEO.height) / EXPLODE_VIDEO.width);
     frames.current = new Array(EXPLODE_VIDEO.frameCount).fill(null);
     const load = async (i: number) => {
       const blob = await fetch(frameUrl(i)).then((r) => r.blob());
       if (cancelled) return;
-      frames.current[i] = await createImageBitmap(blob);
-      if (i <= wanted.current) draw(wanted.current);
+      frames.current[i] = await createImageBitmap(blob, { resizeWidth: canvas.width, resizeHeight: canvas.height, resizeQuality: 'medium' });
+      if (i <= wanted.current) {
+        shown.current = -1;
+        draw(wanted.current);
+      }
     };
+    const order = loadOrder();
     (async () => {
-      await load(0);
-      for (let start = 1; start < EXPLODE_VIDEO.frameCount && !cancelled; start += 8) {
-        await Promise.all(Array.from({ length: Math.min(8, EXPLODE_VIDEO.frameCount - start) }, (_, k) => load(start + k)));
+      for (let start = 0; start < order.length && !cancelled; start += 6) {
+        await Promise.all(order.slice(start, start + 6).map(load));
       }
     })();
     return () => {
       cancelled = true;
       frames.current.forEach((b) => b?.close());
     };
-  }, [near]);
+  }, []);
 
   useMotionValueEvent(frameIndex, 'change', (i) => requestAnimationFrame(() => draw(i)));
 
   return (
     <div ref={boxRef} className="relative aspect-video w-full [container-type:inline-size]">
-      <canvas ref={canvasRef} width={EXPLODE_VIDEO.width} height={EXPLODE_VIDEO.height} className="h-full w-full" />
-      <div className="absolute inset-0 hidden md:block">
+      <canvas ref={canvasRef} className="h-full w-full" />
+      <div className="absolute inset-0">
         {cards.map((card, i) => {
           const slot = EXPLODE_VIDEO.slots[i];
           if (!slot) return null;

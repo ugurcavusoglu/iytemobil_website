@@ -24,7 +24,11 @@ const FEATURES: Feature[] = [
 function SlotCard({ feature, title, text }: { feature: Feature; title: string; text: string }) {
   const Icon = feature.icon;
   return (
-    <div className="flex h-full flex-col justify-center gap-[0.5cqw] text-left">
+    <>
+    <div className="flex h-full items-center justify-center md:hidden" style={{ color: feature.color }}>
+      <Icon className="h-[6cqw] w-[6cqw]" />
+    </div>
+    <div className="hidden h-full flex-col justify-center gap-[0.5cqw] text-left md:flex">
       <span className="flex h-[2.4cqw] w-[2.4cqw] items-center justify-center rounded-[0.7cqw]" style={{ backgroundColor: `${feature.color}33`, color: feature.color }}>
         <Icon className="h-[1.3cqw] w-[1.3cqw]" />
       </span>
@@ -32,6 +36,7 @@ function SlotCard({ feature, title, text }: { feature: Feature; title: string; t
       {feature.value && <p className="text-[1.9cqw] font-black leading-none tracking-tight text-white">{feature.value}</p>}
       <p className="text-[0.85cqw] leading-snug text-white/80">{text}</p>
     </div>
+    </>
   );
 }
 
@@ -45,7 +50,7 @@ export function ExplodedPhone() {
   const cards = FEATURES.map((f) => <SlotCard key={f.key} feature={f} title={t(`cards.${f.key}.title`)} text={t(`cards.${f.key}.text`)} />);
 
   return (
-    <section id="app" ref={ref} data-snap-stops="0,0.78" className="relative h-[320vh]">
+    <section id="app" ref={ref} data-snap-stops="0,0.78" data-snap-duration="1.8" className="relative h-[320vh]">
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden">
         <motion.div style={{ opacity: headerOpacity }} className="relative z-10 px-6 pt-20 md:px-16 md:pt-24">
           <SectionHeader index="01" eyebrow={t('eyebrow')} title={t('title')} subtitle={t('subtitle')} />

@@ -23,7 +23,7 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
   const phoneRotate = useTransform(progress, [center - 0.25, center, center + 0.25], [6, 0, -6]);
 
   return (
-    <div className="relative flex h-full w-screen shrink-0 items-center justify-center overflow-hidden">
+    <div className="relative flex h-full w-screen shrink-0 items-start justify-center overflow-hidden pt-[25svh] md:items-center md:pt-0">
       <Image src={panel.photo} alt="" fill sizes="100vw" className="object-cover opacity-25" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/40 to-background" />
       <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 50% 55%, ${panel.color}33, transparent 60%)` }} />
@@ -35,18 +35,18 @@ function Panel({ panel, index, progress }: { panel: (typeof PANELS)[number]; ind
         {t(`${panel.key}.word`)}
       </motion.span>
 
-      <div className="relative mt-[30vh] grid w-full max-w-6xl items-center gap-6 px-6 md:mt-[22vh] md:grid-cols-2 md:gap-10 md:px-12">
+      <div className="relative flex w-full max-w-6xl flex-col items-center gap-3 px-6 md:mt-[22vh] md:grid md:grid-cols-2 md:gap-10 md:px-12">
         <motion.div style={{ y: phoneY, rotate: phoneRotate }} className="mx-auto">
-          <PhoneFrame className="w-[150px] sm:w-[200px] md:w-[240px]">
+          <PhoneFrame className="w-[25svh] min-w-[130px] max-w-[190px] rounded-[1.7rem] p-2 sm:w-[200px] sm:max-w-none md:w-[240px] md:rounded-[2.6rem] md:p-2.5">
             <Image src={panel.screen} alt={t(`${panel.key}.title`)} fill sizes="290px" className="object-cover object-top" />
           </PhoneFrame>
         </motion.div>
         <div className="text-center md:text-left">
-          <span className="inline-block rounded-full px-4 py-1.5 text-sm font-semibold" style={{ backgroundColor: `${panel.color}22`, color: panel.color }}>
+          <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold md:px-4 md:py-1.5 md:text-sm" style={{ backgroundColor: `${panel.color}22`, color: panel.color }}>
             {String(index + 1).padStart(2, '0')} / {String(PANELS.length).padStart(2, '0')}
           </span>
-          <h3 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">{t(`${panel.key}.title`)}</h3>
-          <p className="mt-4 text-lg text-text-secondary md:text-xl">{t(`${panel.key}.text`)}</p>
+          <h3 className="mt-2 text-2xl font-black tracking-tight md:mt-5 md:text-6xl">{t(`${panel.key}.title`)}</h3>
+          <p className="mt-2 text-sm text-text-secondary md:mt-4 md:text-xl">{t(`${panel.key}.text`)}</p>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@ export function FeatureRail() {
   return (
     <section id="features" ref={ref} data-snap-stops={PANELS.map((_, i) => i / (PANELS.length - 1)).join(',')} style={{ height: `${PANELS.length * 100}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
-        <div className="absolute inset-x-0 top-24 z-10 px-6 md:top-28 md:px-16">
+        <div className="absolute inset-x-0 top-20 z-10 px-6 [&_h2]:mt-2 [&_h2]:text-xl md:top-28 md:px-16 md:[&_h2]:mt-5 md:[&_h2]:text-6xl">
           <SectionHeader index="02" eyebrow={t('eyebrow')} title={t('title')} />
         </div>
         <motion.div style={{ x }} className="flex h-full will-change-transform">

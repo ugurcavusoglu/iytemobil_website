@@ -14,17 +14,18 @@ function snapSections(y: number) {
     const top = section.getBoundingClientRect().top + y;
     const range = section.offsetHeight - window.innerHeight;
     const stops = section.dataset.snapStops!.split(',').map((s) => top + Number(s) * range);
-    return { stops, end: top + section.offsetHeight };
+    return { stops, end: top + section.offsetHeight, duration: Number(section.dataset.snapDuration) || null };
   });
 }
 
 function snapTarget(y: number, direction: number) {
-  for (const { stops, end } of snapSections(y)) {
+  for (const { stops, end, duration } of snapSections(y)) {
     if (direction > 0 && y >= stops[0] - EDGE_PX && y < end - EDGE_PX) {
-      return stops.find((stop) => stop > y + EDGE_PX) ?? end;
+      const next = stops.find((stop) => stop > y + EDGE_PX);
+      return next == null ? { y: end, duration: null } : { y: next, duration };
     }
     if (direction < 0 && y > stops[0] + EDGE_PX && y <= end + EDGE_PX) {
-      return [...stops].reverse().find((stop) => stop < y - EDGE_PX)!;
+      return { y: [...stops].reverse().find((stop) => stop < y - EDGE_PX)!, duration };
     }
   }
   return null;
@@ -39,11 +40,11 @@ export function SmoothScroll() {
     let idleTimer = 0;
     let direction = 1;
 
-    const glideTo = (target: number) => {
-      const distance = Math.abs(target - lenis.scroll);
+    const glideTo = ({ y, duration }: { y: number; duration: number | null }) => {
+      const distance = Math.abs(y - lenis.scroll);
       animating = true;
-      lenis.scrollTo(target, {
-        duration: Math.min(1.4, Math.max(0.7, (distance / window.innerHeight) * 0.5)),
+      lenis.scrollTo(y, {
+        duration: duration ?? Math.min(1.4, Math.max(0.7, (distance / window.innerHeight) * 0.5)),
         easing: easeInOutCubic,
         lock: true,
         onComplete: () => { animating = false; },
