@@ -9,5 +9,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/(tr|en)/:path*'],
+  matcher: ['/((?!api|_next|_vercel|indir|medivo-privacy-policy|.*\\..*).*)'],
 };
