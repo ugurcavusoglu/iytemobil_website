@@ -66,7 +66,7 @@ export default async function HomePage() {
           '@type': 'ImageObject',
           url: 'https://iytemobil.com/images/og-image.png',
         },
-        sameAs: ['https://www.instagram.com/iytemobil'],
+        sameAs: ['https://www.instagram.com/iyte.mobil/'],
         contactPoint: {
           '@type': 'ContactPoint',
           email: 'iytemobil@gmail.com',
