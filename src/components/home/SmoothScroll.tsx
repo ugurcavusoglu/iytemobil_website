@@ -1,23 +1,31 @@
 'use client';
 
 import { useEffect } from 'react';
-import Lenis from 'lenis';
+import Lenis, { type VirtualScrollData } from 'lenis';
 
+const EDGE_PX = 2;
 const IDLE_MS = 140;
-const AT_STOP_PX = 4;
+const GESTURE_GAP_MS = 220;
 
 const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-function nextSnapTarget(y: number, direction: number) {
-  for (const section of document.querySelectorAll<HTMLElement>('[data-snap-stops]')) {
+function snapSections(y: number) {
+  return [...document.querySelectorAll<HTMLElement>('[data-snap-stops]')].map((section) => {
     const top = section.getBoundingClientRect().top + y;
     const range = section.offsetHeight - window.innerHeight;
-    if (range <= 0) continue;
     const stops = section.dataset.snapStops!.split(',').map((s) => top + Number(s) * range);
-    const end = top + section.offsetHeight;
-    if (y <= stops[0] || y >= end) continue;
-    if ([...stops, end].some((stop) => Math.abs(stop - y) < AT_STOP_PX)) return null;
-    return direction > 0 ? stops.find((stop) => stop > y) ?? end : [...stops].reverse().find((stop) => stop < y) ?? null;
+    return { stops, end: top + section.offsetHeight };
+  });
+}
+
+function snapTarget(y: number, direction: number) {
+  for (const { stops, end } of snapSections(y)) {
+    if (direction > 0 && y >= stops[0] - EDGE_PX && y < end - EDGE_PX) {
+      return stops.find((stop) => stop > y + EDGE_PX) ?? end;
+    }
+    if (direction < 0 && y > stops[0] + EDGE_PX && y <= end + EDGE_PX) {
+      return [...stops].reverse().find((stop) => stop < y - EDGE_PX)!;
+    }
   }
   return null;
 }
@@ -25,55 +33,56 @@ function nextSnapTarget(y: number, direction: number) {
 export function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.9 });
+
+    let animating = false;
+    let lastGestureAt = 0;
+    let idleTimer = 0;
+    let direction = 1;
+
+    const glideTo = (target: number) => {
+      const distance = Math.abs(target - lenis.scroll);
+      animating = true;
+      lenis.scrollTo(target, {
+        duration: Math.min(1.4, Math.max(0.7, (distance / window.innerHeight) * 0.5)),
+        easing: easeInOutCubic,
+        lock: true,
+        onComplete: () => { animating = false; },
+      });
+    };
+
+    const onGesture = ({ deltaY, event }: VirtualScrollData) => {
+      if (!deltaY) return true;
+      const now = performance.now();
+      const continuingGesture = now - lastGestureAt < GESTURE_GAP_MS;
+      lastGestureAt = now;
+      const target = snapTarget(lenis.scroll, Math.sign(deltaY));
+      if (target == null && !animating) return true;
+      if (event.cancelable) event.preventDefault();
+      if (animating || continuingGesture || target == null) return false;
+      glideTo(target);
+      return false;
+    };
+
+    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.9, virtualScroll: onGesture });
     let frame = requestAnimationFrame(function raf(time) {
       lenis.raf(time);
       frame = requestAnimationFrame(raf);
     });
 
-    let direction = 1;
-    let snapping = false;
-    let touching = false;
-    let idleTimer = 0;
-
-    const snap = () => {
-      if (touching) return;
-      const y = lenis.scroll;
-      const target = nextSnapTarget(y, direction);
-      if (target == null) return;
-      snapping = true;
-      lenis.scrollTo(target, {
-        duration: Math.min(1.6, Math.max(0.6, (Math.abs(target - y) / window.innerHeight) * 0.55)),
-        easing: easeInOutCubic,
-        onComplete: () => { snapping = false; },
-      });
-    };
-
     lenis.on('scroll', (instance: Lenis) => {
       if (instance.direction) direction = instance.direction;
       window.clearTimeout(idleTimer);
-      if (!snapping) idleTimer = window.setTimeout(snap, IDLE_MS);
+      if (animating) return;
+      idleTimer = window.setTimeout(() => {
+        const target = snapTarget(lenis.scroll, direction);
+        const atStop = snapSections(lenis.scroll).some(({ stops, end }) => [...stops, end].some((s) => Math.abs(s - lenis.scroll) < EDGE_PX * 2));
+        if (target != null && !atStop) glideTo(target);
+      }, IDLE_MS);
     });
-
-    const onUserInput = () => { snapping = false; };
-    const onTouchStart = () => { touching = true; snapping = false; };
-    const onTouchEnd = () => {
-      touching = false;
-      window.clearTimeout(idleTimer);
-      idleTimer = window.setTimeout(snap, IDLE_MS);
-    };
-    window.addEventListener('wheel', onUserInput, { passive: true });
-    window.addEventListener('keydown', onUserInput);
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
 
     return () => {
       cancelAnimationFrame(frame);
       window.clearTimeout(idleTimer);
-      window.removeEventListener('wheel', onUserInput);
-      window.removeEventListener('keydown', onUserInput);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchend', onTouchEnd);
       lenis.destroy();
     };
   }, []);
